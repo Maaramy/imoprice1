@@ -1,7 +1,6 @@
 import { ANNOUNCEMENT_TYPE_META } from "../../../convex/types";
 import { AnnouncementBadge } from "../../announcements/AnnouncementBadge";
 import { formatAnnouncementDate } from "../../announcements/AnnouncementCard";
-import { AnnouncementTypeIcon } from "../../announcements/announcementIcons";
 
 /** Aperçu en direct de l'annonce (rendu comme dans le Dashboard). */
 export function AnnouncementPreview({
@@ -23,9 +22,9 @@ export function AnnouncementPreview({
       <div className="flex items-center gap-2.5">
         <span
           aria-hidden
-          className="flex h-9 w-9 items-center justify-center rounded-lg border"
+          className="flex h-9 w-9 items-center justify-center rounded-lg border text-lg"
         >
-          <AnnouncementTypeIcon type={type} className="size-4" />
+          {meta.emoji}
         </span>
         <AnnouncementBadge type={type} />
       </div>

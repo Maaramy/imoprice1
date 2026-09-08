@@ -8,6 +8,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { daysUntilNextReset } from "@/lib/utils";
 import { RENT_PROPERTY_TYPES_LABELS, GOVERNORATS, PROPERTY_TYPES, PROPERTY_TYPES_LABELS } from "@/convex/types";
 import { ThemeToggle } from "@/components/ThemeProvider";
+import { AnnouncementSection } from "@/components/announcements/AnnouncementSection";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -633,6 +634,11 @@ export default function Dashboard() {
             </CardContent>
           </Card>
         )}
+
+        {/* ═══ ANNONCES ═══ */}
+        <div className="mb-4 sm:mb-6">
+          <AnnouncementSection />
+        </div>
 
         {/* ═══ TABS ═══ */}
         <Tabs defaultValue="estimations" className="space-y-3 sm:space-y-5">

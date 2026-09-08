@@ -489,6 +489,109 @@ export const CLIENT_NEED_META: Record<
   },
 };
 
+/* ============ Annonces ============ */
+
+export type AnnouncementType =
+  | "information"
+  | "news"
+  | "important"
+  | "urgent"
+  | "maintenance";
+
+export type AnnouncementStatus =
+  | "draft"
+  | "scheduled"
+  | "published"
+  | "expired"
+  | "disabled";
+
+export const ANNOUNCEMENT_TYPE_META: Record<
+  AnnouncementType,
+  { label: string; emoji: string; color: string; badgeClass: string }
+> = {
+  information: {
+    label: "Information",
+    emoji: "ℹ️",
+    color: "blue",
+    badgeClass:
+      "bg-blue-100 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 border-blue-200 dark:border-blue-800",
+  },
+  news: {
+    label: "Nouveauté",
+    emoji: "🆕",
+    color: "green",
+    badgeClass:
+      "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800",
+  },
+  important: {
+    label: "Important",
+    emoji: "🟠",
+    color: "orange",
+    badgeClass:
+      "bg-orange-100 text-orange-700 dark:bg-orange-950/60 dark:text-orange-300 border-orange-200 dark:border-orange-800",
+  },
+  urgent: {
+    label: "Urgent",
+    emoji: "🔴",
+    color: "red",
+    badgeClass:
+      "bg-red-100 text-red-700 dark:bg-red-950/60 dark:text-red-300 border-red-200 dark:border-red-800",
+  },
+  maintenance: {
+    label: "Maintenance",
+    emoji: "🛠️",
+    color: "violet",
+    badgeClass:
+      "bg-violet-100 text-violet-700 dark:bg-violet-950/60 dark:text-violet-300 border-violet-200 dark:border-violet-800",
+  },
+};
+
+export const ANNOUNCEMENT_STATUS_META: Record<
+  AnnouncementStatus,
+  { label: string; emoji: string; badgeClass: string }
+> = {
+  published: {
+    label: "Publiée",
+    emoji: "🟢",
+    badgeClass:
+      "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800",
+  },
+  scheduled: {
+    label: "Programmée",
+    emoji: "🟡",
+    badgeClass:
+      "bg-yellow-100 text-yellow-700 dark:bg-yellow-950/60 dark:text-yellow-300 border-yellow-200 dark:border-yellow-800",
+  },
+  draft: {
+    label: "Brouillon",
+    emoji: "⚪",
+    badgeClass:
+      "bg-slate-100 text-slate-600 dark:bg-slate-800/60 dark:text-slate-300 border-slate-200 dark:border-slate-700",
+  },
+  expired: {
+    label: "Expirée",
+    emoji: "🔴",
+    badgeClass:
+      "bg-rose-100 text-rose-600 dark:bg-rose-950/60 dark:text-rose-300 border-rose-200 dark:border-rose-800",
+  },
+  disabled: {
+    label: "Désactivée",
+    emoji: "⚫",
+    badgeClass:
+      "bg-zinc-100 text-zinc-600 dark:bg-zinc-800/60 dark:text-zinc-400 border-zinc-200 dark:border-zinc-700",
+  },
+};
+
+export const ANNOUNCEMENT_PRIORITY_ORDER: AnnouncementType[] = [
+  "urgent",
+  "important",
+  "news",
+  "information",
+  "maintenance",
+];
+
+export type AnnouncementTargetType = "all" | "company" | "role" | "user";
+
 export interface EstimationResult {
   estimatedValue: number;
   priceMin: number;

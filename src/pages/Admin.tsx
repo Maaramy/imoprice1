@@ -22,8 +22,9 @@ import {
   ArrowLeft, ShieldCheck, Search, Trash2, Loader2, CheckCircle2,
   Ban, RotateCcw, Landmark, Send, Wallet, RefreshCw, TrendingUp,
   FileSearch, EyeOff, Save, Sparkles, ChevronRight, UserCog, Pencil, Github,
-  ExternalLink, CheckCircle2 as CheckCircle2Icon,
+  ExternalLink, CheckCircle2 as CheckCircle2Icon, Megaphone,
 } from "lucide-react";
+import { AnnouncementEditor } from "@/components/admin/announcements/AnnouncementEditor";
 import { PLANS } from "@/convex/defaults";
 import { GOVERNORATS as TUNISIAN_GOUVERNORATS, PROPERTY_TYPES_LABELS } from "@/convex/types";
 
@@ -233,6 +234,7 @@ function AdminShell({ userName }: { userName: string }) {
             <TabBtn value="subscriptions" tab={tab} icon={<CreditCard className="size-3.5" />} label="Abonnements" />
             <TabBtn value="agencies" tab={tab} icon={<Building2 className="size-3.5" />} label="Agences" />
             <TabBtn value="estimations" tab={tab} icon={<FileSearch className="size-3.5" />} label="Estimations" />
+            <TabBtn value="announcements" tab={tab} icon={<Megaphone className="size-3.5" />} label="Annonces" />
             <TabBtn value="settings" tab={tab} icon={<Settings className="size-3.5" />} label="Paramètres" />
             <TabBtn value="github" tab={tab} icon={<Github className="size-3.5" />} label="GitHub" />
           </TabsList>
@@ -251,6 +253,9 @@ function AdminShell({ userName }: { userName: string }) {
           </TabsContent>
           <TabsContent value="estimations" className="mt-0">
             <EstimationsTab />
+          </TabsContent>
+          <TabsContent value="announcements" className="mt-0">
+            <AnnouncementsTab />
           </TabsContent>
           <TabsContent value="settings" className="mt-0">
             <SettingsTab />
@@ -1434,6 +1439,27 @@ function GitHubTab() {
             <p className="text-xs text-rose-600/90 dark:text-rose-300/80 mt-1 leading-relaxed">{result.message}</p>
           </div>
         )}
+      </CardContent>
+    </Card>
+  );
+}
+
+function AnnouncementsTab() {
+  return (
+    <Card>
+      <CardHeader className="pb-3">
+        <CardTitle className="flex items-center gap-2 text-base">
+          <Megaphone className="size-4 text-emerald-600 dark:text-emerald-400" />
+          Gestion des annonces
+        </CardTitle>
+        <CardDescription className="text-xs">
+          Créez, programmez et ciblez les communications diffusées dans le
+          Dashboard des utilisateurs. Publication, priorité, ordre d'affichage
+          et activation en temps réel.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <AnnouncementEditor />
       </CardContent>
     </Card>
   );

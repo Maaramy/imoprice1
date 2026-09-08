@@ -19,4 +19,11 @@ crons.cron(
   internal.alerts.checkPriceAlerts,
 );
 
+// Annonces : synchronisation horaire des statuts (publication / expiration).
+crons.cron(
+  "announcements-status-sync",
+  "0 * * * *",
+  internal.announcements.syncAnnouncementStatuses,
+);
+
 export default crons;

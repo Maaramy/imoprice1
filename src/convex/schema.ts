@@ -493,6 +493,53 @@ const schema = defineSchema(
     })
       .index("by_user", ["userId"])
       .index("by_status", ["status"]),
+
+    // Announcements — communications de la plateforme diffusées dans le Dashboard
+    announcements: defineTable({
+      title: v.string(),
+      content: v.string(),
+      // information | news | important | urgent | maintenance
+      type: v.union(
+        v.literal("information"),
+        v.literal("news"),
+        v.literal("important"),
+        v.literal("urgent"),
+        v.literal("maintenance"),
+      ),
+      // Niveau de priorité (5 = Urgent, 4 = Important, 3 = Nouveauté, 2 = Maintenance, 1 = Information)
+      priority: v.number(),
+      imageUrl: v.optional(v.string()),
+      // draft | scheduled | published | expired | disabled
+      status: v.union(
+        v.literal("draft"),
+        v.literal("scheduled"),
+        v.literal("published"),
+        v.literal("expired"),
+        v.literal("disabled"),
+      ),
+      isActive: v.boolean(),
+      startDate: v.optional(v.number()),
+      endDate: v.optional(v.number()),
+      // all | company | role | user
+      targetType: v.union(
+        v.literal("all"),
+        v.literal("company"),
+        v.literal("role"),
+        v.literal("user"),
+      ),
+      // Noms de sociétés ciblées (la plateforme ne dispose pas de table companies)
+      targetCompanyIds: v.optional(v.array(v.string())),
+      targetRoles: v.optional(v.array(roleValidator)),
+      targetUserIds: v.optional(v.array(v.id("users"))),
+      displayOrder: v.optional(v.number()),
+      createdBy: v.id("users"),
+      createdByName: v.optional(v.string()),
+      createdAt: v.number(),
+      updatedAt: v.number(),
+    })
+      .index("by_status", ["status"])
+      .index("by_priority", ["priority"])
+      .index("by_createdAt", ["createdAt"]),
   },
   {
     schemaValidation: false,

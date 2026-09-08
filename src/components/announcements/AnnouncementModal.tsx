@@ -1,5 +1,4 @@
 import type { Doc } from "../../convex/_generated/dataModel";
-import { ANNOUNCEMENT_TYPE_META } from "../../convex/types";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -10,6 +9,7 @@ import {
   DialogTitle,
 } from "../ui/dialog";
 import { AnnouncementBadge } from "./AnnouncementBadge";
+import { AnnouncementTypeIcon } from "./announcementIcons";
 import { formatAnnouncementDate } from "./AnnouncementCard";
 
 /** Lecture complète d'une annonce (modal accessible). */
@@ -29,9 +29,7 @@ export function AnnouncementModal({
           <>
             <DialogHeader>
               <div className="mb-1 flex items-center gap-2">
-                <span aria-hidden className="text-2xl">
-                  {ANNOUNCEMENT_TYPE_META[announcement.type].emoji}
-                </span>
+                <AnnouncementTypeIcon type={announcement.type} className="size-6" />
                 <AnnouncementBadge type={announcement.type} />
               </div>
               <DialogTitle className="text-lg leading-snug">

@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import { AnnouncementCard } from "./AnnouncementCard";
 import { AnnouncementEmptyState } from "./AnnouncementEmptyState";
 import { AnnouncementModal } from "./AnnouncementModal";
+import { IconsticaIcon } from "../icons/IconsticaIcon";
 
 /**
  * Carousel d'annonces : défilement automatique, pause au survol,
@@ -95,7 +96,15 @@ export function AnnouncementCarousel({
               onClick={() => goTo(index - 1)}
               aria-label="Annonce précédente"
             >
-              ‹
+              <IconsticaIcon
+                name="chevron-left"
+                className="size-3.5"
+                fallback={
+                  <span aria-hidden>
+                    ‹
+                  </span>
+                }
+              />
             </Button>
             <Button
               type="button"
@@ -105,7 +114,15 @@ export function AnnouncementCarousel({
               onClick={() => goTo(index + 1)}
               aria-label="Annonce suivante"
             >
-              ›
+              <IconsticaIcon
+                name="chevron-right"
+                className="size-3.5"
+                fallback={
+                  <span aria-hidden>
+                    ›
+                  </span>
+                }
+              />
             </Button>
           </>
         )}

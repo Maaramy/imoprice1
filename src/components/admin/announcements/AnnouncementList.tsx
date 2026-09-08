@@ -3,6 +3,9 @@ import type { Doc } from "../../../convex/_generated/dataModel";
 import { AnnouncementBadge } from "../../announcements/AnnouncementBadge";
 import { formatAnnouncementDate } from "../../announcements/AnnouncementCard";
 import { AnnouncementModal } from "../../announcements/AnnouncementModal";
+import { AnnouncementTypeIcon } from "../../announcements/announcementIcons";
+import { IconsticaIcon } from "../../icons/IconsticaIcon";
+import type { AnnouncementType } from "../../../convex/types";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -106,15 +109,34 @@ export function AnnouncementList({
                   <AnnouncementBadge type={a.type} />
                 </TableCell>
                 <TableCell className="text-center text-xs">
-                  {a.priority >= 5
-                    ? "🔴 Urgent"
-                    : a.priority >= 4
-                      ? "🟠 Important"
-                      : a.priority >= 3
-                        ? "🆕 Nouveauté"
-                        : a.priority >= 2
-                          ? "🛠️ Maintenance"
-                          : "ℹ️ Information"}
+                  {(() => {
+                    const pt: AnnouncementType =
+                      a.priority >= 5
+                        ? "urgent"
+                        : a.priority >= 4
+                          ? "important"
+                          : a.priority >= 3
+                            ? "news"
+                            : a.priority >= 2
+                              ? "maintenance"
+                              : "information";
+                    const label =
+                      pt === "urgent"
+                        ? "Urgent"
+                        : pt === "important"
+                          ? "Important"
+                          : pt === "news"
+                            ? "Nouveauté"
+                            : pt === "maintenance"
+                              ? "Maintenance"
+                              : "Information";
+                    return (
+                      <span className="inline-flex items-center gap-1">
+                        <AnnouncementTypeIcon type={pt} className="size-3.5" />
+                        {label}
+                      </span>
+                    );
+                  })()}
                 </TableCell>
                 <TableCell>
                   <AnnouncementStatusBadge status={a.status} />
@@ -139,7 +161,15 @@ export function AnnouncementList({
                       onClick={() => setViewing(a)}
                       title="Voir"
                     >
-                      👁
+                      <IconsticaIcon
+                        name="eye"
+                        className="size-3.5"
+                        fallback={
+                          <span aria-hidden>
+                            👁
+                          </span>
+                        }
+                      />
                     </Button>
                     <Button
                       variant="ghost"
@@ -148,7 +178,15 @@ export function AnnouncementList({
                       onClick={() => actions.onEdit(a)}
                       title="Modifier"
                     >
-                      ✏️
+                      <IconsticaIcon
+                        name="pencil"
+                        className="size-3.5"
+                        fallback={
+                          <span aria-hidden>
+                            ✏️
+                          </span>
+                        }
+                      />
                     </Button>
                     <Button
                       variant="ghost"
@@ -157,7 +195,15 @@ export function AnnouncementList({
                       onClick={() => actions.onDuplicate(a)}
                       title="Dupliquer"
                     >
-                      📋
+                      <IconsticaIcon
+                        name="copy"
+                        className="size-3.5"
+                        fallback={
+                          <span aria-hidden>
+                            📋
+                          </span>
+                        }
+                      />
                     </Button>
                     <Button
                       variant="ghost"
@@ -166,7 +212,15 @@ export function AnnouncementList({
                       onClick={() => actions.onToggleActive(a)}
                       title={a.isActive ? "Désactiver" : "Activer"}
                     >
-                      {a.isActive ? "🔄" : "▶️"}
+                      <IconsticaIcon
+                        name="power"
+                        className="size-3.5"
+                        fallback={
+                          <span aria-hidden>
+                            {a.isActive ? "🔄" : "▶️"}
+                          </span>
+                        }
+                      />
                     </Button>
                     <Button
                       variant="ghost"
@@ -175,7 +229,15 @@ export function AnnouncementList({
                       onClick={() => setDeleting(a)}
                       title="Supprimer"
                     >
-                      🗑
+                      <IconsticaIcon
+                        name="trash"
+                        className="size-3.5"
+                        fallback={
+                          <span aria-hidden>
+                            🗑
+                          </span>
+                        }
+                      />
                     </Button>
                   </div>
                 </TableCell>

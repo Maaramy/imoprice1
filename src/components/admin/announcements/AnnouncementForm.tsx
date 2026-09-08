@@ -21,6 +21,7 @@ import {
 import { Switch } from "../../ui/switch";
 import { Textarea } from "../../ui/textarea";
 import { AnnouncementPreview } from "./AnnouncementPreview";
+import { AnnouncementTypeIcon } from "../../announcements/announcementIcons";
 
 export interface AnnouncementFormValue {
   title: string;
@@ -71,12 +72,16 @@ export function announcementToFormValue(
   };
 }
 
-const PRIORITY_OPTIONS = [
-  { value: 5, label: "🔴 Urgent" },
-  { value: 4, label: "🟠 Important" },
-  { value: 3, label: "🆕 Nouveauté" },
-  { value: 2, label: "🛠️ Maintenance" },
-  { value: 1, label: "ℹ️ Information" },
+const PRIORITY_OPTIONS: {
+  value: number;
+  type: AnnouncementType;
+  label: string;
+}[] = [
+  { value: 5, type: "urgent", label: "Urgent" },
+  { value: 4, type: "important", label: "Important" },
+  { value: 3, type: "news", label: "Nouveauté" },
+  { value: 2, type: "maintenance", label: "Maintenance" },
+  { value: 1, type: "information", label: "Information" },
 ];
 
 const ALL_ROLES = ["admin", "user", "member"];
@@ -184,7 +189,10 @@ export function AnnouncementForm({
               <SelectContent>
                 {Object.entries(ANNOUNCEMENT_TYPE_META).map(([k, m]) => (
                   <SelectItem key={k} value={k}>
-                    {m.emoji} {m.label}
+                    <span className="inline-flex items-center gap-1.5">
+                      <AnnouncementTypeIcon type={k as AnnouncementType} className="size-3.5" />
+                      {m.label}
+                    </span>
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -204,7 +212,10 @@ export function AnnouncementForm({
               <SelectContent>
                 {PRIORITY_OPTIONS.map((o) => (
                   <SelectItem key={o.value} value={String(o.value)}>
-                    {o.label}
+                    <span className="inline-flex items-center gap-1.5">
+                      <AnnouncementTypeIcon type={o.type} className="size-3.5" />
+                      {o.label}
+                    </span>
                   </SelectItem>
                 ))}
               </SelectContent>

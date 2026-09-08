@@ -25,6 +25,7 @@ import {
   ExternalLink, CheckCircle2 as CheckCircle2Icon, Megaphone,
 } from "lucide-react";
 import { AnnouncementEditor } from "@/components/admin/announcements/AnnouncementEditor";
+import { IconsticaIcon } from "@/components/icons/IconsticaIcon";
 import { PLANS } from "@/convex/defaults";
 import { GOVERNORATS as TUNISIAN_GOUVERNORATS, PROPERTY_TYPES_LABELS } from "@/convex/types";
 
@@ -234,7 +235,18 @@ function AdminShell({ userName }: { userName: string }) {
             <TabBtn value="subscriptions" tab={tab} icon={<CreditCard className="size-3.5" />} label="Abonnements" />
             <TabBtn value="agencies" tab={tab} icon={<Building2 className="size-3.5" />} label="Agences" />
             <TabBtn value="estimations" tab={tab} icon={<FileSearch className="size-3.5" />} label="Estimations" />
-            <TabBtn value="announcements" tab={tab} icon={<Megaphone className="size-3.5" />} label="Annonces" />
+            <TabBtn
+              value="announcements"
+              tab={tab}
+              icon={
+                <IconsticaIcon
+                  name="megaphone"
+                  className="size-3.5"
+                  fallback={<Megaphone className="size-3.5" />}
+                />
+              }
+              label="Annonces"
+            />
             <TabBtn value="settings" tab={tab} icon={<Settings className="size-3.5" />} label="Paramètres" />
             <TabBtn value="github" tab={tab} icon={<Github className="size-3.5" />} label="GitHub" />
           </TabsList>
@@ -1449,7 +1461,11 @@ function AnnouncementsTab() {
     <Card>
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center gap-2 text-base">
-          <Megaphone className="size-4 text-emerald-600 dark:text-emerald-400" />
+          <IconsticaIcon
+            name="megaphone"
+            className="size-4 text-emerald-600 dark:text-emerald-400"
+            fallback={<Megaphone className="size-4 text-emerald-600 dark:text-emerald-400" />}
+          />
           Gestion des annonces
         </CardTitle>
         <CardDescription className="text-xs">

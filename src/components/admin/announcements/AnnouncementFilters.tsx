@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../ui/select";
+import { AnnouncementStatusIcon, AnnouncementTypeIcon } from "../../announcements/announcementIcons";
 
 export interface AnnouncementFiltersState {
   search: string;
@@ -41,7 +42,10 @@ export function AnnouncementFilters({
           <SelectItem value="all">Tous les types</SelectItem>
           {Object.entries(ANNOUNCEMENT_TYPE_META).map(([k, m]) => (
             <SelectItem key={k} value={k}>
-              {m.emoji} {m.label}
+              <span className="inline-flex items-center gap-1.5">
+                <AnnouncementTypeIcon type={k as keyof typeof ANNOUNCEMENT_TYPE_META} className="size-3.5" />
+                {m.label}
+              </span>
             </SelectItem>
           ))}
         </SelectContent>
@@ -57,7 +61,10 @@ export function AnnouncementFilters({
           <SelectItem value="all">Tous les statuts</SelectItem>
           {Object.entries(ANNOUNCEMENT_STATUS_META).map(([k, m]) => (
             <SelectItem key={k} value={k}>
-              {m.emoji} {m.label}
+              <span className="inline-flex items-center gap-1.5">
+                <AnnouncementStatusIcon status={k as keyof typeof ANNOUNCEMENT_STATUS_META} className="size-3.5" />
+                {m.label}
+              </span>
             </SelectItem>
           ))}
         </SelectContent>

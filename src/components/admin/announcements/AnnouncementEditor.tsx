@@ -17,6 +17,7 @@ import {
 } from "./AnnouncementForm";
 import { AnnouncementFilters, type AnnouncementFiltersState } from "./AnnouncementFilters";
 import { AnnouncementList } from "./AnnouncementList";
+import { IconsticaIcon } from "../../icons/IconsticaIcon";
 
 /** Panneau complet « Gestion des annonces » (espace Administration). */
 export function AnnouncementEditor() {
@@ -115,7 +116,16 @@ export function AnnouncementEditor() {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <AnnouncementFilters value={filters} onChange={setFilters} />
         <Button onClick={openCreate} className="shrink-0">
-          + Créer une annonce
+          <IconsticaIcon
+            name="plus"
+            className="mr-1.5 size-4"
+            fallback={
+              <span aria-hidden className="mr-1.5">
+                +
+              </span>
+            }
+          />
+          Créer une annonce
         </Button>
       </div>
 
@@ -133,16 +143,34 @@ export function AnnouncementEditor() {
         }}
       />
 
-      <p className="text-[11px] text-muted-foreground">
-          💡 Glissez-déposez les lignes du tableau pour modifier l'ordre
+      <p className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+          <IconsticaIcon
+            name="info"
+            className="size-3.5"
+            fallback={
+              <span aria-hidden>
+                💡
+              </span>
+            }
+          />
+          Glissez-déposez les lignes du tableau pour modifier l'ordre
           d'affichage manuel (au sein d'une même priorité).
         </p>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>
-              {editing ? "✏️ Modifier l'annonce" : "📢 Créer une annonce"}
+            <DialogTitle className="flex items-center gap-2">
+              <IconsticaIcon
+                name={editing ? "pencil" : "megaphone"}
+                className="size-4"
+                fallback={
+                  <span aria-hidden>
+                    {editing ? "✏️" : "📢"}
+                  </span>
+                }
+              />
+              {editing ? "Modifier l'annonce" : "Créer une annonce"}
             </DialogTitle>
           </DialogHeader>
           {error && (

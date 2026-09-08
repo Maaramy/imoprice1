@@ -1,6 +1,7 @@
 import type { Doc } from "../../convex/_generated/dataModel";
 import { ANNOUNCEMENT_TYPE_META } from "../../convex/types";
 import { AnnouncementBadge } from "./AnnouncementBadge";
+import { AnnouncementTypeIcon } from "./announcementIcons";
 
 export function formatAnnouncementDate(ts?: number): string {
   if (!ts) return "—";
@@ -31,10 +32,10 @@ export function AnnouncementCard({
         <div className="flex items-center gap-2.5">
           <span
             aria-hidden
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border text-lg"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border"
             style={{ background: "var(--announcement-tint, transparent)" }}
           >
-            {meta.emoji}
+            <AnnouncementTypeIcon type={announcement.type} className="size-4" />
           </span>
           <AnnouncementBadge type={announcement.type} />
         </div>

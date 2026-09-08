@@ -1,6 +1,7 @@
 import type { AnnouncementStatus } from "../../../convex/types";
 import { ANNOUNCEMENT_STATUS_META } from "../../../convex/types";
 import { Badge } from "../../ui/badge";
+import { AnnouncementStatusIcon } from "../../announcements/announcementIcons";
 
 /** Badge de statut (Publiée / Programmée / Brouillon / Expirée / Désactivée). */
 export function AnnouncementStatusBadge({
@@ -16,7 +17,7 @@ export function AnnouncementStatusBadge({
       variant="outline"
       className={`gap-1 border text-[10px] font-medium ${meta.badgeClass} ${className}`}
     >
-      <span aria-hidden>{meta.emoji}</span>
+      <AnnouncementStatusIcon status={status} className="size-3" />
       {meta.label}
     </Badge>
   );

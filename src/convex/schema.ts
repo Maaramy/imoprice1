@@ -343,6 +343,11 @@ const schema = defineSchema(
       rentPriceScenario: v.optional(
         v.union(v.literal("prudent"), v.literal("realiste"), v.literal("optimiste")),
       ),
+      // Besoin / intention du client dans la relation avec l'agence :
+      // vendeur | acheteur (estimation vente/achat), bailleur | locataire (estimation location)
+      clientNeed: v.optional(
+        v.union(v.literal("vendeur"), v.literal("acheteur"), v.literal("bailleur"), v.literal("locataire")),
+      ),
       // Agency's counter-offer back to the user
       suggestedPrice: v.optional(v.number()),
       agencyMessage: v.optional(v.string()),

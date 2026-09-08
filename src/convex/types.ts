@@ -456,6 +456,39 @@ export const PARTNER_TYPES_LABELS: Record<string, string> = {
   photographe: "Photographe immobilier",
 };
 
+/** Besoin / intention du client dans la relation avec les agences */
+export type ClientNeed = "vendeur" | "acheteur" | "bailleur" | "locataire";
+
+export const CLIENT_NEED_META: Record<
+  ClientNeed,
+  { label: string; short: string; emoji: string; serviceHint: string }
+> = {
+  vendeur: {
+    label: "Vendeur",
+    short: "Vend son bien",
+    emoji: "🏠",
+    serviceHint: "Proposez vos services de vente : commercialisation du bien, accompagnement et mise en relation avec des acheteurs.",
+  },
+  acheteur: {
+    label: "Acheteur",
+    short: "Recherche un bien",
+    emoji: "🔎",
+    serviceHint: "Proposez des biens disponibles et un accompagnement pour l'achat.",
+  },
+  bailleur: {
+    label: "Propriétaire / Bailleur",
+    short: "Loue son bien",
+    emoji: "🏠",
+    serviceHint: "Proposez la mise en location, la recherche de locataires et la gestion locative.",
+  },
+  locataire: {
+    label: "Locataire",
+    short: "Recherche un logement",
+    emoji: "🔎",
+    serviceHint: "Proposez des biens à louer et un accompagnement locatif.",
+  },
+};
+
 export interface EstimationResult {
   estimatedValue: number;
   priceMin: number;

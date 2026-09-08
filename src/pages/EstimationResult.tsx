@@ -1458,9 +1458,16 @@ export default function EstimationResult() {
                 </DialogHeader>
                 <div className="space-y-3">
                   <div className="rounded-xl bg-blue-50 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900/50 p-3">
-                    <p className="text-xs font-medium text-blue-700 dark:text-blue-300 mb-1">Vos coordonnées seront incluses</p>
+                    <p className="text-xs font-medium text-blue-700 dark:text-blue-300 mb-1">
+                      {intent === "vendre" ? "🏠 Profil vendeur détecté" : "🔎 Profil acheteur détecté"}
+                    </p>
                     <p className="text-[10px] text-blue-500 dark:text-blue-400">
-                      L'agence recevra votre estimation avec votre nom, email et téléphone.
+                      {intent === "vendre"
+                        ? "L'agence saura que vous souhaitez vendre ce bien : elle pourra vous proposer la commercialisation, un accompagnement et la mise en relation avec des acheteurs."
+                        : "L'agence saura que vous recherchez un bien : elle pourra vous proposer des biens disponibles et un accompagnement pour l'achat."}
+                    </p>
+                    <p className="text-[9px] text-blue-400 dark:text-blue-500 mt-1">
+                      Vos coordonnées (nom, email, téléphone) seront incluses.
                     </p>
                   </div>
                   <div className="space-y-1.5">
@@ -1496,7 +1503,9 @@ export default function EstimationResult() {
                     <Textarea
                       value={agencyMessage}
                       onChange={(e) => setAgencyMessage(e.target.value)}
-                      placeholder="Bonjour, je souhaite confier la vente de mon bien à votre agence..."
+                      placeholder={intent === "vendre"
+                        ? "Bonjour, je souhaite confier la vente de mon bien à votre agence..."
+                        : "Bonjour, je recherche un bien immobilier correspondant à ce profil..."}
                       className="rounded-xl text-xs resize-none min-h-[80px]"
                     />
                   </div>
@@ -1511,6 +1520,7 @@ export default function EstimationResult() {
                           agencyPartnerId: agencyDialog.partnerId as any,
                           message: agencyMessage || undefined,
                           priceScenario: priceScenario as any,
+                          clientNeed: intent === "vendre" ? "vendeur" : "acheteur",
                         });
                         toast.success("Estimation envoyée !", {
                           description: `Votre estimation a été envoyée à ${agencyDialog.name}. Ils vous contacteront sous peu.`,

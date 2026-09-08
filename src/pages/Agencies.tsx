@@ -22,7 +22,7 @@ import {
   Bath, CookingPot, Sofa, Car, CalendarDays, KeyRound, TrendingUp,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import { PROPERTY_TYPES_LABELS, PROPERTY_STATES_LABELS, RENT_PROPERTY_TYPES_LABELS } from "@/convex/types";
+import { PROPERTY_TYPES_LABELS, PROPERTY_STATES_LABELS, RENT_PROPERTY_TYPES_LABELS, CLIENT_NEED_META, type ClientNeed } from "@/convex/types";
 
 /** Accent colour used on every card */
 const CARD_CLS = "border-0 bg-white/95 dark:bg-slate-900/95 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_1px_2px_rgba(0,0,0,0.02)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.2)] rounded-2xl overflow-hidden relative";
@@ -547,7 +547,7 @@ export default function Agencies() {
                     )}
                   </CardTitle>
                   <CardDescription className="text-xs text-slate-500">
-                    Propriétaires intéressés par vos services
+                    Propriétaires et clients intéressés par vos services
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="pt-0">
@@ -624,6 +624,25 @@ export default function Agencies() {
                               </button>
                             )}
                           </div>
+                          {/* Besoin / intention du client — visible pour l'agence */}
+                          {req.clientNeed && CLIENT_NEED_META[req.clientNeed as ClientNeed] && (
+                            <div className="mb-1.5 flex flex-wrap items-center gap-1.5">
+                              <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-bold ring-1 ${
+                                req.clientNeed === "vendeur"
+                                  ? "bg-blue-50 text-blue-700 ring-blue-200 dark:bg-blue-950/50 dark:text-blue-300 dark:ring-blue-800/60"
+                                  : req.clientNeed === "acheteur"
+                                    ? "bg-sky-50 text-sky-700 ring-sky-200 dark:bg-sky-950/50 dark:text-sky-300 dark:ring-sky-800/60"
+                                    : req.clientNeed === "bailleur"
+                                      ? "bg-emerald-50 text-emerald-700 ring-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:ring-emerald-800/60"
+                                      : "bg-teal-50 text-teal-700 ring-teal-200 dark:bg-teal-950/50 dark:text-teal-300 dark:ring-teal-800/60"
+                              }`}>
+                                {CLIENT_NEED_META[req.clientNeed as ClientNeed].emoji} {CLIENT_NEED_META[req.clientNeed as ClientNeed].label}
+                              </span>
+                              <span className="text-[9px] text-slate-400 dark:text-slate-500">
+                                {CLIENT_NEED_META[req.clientNeed as ClientNeed].short}
+                              </span>
+                            </div>
+                          )}
                           {/* Contact buttons — call the client */}
                           {req.userPhone && (
                             <div className="mb-1.5 flex items-center gap-1">
@@ -645,6 +664,12 @@ export default function Agencies() {
                           )}
                           {req.message && (
                             <p className="text-[10px] text-slate-600 dark:text-slate-300 bg-white/50 dark:bg-slate-900/50 rounded-lg px-2 py-1 mb-1.5">{req.message}</p>
+                          )}
+                          {/* Orientation des services selon le besoin du client */}
+                          {req.clientNeed && CLIENT_NEED_META[req.clientNeed as ClientNeed] && (
+                            <p className="mb-1.5 rounded-lg bg-blue-50/60 dark:bg-blue-950/30 border border-blue-100/60 dark:border-blue-900/40 px-2 py-1 text-[9px] leading-relaxed text-blue-700/90 dark:text-blue-300/80">
+                              💡 {CLIENT_NEED_META[req.clientNeed as ClientNeed].serviceHint}
+                            </p>
                           )}
                           {/* Detailed property summary */}
                           {req.property && (

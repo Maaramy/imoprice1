@@ -1321,9 +1321,16 @@ export default function RentEstimationResult() {
                 ) : (
                 <div className="space-y-3">
                   <div className="rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/50 p-3">
-                    <p className="text-xs font-medium text-emerald-700 dark:text-emerald-300 mb-1">Vos coordonnées seront incluses</p>
+                    <p className="text-xs font-medium text-emerald-700 dark:text-emerald-300 mb-1">
+                      {intent === "louer_bien" ? "🏠 Profil propriétaire / bailleur détecté" : "🔎 Profil locataire détecté"}
+                    </p>
                     <p className="text-[10px] text-emerald-500 dark:text-emerald-400">
-                      L'agence recevra votre estimation de loyer avec votre nom, email et téléphone.
+                      {intent === "louer_bien"
+                        ? "L'agence saura que vous souhaitez louer ce bien : elle pourra vous proposer la mise en location, la recherche de locataires et la gestion locative."
+                        : "L'agence saura que vous recherchez un bien à louer : elle pourra vous proposer des biens disponibles et un accompagnement locatif."}
+                    </p>
+                    <p className="text-[9px] text-emerald-400 dark:text-emerald-600 mt-1">
+                      Vos coordonnées (nom, email, téléphone) seront incluses.
                     </p>
                   </div>
                   <div className="space-y-1.5">
@@ -1397,7 +1404,9 @@ export default function RentEstimationResult() {
                     <Textarea
                       value={agencyMessage}
                       onChange={(e) => setAgencyMessage(e.target.value)}
-                      placeholder="Bonjour, je souhaite confier la gestion locative de mon bien à votre agence..."
+                      placeholder={intent === "louer_bien"
+                        ? "Bonjour, je souhaite confier la gestion locative de mon bien à votre agence..."
+                        : "Bonjour, je recherche un logement correspondant à ce profil..."}
                       className="rounded-xl text-xs resize-none min-h-[80px]"
                     />
                   </div>
@@ -1411,6 +1420,7 @@ export default function RentEstimationResult() {
                           agencyPartnerId: agencyDialog.partnerId as any,
                           message: agencyMessage || undefined,
                           rentPriceScenario: rentPriceScenario as any,
+                          clientNeed: intent === "louer_bien" ? "bailleur" : "locataire",
                         });
                         toast.success("Estimation envoyée !", {
                           description: `Votre estimation de loyer a été envoyée à ${agencyDialog.name}. Ils vous contacteront sous peu.`,

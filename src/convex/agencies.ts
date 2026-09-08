@@ -137,6 +137,8 @@ export const sendEstimationToAgency = mutation({
     priceScenario: v.optional(
       v.union(v.literal("optimiste"), v.literal("realiste"), v.literal("vente_rapide")),
     ),
+    // Besoin du client : vendeur ou acheteur
+    clientNeed: v.optional(v.union(v.literal("vendeur"), v.literal("acheteur"))),
   },
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
@@ -175,6 +177,7 @@ export const sendEstimationToAgency = mutation({
       userPhone: user?.phone,
       message: args.message,
       priceScenario: args.priceScenario,
+      clientNeed: args.clientNeed,
       status: "pending",
       createdAt: Date.now(),
     });
@@ -207,6 +210,8 @@ export const sendRentEstimationToAgency = mutation({
     rentPriceScenario: v.optional(
       v.union(v.literal("prudent"), v.literal("realiste"), v.literal("optimiste")),
     ),
+    // Besoin du client : bailleur ou locataire
+    clientNeed: v.optional(v.union(v.literal("bailleur"), v.literal("locataire"))),
   },
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
@@ -244,6 +249,7 @@ export const sendRentEstimationToAgency = mutation({
       userPhone: user?.phone,
       message: args.message,
       rentPriceScenario: args.rentPriceScenario,
+      clientNeed: args.clientNeed,
       status: "pending",
       createdAt: Date.now(),
     });

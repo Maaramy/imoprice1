@@ -229,18 +229,10 @@
   letter-spacing: 0.18em;
 }
 
-/* Ombres douces — jamais de bordure dure */
-.shadow-soft {
-  box-shadow: 0 1px 2px rgb(0 0 0 / 0.03), 0 8px 24px -12px rgb(0 0 0 / 0.08);
-}
+/* Ombres désactivées — interface plate */
+.shadow-soft,
 .shadow-soft-lg {
-  box-shadow: 0 1px 2px rgb(0 0 0 / 0.03), 0 16px 40px -12px rgb(0 0 0 / 0.14);
-}
-.dark .shadow-soft {
-  box-shadow: 0 1px 2px rgb(0 0 0 / 0.25), 0 8px 24px -12px rgb(0 0 0 / 0.5);
-}
-.dark .shadow-soft-lg {
-  box-shadow: 0 1px 2px rgb(0 0 0 / 0.25), 0 16px 40px -12px rgb(0 0 0 / 0.6);
+  box-shadow: none !important;
 }
 
 /* Chiffres stats / prix : tabulaire + très gras */
@@ -487,6 +479,12 @@
   display: none;
 }
 
+/* ===== Suppression complète de toutes les ombres ===== */
+*, *::before, *::after {
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
 /* ===== Dark mode refinements ===== */
 /* Smooth dark mode transition */
 html {
@@ -502,11 +500,9 @@ html, body, * {
   background: #1e293b !important;
 }
 
-.dark .shadow-blue-200 {
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3) !important;
-}
+.dark .shadow-blue-200,
 .dark .shadow-blue-300 {
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: none !important;
 }
 
 /* Better dark mode card backgrounds */
@@ -567,7 +563,6 @@ html {
 }
 .card-hover:hover {
   transform: translateY(-2px);
-  box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 12px 28px -12px rgb(0 0 0 / 0.12);
 }
 
 /* ===== PDF Capture mode (html2canvas) ===== */

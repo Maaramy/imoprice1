@@ -100,7 +100,7 @@ function ModuleCard({
 const styles = StyleSheet.create({
   title: { fontSize: 24, fontWeight: "800", color: colors.text },
   subtitle: { fontSize: 14, color: colors.muted, lineHeight: 20, marginTop: 6, marginBottom: spacing.xl },
-  card: { borderRadius: radius.xl, padding: spacing.xl, shadowColor: "#0f172a", shadowOpacity: 0.2, shadowRadius: 14, shadowOffset: { width: 0, height: 6 }, elevation: 5 },
+  card: { borderRadius: radius.xl, padding: spacing.xl },
   cardTop: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: spacing.lg },
   cardIcon: {
     width: 48,

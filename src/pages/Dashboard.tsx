@@ -505,6 +505,11 @@ export default function Dashboard() {
           </div>
         </div>
 
+        {/* ═══ ANNONCES ═══ */}
+        <div className="mb-4 sm:mb-6">
+          <AnnouncementSection />
+        </div>
+
         {/* ═══ STATS ═══ */}
         <TooltipProvider delayDuration={200}>
           <div className="mb-4 sm:mb-6 grid gap-2 sm:gap-4 grid-cols-2 lg:grid-cols-4">
@@ -634,11 +639,6 @@ export default function Dashboard() {
             </CardContent>
           </Card>
         )}
-
-        {/* ═══ ANNONCES ═══ */}
-        <div className="mb-4 sm:mb-6">
-          <AnnouncementSection />
-        </div>
 
         {/* ═══ TABS ═══ */}
         <Tabs defaultValue="estimations" className="space-y-3 sm:space-y-5">

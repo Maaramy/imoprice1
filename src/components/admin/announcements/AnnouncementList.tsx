@@ -48,7 +48,7 @@ export function AnnouncementList({
 
   const handleDrop = (targetId: string) => {
     if (!onReorder || !dragId || dragId === targetId) return;
-    const ids = announcements.map((a) => a._id);
+    const ids = announcements.map((a) => String(a._id));
     const from = ids.indexOf(dragId);
     const to = ids.indexOf(targetId);
     if (from === -1 || to === -1) return;

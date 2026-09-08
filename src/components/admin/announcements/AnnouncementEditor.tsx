@@ -85,7 +85,9 @@ export function AnnouncementEditor() {
         targetCompanyIds:
           form.targetType === "company" ? form.targetCompanyIds : undefined,
         targetRoles:
-          form.targetType === "role" ? form.targetRoles : undefined,
+          form.targetType === "role"
+            ? (form.targetRoles as ("admin" | "user" | "member")[])
+            : undefined,
         targetUserIds:
           form.targetType === "user"
             ? form.targetUserIds.map((id) => id as never)
@@ -131,12 +133,10 @@ export function AnnouncementEditor() {
         }}
       />
 
-      {onReorder && (
-        <p className="text-[11px] text-muted-foreground">
+      <p className="text-[11px] text-muted-foreground">
           💡 Glissez-déposez les lignes du tableau pour modifier l'ordre
           d'affichage manuel (au sein d'une même priorité).
         </p>
-      )}
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">

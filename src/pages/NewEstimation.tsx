@@ -19,13 +19,14 @@ import {
   BedDouble, Bath, CookingPot, Armchair, Car, Ruler,
   CalendarDays, Paintbrush, Layers, RefreshCw, Store,
   Warehouse, TreePine, LandPlot, ParkingSquare, Star, FileText, EyeOff,
-  Rocket, AlertTriangle, Lock,
+  Rocket, AlertTriangle, Lock, Target,
 } from "lucide-react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { toast } from "sonner";
 import { GOVERNORATS, VILLES_BY_GOUVERNORAT, QUARTIERS_BY_VILLE } from "@/convex/types";
 import { cn, daysUntilNextReset, quotaBarColor } from "@/lib/utils";
+import { SegmentedToggle } from "@/components/SegmentedToggle";
 import { getPropertyVisionService, type AnalysisProgress } from "@/lib/property-vision";
 import { computeEnhancedEstimation, getBasePrice } from "@/lib/enhanced-estimation";
 
@@ -212,6 +213,7 @@ export default function NewEstimation() {
   const nav = useNavigate();
   const [step, setStep] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [need, setNeed] = useState<"vendre" | "acheter">("vendre");
   const [f, setF] = useState<FD>(INIT);
   const remaining = useQuery(api.plans.remainingEstimations);
   const quotaBlocked = !!remaining && !remaining.canEstimate;
@@ -426,6 +428,8 @@ export default function NewEstimation() {
 
       goStep("report", 88);
       sessionStorage.setItem(`enhanced_${estimationId}`, JSON.stringify(enhanced));
+      // Personnalisation : profil vendeur / acheteur sélectionné dans le formulaire
+      sessionStorage.setItem(`intent_${estimationId}`, need);
       await animatePct(98);
 
       setProgressPct(100);
@@ -784,6 +788,39 @@ export default function NewEstimation() {
           loading && "hidden"
         )}>
           <CardContent className="p-4 sm:p-6">
+            {/* ── Personnalisation : vendeur ou acheteur ── */}
+            <div className="mb-5 sm:mb-6 rounded-xl border border-blue-100 dark:border-blue-900/50 bg-gradient-to-br from-blue-50/70 via-white to-sky-50/50 dark:from-blue-950/30 dark:via-slate-900/50 dark:to-sky-950/20 p-3.5 sm:p-4">
+              <div className="flex items-start gap-2.5 mb-3">
+                <div className="flex size-8 sm:size-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-blue-500 text-white">
+                  <Target className="size-4" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100">Votre besoin</p>
+                  <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 leading-snug">
+                    Le résultat de l'estimation reste identique — seules l'interprétation et les recommandations s'adaptent à votre profil.
+                  </p>
+                </div>
+              </div>
+              <SegmentedToggle
+                options={[
+                  { value: "vendre", label: "Je veux vendre mon bien", emoji: "🏠" },
+                  { value: "acheter", label: "Je veux acheter un bien", emoji: "🔎" },
+                ]}
+                value={need}
+                onChange={(v) => setNeed(v as "vendre" | "acheter")}
+                accent="blue"
+                size="lg"
+                ariaLabel="Votre besoin pour cette estimation"
+              />
+              <p className="mt-2.5 text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">
+                {need === "vendre" ? (
+                  <>👨‍💼 <span className="font-semibold text-blue-700 dark:text-blue-300">Profil vendeur</span> — interprétation du prix de vente, fixation du prix, mise en valeur et conseils pour vendre vite.</>
+                ) : (
+                  <>🕵️ <span className="font-semibold text-blue-700 dark:text-blue-300">Profil acheteur</span> — référence d'achat, analyse du positionnement, négociation et points à vérifier avant d'acheter.</>
+                )}
+              </p>
+            </div>
+
             <AnimatePresence mode="wait">
               <motion.div
                 key={`step-${step}`}

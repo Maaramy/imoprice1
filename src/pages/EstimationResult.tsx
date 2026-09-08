@@ -38,6 +38,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { SignatureSeal } from "@/components/SignatureSeal";
+import { SegmentedToggle } from "@/components/SegmentedToggle";
 import { usePdfExport } from "@/hooks/use-pdf-export";
 import { daysUntilNextReset, quotaBarColor } from "@/lib/utils";
 
@@ -134,6 +135,20 @@ export default function EstimationResult() {
   const shareToken = useMutation(api.reports.createShareToken);
   const [reesting, setReesting] = useState(false);
   const [tab, setTab] = useState("overview");
+
+  // Profil sélectionné dans le formulaire (vendeur / acheteur) — personnalise uniquement
+  // l'interprétation et les recommandations affichées, jamais le résultat de l'estimation.
+  const [intent, setIntent] = useState<"vendre" | "acheter">(() => {
+    try {
+      return sessionStorage.getItem(`intent_${id}`) === "acheter" ? "acheter" : "vendre";
+    } catch {
+      return "vendre";
+    }
+  });
+  const changeIntent = (v: "vendre" | "acheter") => {
+    setIntent(v);
+    try { sessionStorage.setItem(`intent_${id}`, v); } catch { /* ignore */ }
+  };
 
   const enhanced = useMemo(() => {
     try { const s = sessionStorage.getItem(`enhanced_${id}`); return s ? JSON.parse(s) : null; } catch { return null; }
@@ -374,6 +389,29 @@ export default function EstimationResult() {
       </div>
     );
   };
+
+  /* ── Interprétation & recommandations personnalisées selon le profil ── */
+  const negotiationPct = (r as any).negotiationDiscount ?? 5;
+  const fiveYearGrowth = r.estimatedValue > 0 ? Math.round(((r.valueYear5 - r.estimatedValue) / r.estimatedValue) * 100) : 0;
+  const sellerSummary = `Votre bien est estimé à ${fmtC(r.estimatedValue)} (fourchette ${fmtC(r.priceMin)} – ${fmtC(r.priceMax)}) avec ${r.confidenceIndex}% de confiance. Ce montant correspond au scénario « réaliste » : un positionnement équilibré qui attire les acheteurs sérieux sans brader votre bien.`;
+  const buyerSummary = `Ce bien est estimé à ${fmtC(r.estimatedValue)} (fourchette ${fmtC(r.priceMin)} – ${fmtC(r.priceMax)}) avec ${r.confidenceIndex}% de confiance. C'est votre référence d'achat : plus l'offre se rapproche du bas de fourchette, plus l'opportunité est intéressante.`;
+  const sellerBullets = [
+    `Positionnement du prix : affichez autour de ${fmtC(r.estimatedValue)} (fourchette ${fmtC(r.priceMin)} – ${fmtC(r.priceMax)}) pour rester dans la moyenne du marché (${formatPrice(r.avgPricePerSqm)}/m²).`,
+    `Vente rapide : ${fmtC(r.fastSalePrice)} — un prix attractif qui raccourcit le délai de vente.`,
+    `Max profit : ${fmtC(r.maxProfitPrice)} — visez ce niveau en mettant le bien en valeur et en acceptant un délai plus long.`,
+    `Mise en valeur du bien : ${r.improvementSuggestions.slice(0, 3).join(" ; ") || "soignez l'état général, les finitions et les équipements visibles."}`,
+    `Préparez vos documents (acte de propriété, plan cadastral, certificat) : ils inspirent confiance et fluidifient la vente.`,
+    `Négociation : laissez ~${negotiationPct}% de marge sur le prix d'affichage — les acheteurs négocient presque toujours.`,
+    `Argument de valeur : +${fiveYearGrowth}% de valorisation estimée sur 5 ans (${fmtC(r.valueYear5)}).`,
+  ];
+  const buyerBullets = [
+    `Référence d'achat : ce bien vaut en moyenne ${fmtC(r.estimatedValue)} — comparez aux biens comparables listés ci-dessous avant toute offre.`,
+    `Positionnement : ${formatPrice(r.avgPricePerSqm)}/m² — le prix/m² du marché local pour ce type de bien.`,
+    `Négociation : le marché tunisien laisse typiquement ~${negotiationPct}% de marge — une offre autour de ${fmtC(r.priceMin)} est un point d'entrée réaliste.`,
+    `Points de vigilance avant l'achat : ${r.negativeFactors.slice(0, 3).join(" ; ") || "vérifiez l'état général, la situation juridique et les charges du bien."}`,
+    `Frais annexes à prévoir : droits d'enregistrement, notaire et vérification du titre de propriété (acte, plan cadastral).`,
+    `Potentiel : +${fiveYearGrowth}% de valorisation estimée sur 5 ans (${fmtC(r.valueYear5)}) — un argument pour un achat à moyen terme.`,
+  ];
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 pb-24">
@@ -641,6 +679,54 @@ export default function EstimationResult() {
                     <span className="text-sm font-bold">{fmtC(r.maxProfitPrice)}</span>
                   </div>
                 </div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        {/* Interprétation personnalisée selon le profil (vendeur / acheteur) */}
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
+          <Card className="mb-4 border-blue-100 dark:border-blue-900/60 rounded-2xl overflow-hidden">
+            <div className="h-1 bg-gradient-to-r from-blue-500 via-sky-500 to-blue-600" />
+            <CardContent className="p-4 sm:p-5">
+              <div className="flex flex-col lg:flex-row lg:items-center gap-4">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2.5 mb-1.5">
+                    <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-950/50 ring-1 ring-blue-100 dark:ring-blue-900">
+                      <Target className="size-4 text-blue-600 dark:text-blue-400" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Interprétation personnalisée</p>
+                      <p className="text-sm sm:text-base font-bold text-gray-900 dark:text-gray-100 truncate">
+                        {intent === "vendre" ? "Conseils pour vendre votre bien" : "Conseils pour acheter ce bien"}
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-[11px] sm:text-xs leading-relaxed text-gray-600 dark:text-gray-300">
+                    💡 {intent === "vendre" ? sellerSummary : buyerSummary}
+                  </p>
+                </div>
+                <div className="shrink-0 w-full lg:w-[340px]">
+                  <SegmentedToggle
+                    options={[
+                      { value: "vendre", label: "Vendre", emoji: "🏠" },
+                      { value: "acheter", label: "Acheter", emoji: "🔎" },
+                    ]}
+                    value={intent}
+                    onChange={(v) => changeIntent(v as "vendre" | "acheter")}
+                    accent="blue"
+                    size="md"
+                    ariaLabel="Changer le profil d'interprétation"
+                  />
+                </div>
+              </div>
+              <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                {(intent === "vendre" ? sellerBullets : buyerBullets).map((b, i) => (
+                  <div key={i} className="flex items-start gap-2 rounded-lg bg-gray-50 dark:bg-gray-800/50 p-2.5">
+                    <CheckCircle className={`size-4 shrink-0 mt-0.5 ${intent === "vendre" ? "text-blue-500" : "text-emerald-500"}`} />
+                    <p className="text-[11px] sm:text-xs leading-relaxed text-gray-700 dark:text-gray-300">{b}</p>
+                  </div>
+                ))}
               </div>
             </CardContent>
           </Card>

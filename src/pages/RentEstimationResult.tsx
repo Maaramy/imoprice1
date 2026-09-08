@@ -29,6 +29,7 @@ import type { RentEstimationResult, RentPropertyInput } from "@/convex/types";
 import { toast } from "sonner";
 import { usePdfExport } from "@/hooks/use-pdf-export";
 import { cn } from "@/lib/utils";
+import { SegmentedToggle } from "@/components/SegmentedToggle";
 
 const fmtRent = (n: number) => `${Math.round(n).toLocaleString("fr-FR")} TND`;
 const fmtM2 = (n: number) => `${n.toLocaleString("fr-FR", { maximumFractionDigits: 1 })} TND/m²`;
@@ -108,6 +109,20 @@ export default function RentEstimationResult() {
   const [session, setSession] = useState<{ property: RentPropertyInput; result: RentEstimationResult } | null>(null);
   const [copied, setCopied] = useState(false);
   const [displayMode, setDisplayMode] = useState<"mensuel" | "nuitée">("mensuel");
+
+  // Profil sélectionné dans le formulaire (bailleur / locataire) — personnalise uniquement
+  // l'interprétation et les recommandations affichées, jamais le résultat de l'estimation.
+  const [intent, setIntent] = useState<"louer_bien" | "louer">(() => {
+    try {
+      return sessionStorage.getItem(`rent_intent_${id}`) === "louer" ? "louer" : "louer_bien";
+    } catch {
+      return "louer_bien";
+    }
+  });
+  const changeIntent = (v: "louer_bien" | "louer") => {
+    setIntent(v);
+    try { sessionStorage.setItem(`rent_intent_${id}`, v); } catch { /* ignore */ }
+  };
 
   useEffect(() => {
     if (!id || isDemo) return;
@@ -263,6 +278,29 @@ export default function RentEstimationResult() {
 
   const nightly = (result as any).nightly as RentEstimationResult["nightly"] | undefined;
   const zoneProfile = (result as any).zoneProfile as RentEstimationResult["zoneProfile"] | undefined;
+
+  /* ── Interprétation & recommandations personnalisées selon le profil ── */
+  const ownerSummary = `Votre bien se loue en moyenne ${fmtRent(result.estimatedRent)}/mois (fourchette ${fmtRent(result.rentMin)} – ${fmtRent(result.rentMax)}) avec ${result.confidenceIndex}% de fiabilité. Ce loyer correspond au scénario « réaliste » : un positionnement équilibré qui attire les locataires sérieux sans laisser de loyer sur la table.`;
+  const tenantSummary = `Ce bien se loue environ ${fmtRent(result.estimatedRent)}/mois (fourchette ${fmtRent(result.rentMin)} – ${fmtRent(result.rentMax)}) avec ${result.confidenceIndex}% de fiabilité. C'est votre référence pour évaluer le loyer demandé et négocier en connaissance de cause.`;
+  const ownerBullets = [
+    `Positionnement du loyer : affichez autour de ${fmtRent(result.estimatedRent)}/mois (fourchette ${fmtRent(result.rentMin)} – ${fmtRent(result.rentMax)}), soit ${result.rentPerSqm.toLocaleString("fr-FR", { maximumFractionDigits: 1 })} TND/m²/mois pour un marché ${level.label.toLowerCase()}.`,
+    `Louer vite : ${fmtRent(result.rentMin)} (scénario prudent) — un loyer d'appel attractif réduit la durée de vacance.`,
+    `Maximiser le loyer : ${fmtRent(result.rentMax)} (scénario optimiste) — à condition que le bien soit bien valorisé (finition ${finishLabel.toLowerCase()}, équipements soignés).`,
+    `Mise en location : soignez l'annonce (photos lumineuses, description précise) et mettez en avant les équipements : ${[p.isFurnished && "meublé", p.hasAC && "clim", p.hasHeating && "chauffage", p.hasFiber && "fibre", p.hasPool && "piscine", p.hasGarden && "jardin"].filter(Boolean).join(", ") || "—"}.`,
+    `Sélectionnez soigneusement le locataire : justificatifs de revenus, garant, dépôt de garantie et état des lieux détaillé.`,
+    `Tendance : ${trend.label.toLowerCase()} — ${result.forecastSummary.message}`,
+    ...(nightly ? [`Courte durée : ${fmtRent(nightly.nightlyRent)}/nuit en location saisonnière (zone ${zoneProfile?.label.toLowerCase() || "touristique"}) — une alternative rentable selon la zone.`] : []),
+  ];
+  const tenantBullets = [
+    `Loyer de référence : ce bien se loue environ ${fmtRent(result.estimatedRent)}/mois (fourchette ${fmtRent(result.rentMin)} – ${fmtRent(result.rentMax)}).`,
+    `Positionnement : ${result.rentPerSqm.toLocaleString("fr-FR", { maximumFractionDigits: 1 })} TND/m²/mois — loyers moyens de la zone : ${fmtM2(result.marketAverages.gouvernorat)} (gouvernorat), ${fmtM2(result.marketAverages.ville)} (ville), ${fmtM2(result.marketAverages.quartier)} (quartier).`,
+    `Négociation : un bail longue durée ou un bien à rafraîchir justifie de viser le bas de fourchette (${fmtRent(result.rentMin)}).`,
+    `Avant de signer : vérifiez l'état des lieux, les charges et les équipements annoncés (meublé, clim, fibre…).`,
+    `Budget : prévoyez un dépôt de garantie (1 à 2 mois de loyer) et d'éventuels frais d'agence.`,
+    `Tendance : ${trend.label.toLowerCase()} — ${result.forecastSummary.message}${result.forecastSummary.trend === "hausse" ? " Si la tendance est haussière, signer tôt protège votre budget." : " Prenez le temps de comparer plusieurs biens."}`,
+    `Durée moyenne de location dans la zone : ${result.avgRentalDurationMonths} mois — utile pour négocier un bail adapté à votre projet.`,
+  ];
+
   const primaryValue = displayMode === "nuitée" && nightly ? nightly.nightlyRent : result.estimatedRent;
   const primaryUnit = displayMode === "nuitée" && nightly ? "/ nuit" : "/ mois";
   const primaryMin = displayMode === "nuitée" && nightly ? nightly.nightlyMin : result.rentMin;
@@ -407,6 +445,59 @@ export default function RentEstimationResult() {
                 </div>
               </div>
             </div>
+          </motion.div>
+
+          {/* ═══ INTERPRÉTATION PERSONNALISÉE (bailleur / locataire) ═══ */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35 }}
+            className="mt-4 sm:mt-6"
+          >
+            <Card className="border-emerald-100 dark:border-emerald-900/60 rounded-2xl overflow-hidden">
+              <div className="h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600" />
+              <CardContent className="p-4 sm:p-5">
+                <div className="flex flex-col lg:flex-row lg:items-center gap-4">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2.5 mb-1.5">
+                      <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-emerald-50 dark:bg-emerald-950/50 ring-1 ring-emerald-100 dark:ring-emerald-900">
+                        <KeyRound className="size-4 text-emerald-600 dark:text-emerald-400" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Interprétation personnalisée</p>
+                        <p className="text-sm sm:text-base font-bold text-gray-900 dark:text-gray-100 truncate">
+                          {intent === "louer_bien" ? "Conseils pour louer votre bien" : "Conseils pour louer ce bien"}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="text-[11px] sm:text-xs leading-relaxed text-gray-600 dark:text-gray-300">
+                      💡 {intent === "louer_bien" ? ownerSummary : tenantSummary}
+                    </p>
+                  </div>
+                  <div className="shrink-0 w-full lg:w-[340px]">
+                    <SegmentedToggle
+                      options={[
+                        { value: "louer_bien", label: "Louer mon bien", emoji: "🏠" },
+                        { value: "louer", label: "Louer un bien", emoji: "🔎" },
+                      ]}
+                      value={intent}
+                      onChange={(v) => changeIntent(v as "louer_bien" | "louer")}
+                      accent="emerald"
+                      size="md"
+                      ariaLabel="Changer le profil d'interprétation"
+                    />
+                  </div>
+                </div>
+                <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                  {(intent === "louer_bien" ? ownerBullets : tenantBullets).map((b, i) => (
+                    <div key={i} className="flex items-start gap-2 rounded-lg bg-gray-50 dark:bg-gray-800/50 p-2.5">
+                      <CheckCircle2 className={`size-4 shrink-0 mt-0.5 ${intent === "louer_bien" ? "text-emerald-500" : "text-sky-500"}`} />
+                      <p className="text-[11px] sm:text-xs leading-relaxed text-gray-700 dark:text-gray-300">{b}</p>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
           </motion.div>
 
           {/* ═══ STATS ═══ */}

@@ -27,6 +27,7 @@ import {
   type RentPropertyInput,
 } from "@/convex/types";
 import { cn, daysUntilNextReset, quotaBarColor } from "@/lib/utils";
+import { SegmentedToggle } from "@/components/SegmentedToggle";
 import { computeRentEstimation, detectRentZoneType, getRentBasePrice } from "@/lib/rent-estimation";
 
 /* ─────────── DATA ─────────── */
@@ -132,6 +133,7 @@ export default function NewRentEstimation() {
   const nav = useNavigate();
   const [step, setStep] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [need, setNeed] = useState<"louer_bien" | "louer">("louer_bien");
   const [f, setF] = useState<RDF>(INIT);
   const remaining = useQuery(api.plans.remainingEstimations);
   const quotaBlocked = !!remaining && !remaining.canEstimate;
@@ -298,6 +300,8 @@ export default function NewRentEstimation() {
       await animatePct(85);
 
       sessionStorage.setItem(`rent_${estimationId}`, JSON.stringify({ property, result: local }));
+      // Personnalisation : profil bailleur / locataire sélectionné dans le formulaire
+      sessionStorage.setItem(`rent_intent_${estimationId}`, need);
       await animatePct(100);
       await new Promise((r) => setTimeout(r, 350));
 
@@ -507,6 +511,39 @@ export default function NewRentEstimation() {
           loading && "hidden"
         )}>
           <CardContent className="p-4 sm:p-6">
+            {/* ── Personnalisation : bailleur ou locataire ── */}
+            <div className="mb-5 sm:mb-6 rounded-xl border border-emerald-100 dark:border-emerald-900/50 bg-gradient-to-br from-emerald-50/70 via-white to-teal-50/50 dark:from-emerald-950/30 dark:via-slate-900/50 dark:to-teal-950/20 p-3.5 sm:p-4">
+              <div className="flex items-start gap-2.5 mb-3">
+                <div className="flex size-8 sm:size-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-600 to-teal-600 text-white">
+                  <KeyRound className="size-4" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100">Votre besoin</p>
+                  <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 leading-snug">
+                    Le résultat de l'estimation reste identique — seules l'interprétation et les recommandations s'adaptent à votre profil.
+                  </p>
+                </div>
+              </div>
+              <SegmentedToggle
+                options={[
+                  { value: "louer_bien", label: "Je veux louer mon bien", emoji: "🏠" },
+                  { value: "louer", label: "Je veux louer un bien", emoji: "🔎" },
+                ]}
+                value={need}
+                onChange={(v) => setNeed(v as "louer_bien" | "louer")}
+                accent="emerald"
+                size="lg"
+                ariaLabel="Votre besoin pour cette estimation de loyer"
+              />
+              <p className="mt-2.5 text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">
+                {need === "louer_bien" ? (
+                  <>👨‍💼 <span className="font-semibold text-emerald-700 dark:text-emerald-300">Profil bailleur</span> — fixation du loyer, mise en location et conseils propriétaire.</>
+                ) : (
+                  <>🕵️ <span className="font-semibold text-emerald-700 dark:text-emerald-300">Profil locataire</span> — analyse du loyer, positionnement, négociation et budget.</>
+                )}
+              </p>
+            </div>
+
             <AnimatePresence mode="wait">
               <motion.div
                 key={`step-${step}`}

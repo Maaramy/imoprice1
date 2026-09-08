@@ -1,0 +1,27 @@
+name: Deploy Convex (production)
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    name: Deploy functions to Convex production
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      # Pushes all functions under src/convex/ to the production deployment.
+      # Requires a deploy key: Convex dashboard → the production deployment →
+      # Settings → Deploy keys → add secret CONVEX_DEPLOY_KEY in GitHub.
+      - name: Deploy to Convex production
+        run: bunx convex deploy --prod
+        env:
+          CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}

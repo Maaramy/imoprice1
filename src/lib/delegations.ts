@@ -1,0 +1,328 @@
+/**
+ * Référentiel 264 Délégations — Marché immobilier tunisien 2026
+ * Source : Modele_Immobilier_Tunisie_2026_24G_264D_2073Q.xlsx
+ * Données : 24 gouvernorats, 264 délégations, 2 073 quartiers
+ * Date de référence : 25 août 2026 — Scénario Central
+ */
+
+export interface DelegationData {
+  code: string;
+  gouv: string;
+  delegation: string;
+  transaction: number;
+  vente: number;
+  loyerNm: number;
+  loyerMeuble: number;
+  coeff: number;
+  classe: string;
+}
+
+export const DELEGATIONS: Record<string, DelegationData> = {
+  "TN1151": { code: "TN1151", gouv: "Tunis", delegation: "Carthage", transaction: 5645, vente: 5833, loyerNm: 22.24, loyerMeuble: 26.24, coeff: 1.378, classe: "Touristique / littoral" },
+  "TN1152": { code: "TN1152", gouv: "Tunis", delegation: "Médina", transaction: 3950, vente: 4179, loyerNm: 17.03, loyerMeuble: 20.1, coeff: 0.987, classe: "Intermédiaire" },
+  "TN1153": { code: "TN1153", gouv: "Tunis", delegation: "Bab Bhar", transaction: 3966, vente: 4189, loyerNm: 17.06, loyerMeuble: 20.13, coeff: 0.99, classe: "Intermédiaire" },
+  "TN1154": { code: "TN1154", gouv: "Tunis", delegation: "Bab Souika", transaction: 3309, vente: 3539, loyerNm: 14.9, loyerMeuble: 17.59, coeff: 0.836, classe: "Périphérique / rural" },
+  "TN1155": { code: "TN1155", gouv: "Tunis", delegation: "Omrane", transaction: 3727, vente: 3952, loyerNm: 16.29, loyerMeuble: 19.22, coeff: 0.934, classe: "Intermédiaire" },
+  "TN1156": { code: "TN1156", gouv: "Tunis", delegation: "Omrane Supérieur", transaction: 3387, vente: 3618, loyerNm: 15.18, loyerMeuble: 17.91, coeff: 0.855, classe: "Périphérique / rural" },
+  "TN1157": { code: "TN1157", gouv: "Tunis", delegation: "El Tahrir", transaction: 3768, vente: 3995, loyerNm: 16.43, loyerMeuble: 19.38, coeff: 0.944, classe: "Intermédiaire" },
+  "TN1158": { code: "TN1158", gouv: "Tunis", delegation: "El Menzah", transaction: 4808, vente: 5011, loyerNm: 19.69, loyerMeuble: 23.24, coeff: 1.184, classe: "Pôle urbain" },
+  "TN1159": { code: "TN1159", gouv: "Tunis", delegation: "Cité El Khadra", transaction: 4644, vente: 4847, loyerNm: 19.17, loyerMeuble: 22.63, coeff: 1.145, classe: "Pôle urbain" },
+  "TN1160": { code: "TN1160", gouv: "Tunis", delegation: "Bardo", transaction: 3703, vente: 3926, loyerNm: 16.2, loyerMeuble: 19.11, coeff: 0.928, classe: "Intermédiaire" },
+  "TN1161": { code: "TN1161", gouv: "Tunis", delegation: "Sijoumi", transaction: 3827, vente: 4052, loyerNm: 16.62, loyerMeuble: 19.61, coeff: 0.957, classe: "Intermédiaire" },
+  "TN1162": { code: "TN1162", gouv: "Tunis", delegation: "Ezzouhour", transaction: 3744, vente: 3970, loyerNm: 16.35, loyerMeuble: 19.29, coeff: 0.938, classe: "Intermédiaire" },
+  "TN1163": { code: "TN1163", gouv: "Tunis", delegation: "Hrairia", transaction: 3952, vente: 4181, loyerNm: 17.03, loyerMeuble: 20.1, coeff: 0.988, classe: "Intermédiaire" },
+  "TN1164": { code: "TN1164", gouv: "Tunis", delegation: "Sidi Hassine", transaction: 3110, vente: 3332, loyerNm: 14.2, loyerMeuble: 16.76, coeff: 0.787, classe: "Périphérique / rural" },
+  "TN1165": { code: "TN1165", gouv: "Tunis", delegation: "El Ouardia", transaction: 3895, vente: 4120, loyerNm: 16.84, loyerMeuble: 19.87, coeff: 0.973, classe: "Intermédiaire" },
+  "TN1166": { code: "TN1166", gouv: "Tunis", delegation: "Kabaria", transaction: 3555, vente: 3779, loyerNm: 15.71, loyerMeuble: 18.54, coeff: 0.893, classe: "Périphérique / rural" },
+  "TN1167": { code: "TN1167", gouv: "Tunis", delegation: "Sidi El Béchir", transaction: 3587, vente: 3813, loyerNm: 15.83, loyerMeuble: 18.67, coeff: 0.901, classe: "Périphérique / rural" },
+  "TN1168": { code: "TN1168", gouv: "Tunis", delegation: "Jebel Jelloud", transaction: 3648, vente: 3879, loyerNm: 16.04, loyerMeuble: 18.93, coeff: 0.916, classe: "Périphérique / rural" },
+  "TN1169": { code: "TN1169", gouv: "Tunis", delegation: "La Goulette", transaction: 4384, vente: 4601, loyerNm: 18.39, loyerMeuble: 21.7, coeff: 1.087, classe: "Pôle urbain" },
+  "TN1170": { code: "TN1170", gouv: "Tunis", delegation: "Le Kram", transaction: 3293, vente: 3523, loyerNm: 14.86, loyerMeuble: 17.53, coeff: 0.832, classe: "Périphérique / rural" },
+  "TN1171": { code: "TN1171", gouv: "Tunis", delegation: "La Marsa", transaction: 5897, vente: 6079, loyerNm: 22.99, loyerMeuble: 27.12, coeff: 1.436, classe: "Touristique / littoral" },
+  "TN1251": { code: "TN1251", gouv: "Ariana", delegation: "Ariana Médina", transaction: 3819, vente: 3982, loyerNm: 15.99, loyerMeuble: 18.86, coeff: 1.156, classe: "Pôle urbain" },
+  "TN1252": { code: "TN1252", gouv: "Ariana", delegation: "Soukra", transaction: 4355, vente: 4502, loyerNm: 17.63, loyerMeuble: 20.81, coeff: 1.307, classe: "Pôle urbain" },
+  "TN1253": { code: "TN1253", gouv: "Ariana", delegation: "Raoued", transaction: 3315, vente: 3493, loyerNm: 14.4, loyerMeuble: 16.99, coeff: 1.014, classe: "Intermédiaire" },
+  "TN1254": { code: "TN1254", gouv: "Ariana", delegation: "Kalaat El Andalous", transaction: 3064, vente: 3248, loyerNm: 13.58, loyerMeuble: 16.03, coeff: 0.943, classe: "Intermédiaire" },
+  "TN1255": { code: "TN1255", gouv: "Ariana", delegation: "Sidi Thabet", transaction: 3255, vente: 3434, loyerNm: 14.2, loyerMeuble: 16.76, coeff: 0.997, classe: "Intermédiaire" },
+  "TN1256": { code: "TN1256", gouv: "Ariana", delegation: "Ettadhamen", transaction: 2380, vente: 2562, loyerNm: 11.23, loyerMeuble: 13.26, coeff: 0.744, classe: "Périphérique / rural" },
+  "TN1257": { code: "TN1257", gouv: "Ariana", delegation: "Mnihla", transaction: 2589, vente: 2770, loyerNm: 11.96, loyerMeuble: 14.11, coeff: 0.804, classe: "Périphérique / rural" },
+  "TN1351": { code: "TN1351", gouv: "Ben Arous", delegation: "Ben Arous", transaction: 2308, vente: 2445, loyerNm: 11.21, loyerMeuble: 13.23, coeff: 0.947, classe: "Intermédiaire" },
+  "TN1352": { code: "TN1352", gouv: "Ben Arous", delegation: "Nouvelle Médina", transaction: 2389, vente: 2527, loyerNm: 11.51, loyerMeuble: 13.59, coeff: 0.978, classe: "Intermédiaire" },
+  "TN1353": { code: "TN1353", gouv: "Ben Arous", delegation: "El Mourouj", transaction: 2326, vente: 2461, loyerNm: 11.27, loyerMeuble: 13.3, coeff: 0.953, classe: "Intermédiaire" },
+  "TN1354": { code: "TN1354", gouv: "Ben Arous", delegation: "Hammam Lif", transaction: 2649, vente: 2783, loyerNm: 12.44, loyerMeuble: 14.68, coeff: 1.077, classe: "Intermédiaire" },
+  "TN1355": { code: "TN1355", gouv: "Ben Arous", delegation: "Hammam Chott", transaction: 2199, vente: 2338, loyerNm: 10.82, loyerMeuble: 12.76, coeff: 0.905, classe: "Périphérique / rural" },
+  "TN1356": { code: "TN1356", gouv: "Ben Arous", delegation: "Boumhel", transaction: 3043, vente: 3163, loyerNm: 13.78, loyerMeuble: 16.26, coeff: 1.224, classe: "Pôle urbain" },
+  "TN1357": { code: "TN1357", gouv: "Ben Arous", delegation: "Ezzahra", transaction: 2859, vente: 2986, loyerNm: 13.16, loyerMeuble: 15.53, coeff: 1.156, classe: "Pôle urbain" },
+  "TN1358": { code: "TN1358", gouv: "Ben Arous", delegation: "Radès", transaction: 2048, vente: 2190, loyerNm: 10.27, loyerMeuble: 12.12, coeff: 0.848, classe: "Périphérique / rural" },
+  "TN1359": { code: "TN1359", gouv: "Ben Arous", delegation: "Mégrine", transaction: 2965, vente: 3087, loyerNm: 13.51, loyerMeuble: 15.95, coeff: 1.195, classe: "Pôle urbain" },
+  "TN1360": { code: "TN1360", gouv: "Ben Arous", delegation: "M'Hamdia", transaction: 2348, vente: 2487, loyerNm: 11.37, loyerMeuble: 13.41, coeff: 0.963, classe: "Intermédiaire" },
+  "TN1361": { code: "TN1361", gouv: "Ben Arous", delegation: "Fouchana", transaction: 1988, vente: 2126, loyerNm: 10.03, loyerMeuble: 11.83, coeff: 0.823, classe: "Périphérique / rural" },
+  "TN1362": { code: "TN1362", gouv: "Ben Arous", delegation: "Mornag", transaction: 1989, vente: 2127, loyerNm: 10.03, loyerMeuble: 11.84, coeff: 0.823, classe: "Périphérique / rural" },
+  "TN1451": { code: "TN1451", gouv: "Manouba", delegation: "Manouba", transaction: 2750, vente: 2849, loyerNm: 11.99, loyerMeuble: 14.15, coeff: 1.296, classe: "Pôle urbain" },
+  "TN1452": { code: "TN1452", gouv: "Manouba", delegation: "Douar Hicher", transaction: 1768, vente: 1883, loyerNm: 8.61, loyerMeuble: 10.16, coeff: 0.857, classe: "Périphérique / rural" },
+  "TN1453": { code: "TN1453", gouv: "Manouba", delegation: "Oued Ellil", transaction: 1948, vente: 2064, loyerNm: 9.26, loyerMeuble: 10.93, coeff: 0.939, classe: "Intermédiaire" },
+  "TN1454": { code: "TN1454", gouv: "Manouba", delegation: "Mornaguia", transaction: 2140, vente: 2251, loyerNm: 9.93, loyerMeuble: 11.71, coeff: 1.024, classe: "Intermédiaire" },
+  "TN1455": { code: "TN1455", gouv: "Manouba", delegation: "Borj El Amri", transaction: 1954, vente: 2070, loyerNm: 9.29, loyerMeuble: 10.96, coeff: 0.942, classe: "Intermédiaire" },
+  "TN1456": { code: "TN1456", gouv: "Manouba", delegation: "Jedaida", transaction: 2105, vente: 2218, loyerNm: 9.81, loyerMeuble: 11.58, coeff: 1.009, classe: "Intermédiaire" },
+  "TN1457": { code: "TN1457", gouv: "Manouba", delegation: "Tebourba", transaction: 1995, vente: 2110, loyerNm: 9.43, loyerMeuble: 11.13, coeff: 0.96, classe: "Intermédiaire" },
+  "TN1458": { code: "TN1458", gouv: "Manouba", delegation: "El Battan", transaction: 1968, vente: 2085, loyerNm: 9.34, loyerMeuble: 11.02, coeff: 0.949, classe: "Intermédiaire" },
+  "TN1551": { code: "TN1551", gouv: "Nabeul", delegation: "Nabeul", transaction: 3894, vente: 4054, loyerNm: 14.65, loyerMeuble: 17.29, coeff: 1.163, classe: "Pôle urbain" },
+  "TN1552": { code: "TN1552", gouv: "Nabeul", delegation: "Dar Chaabane El Fehri", transaction: 2907, vente: 3096, loyerNm: 11.81, loyerMeuble: 13.94, coeff: 0.888, classe: "Périphérique / rural" },
+  "TN1553": { code: "TN1553", gouv: "Nabeul", delegation: "Beni Khiar", transaction: 2931, vente: 3117, loyerNm: 11.87, loyerMeuble: 14.01, coeff: 0.894, classe: "Périphérique / rural" },
+  "TN1554": { code: "TN1554", gouv: "Nabeul", delegation: "Korba", transaction: 3236, vente: 3416, loyerNm: 12.78, loyerMeuble: 15.08, coeff: 0.98, classe: "Intermédiaire" },
+  "TN1555": { code: "TN1555", gouv: "Nabeul", delegation: "Menzel Temime", transaction: 3041, vente: 3227, loyerNm: 12.21, loyerMeuble: 14.41, coeff: 0.926, classe: "Intermédiaire" },
+  "TN1556": { code: "TN1556", gouv: "Nabeul", delegation: "El Mida", transaction: 3120, vente: 3311, loyerNm: 12.46, loyerMeuble: 14.71, coeff: 0.95, classe: "Intermédiaire" },
+  "TN1557": { code: "TN1557", gouv: "Nabeul", delegation: "Kelibia", transaction: 4098, vente: 4260, loyerNm: 15.24, loyerMeuble: 17.99, coeff: 1.222, classe: "Touristique / littoral" },
+  "TN1558": { code: "TN1558", gouv: "Nabeul", delegation: "Hammam Ghezaz", transaction: 3960, vente: 4122, loyerNm: 14.85, loyerMeuble: 17.52, coeff: 1.182, classe: "Touristique / littoral" },
+  "TN1559": { code: "TN1559", gouv: "Nabeul", delegation: "Haouaria", transaction: 3162, vente: 3344, loyerNm: 12.56, loyerMeuble: 14.82, coeff: 0.959, classe: "Intermédiaire" },
+  "TN1560": { code: "TN1560", gouv: "Nabeul", delegation: "Takelsa", transaction: 3070, vente: 3259, loyerNm: 12.31, loyerMeuble: 14.52, coeff: 0.935, classe: "Intermédiaire" },
+  "TN1561": { code: "TN1561", gouv: "Nabeul", delegation: "Soliman", transaction: 2717, vente: 2905, loyerNm: 11.22, loyerMeuble: 13.25, coeff: 0.833, classe: "Périphérique / rural" },
+  "TN1562": { code: "TN1562", gouv: "Nabeul", delegation: "Menzel Bouzelfa", transaction: 2813, vente: 3001, loyerNm: 11.52, loyerMeuble: 13.59, coeff: 0.861, classe: "Périphérique / rural" },
+  "TN1563": { code: "TN1563", gouv: "Nabeul", delegation: "Beni Khalled", transaction: 2660, vente: 2843, loyerNm: 11.03, loyerMeuble: 13.02, coeff: 0.816, classe: "Périphérique / rural" },
+  "TN1564": { code: "TN1564", gouv: "Nabeul", delegation: "Grombalia", transaction: 2943, vente: 3129, loyerNm: 11.91, loyerMeuble: 14.06, coeff: 0.897, classe: "Périphérique / rural" },
+  "TN1565": { code: "TN1565", gouv: "Nabeul", delegation: "Bou Argoub", transaction: 3077, vente: 3265, loyerNm: 12.33, loyerMeuble: 14.54, coeff: 0.937, classe: "Intermédiaire" },
+  "TN1566": { code: "TN1566", gouv: "Nabeul", delegation: "Hammamet", transaction: 4726, vente: 4878, loyerNm: 16.99, loyerMeuble: 20.05, coeff: 1.399, classe: "Touristique / littoral" },
+  "TN1651": { code: "TN1651", gouv: "Zaghouan", delegation: "Zaghouan", transaction: 1476, vente: 1556, loyerNm: 6.76, loyerMeuble: 7.98, coeff: 1.017, classe: "Intermédiaire" },
+  "TN1652": { code: "TN1652", gouv: "Zaghouan", delegation: "Zriba", transaction: 1473, vente: 1553, loyerNm: 6.75, loyerMeuble: 7.97, coeff: 1.015, classe: "Intermédiaire" },
+  "TN1653": { code: "TN1653", gouv: "Zaghouan", delegation: "Bir Mchergua", transaction: 1560, vente: 1639, loyerNm: 7.05, loyerMeuble: 8.32, coeff: 1.07, classe: "Intermédiaire" },
+  "TN1654": { code: "TN1654", gouv: "Zaghouan", delegation: "Fahs", transaction: 1448, vente: 1528, loyerNm: 6.66, loyerMeuble: 7.86, coeff: 0.998, classe: "Intermédiaire" },
+  "TN1655": { code: "TN1655", gouv: "Zaghouan", delegation: "Nadhour", transaction: 1476, vente: 1555, loyerNm: 6.76, loyerMeuble: 7.97, coeff: 1.016, classe: "Intermédiaire" },
+  "TN1656": { code: "TN1656", gouv: "Zaghouan", delegation: "Saouaf", transaction: 1274, vente: 1356, loyerNm: 6.06, loyerMeuble: 7.15, coeff: 0.886, classe: "Périphérique / rural" },
+  "TN1751": { code: "TN1751", gouv: "Bizerte", delegation: "Bizerte Nord", transaction: 3014, vente: 3118, loyerNm: 11.91, loyerMeuble: 14.06, coeff: 1.313, classe: "Pôle urbain" },
+  "TN1752": { code: "TN1752", gouv: "Bizerte", delegation: "Jarzouna", transaction: 1951, vente: 2081, loyerNm: 8.62, loyerMeuble: 10.17, coeff: 0.877, classe: "Périphérique / rural" },
+  "TN1753": { code: "TN1753", gouv: "Bizerte", delegation: "Bizerte Sud", transaction: 2357, vente: 2479, loyerNm: 9.92, loyerMeuble: 11.71, coeff: 1.044, classe: "Intermédiaire" },
+  "TN1754": { code: "TN1754", gouv: "Bizerte", delegation: "Sejnane", transaction: 1682, vente: 1810, loyerNm: 7.71, loyerMeuble: 9.1, coeff: 0.763, classe: "Périphérique / rural" },
+  "TN1755": { code: "TN1755", gouv: "Bizerte", delegation: "Joumine", transaction: 2111, vente: 2238, loyerNm: 9.14, loyerMeuble: 10.79, coeff: 0.943, classe: "Intermédiaire" },
+  "TN1756": { code: "TN1756", gouv: "Bizerte", delegation: "Mateur", transaction: 1940, vente: 2069, loyerNm: 8.59, loyerMeuble: 10.13, coeff: 0.872, classe: "Périphérique / rural" },
+  "TN1757": { code: "TN1757", gouv: "Bizerte", delegation: "Ghazala", transaction: 2197, vente: 2318, loyerNm: 9.4, loyerMeuble: 11.09, coeff: 0.977, classe: "Intermédiaire" },
+  "TN1758": { code: "TN1758", gouv: "Bizerte", delegation: "Menzel Bourguiba", transaction: 2444, vente: 2564, loyerNm: 10.19, loyerMeuble: 12.03, coeff: 1.08, classe: "Pôle urbain" },
+  "TN1759": { code: "TN1759", gouv: "Bizerte", delegation: "Tinja", transaction: 2243, vente: 2367, loyerNm: 9.56, loyerMeuble: 11.28, coeff: 0.997, classe: "Intermédiaire" },
+  "TN1760": { code: "TN1760", gouv: "Bizerte", delegation: "Utique", transaction: 1939, vente: 2065, loyerNm: 8.57, loyerMeuble: 10.11, coeff: 0.87, classe: "Périphérique / rural" },
+  "TN1761": { code: "TN1761", gouv: "Bizerte", delegation: "Ghar El Melh", transaction: 2854, vente: 2967, loyerNm: 11.45, loyerMeuble: 13.51, coeff: 1.25, classe: "Touristique / littoral" },
+  "TN1762": { code: "TN1762", gouv: "Bizerte", delegation: "Menzel Jemil", transaction: 1986, vente: 2115, loyerNm: 8.74, loyerMeuble: 10.31, coeff: 0.891, classe: "Périphérique / rural" },
+  "TN1763": { code: "TN1763", gouv: "Bizerte", delegation: "El Alia", transaction: 2287, vente: 2410, loyerNm: 9.7, loyerMeuble: 11.44, coeff: 1.015, classe: "Intermédiaire" },
+  "TN1764": { code: "TN1764", gouv: "Bizerte", delegation: "Ras Jebel", transaction: 2294, vente: 2416, loyerNm: 9.72, loyerMeuble: 11.47, coeff: 1.018, classe: "Intermédiaire" },
+  "TN2151": { code: "TN2151", gouv: "Béja", delegation: "Béja Nord", transaction: 1759, vente: 1827, loyerNm: 7.64, loyerMeuble: 9.02, coeff: 1.221, classe: "Pôle urbain" },
+  "TN2152": { code: "TN2152", gouv: "Béja", delegation: "Béja Sud", transaction: 1483, vente: 1560, loyerNm: 6.74, loyerMeuble: 7.95, coeff: 1.043, classe: "Intermédiaire" },
+  "TN2153": { code: "TN2153", gouv: "Béja", delegation: "Amdoun", transaction: 1385, vente: 1466, loyerNm: 6.41, loyerMeuble: 7.56, coeff: 0.98, classe: "Intermédiaire" },
+  "TN2154": { code: "TN2154", gouv: "Béja", delegation: "Nefza", transaction: 1272, vente: 1353, loyerNm: 6.01, loyerMeuble: 7.09, coeff: 0.904, classe: "Périphérique / rural" },
+  "TN2155": { code: "TN2155", gouv: "Béja", delegation: "Téboursouk", transaction: 1552, vente: 1627, loyerNm: 6.97, loyerMeuble: 8.22, coeff: 1.088, classe: "Pôle urbain" },
+  "TN2156": { code: "TN2156", gouv: "Béja", delegation: "Thibar", transaction: 1260, vente: 1340, loyerNm: 5.96, loyerMeuble: 7.04, coeff: 0.896, classe: "Périphérique / rural" },
+  "TN2157": { code: "TN2157", gouv: "Béja", delegation: "Testour", transaction: 1425, vente: 1503, loyerNm: 6.54, loyerMeuble: 7.72, coeff: 1.005, classe: "Intermédiaire" },
+  "TN2158": { code: "TN2158", gouv: "Béja", delegation: "Goubellat", transaction: 1333, vente: 1413, loyerNm: 6.22, loyerMeuble: 7.34, coeff: 0.944, classe: "Intermédiaire" },
+  "TN2159": { code: "TN2159", gouv: "Béja", delegation: "Mejez El Bab", transaction: 1267, vente: 1347, loyerNm: 5.99, loyerMeuble: 7.06, coeff: 0.9, classe: "Périphérique / rural" },
+  "TN2251": { code: "TN2251", gouv: "Jendouba", delegation: "Jendouba Sud", transaction: 1682, vente: 1781, loyerNm: 7.02, loyerMeuble: 8.28, coeff: 0.966, classe: "Intermédiaire" },
+  "TN2252": { code: "TN2252", gouv: "Jendouba", delegation: "Jendouba Nord", transaction: 1907, vente: 2000, loyerNm: 7.7, loyerMeuble: 9.09, coeff: 1.085, classe: "Pôle urbain" },
+  "TN2253": { code: "TN2253", gouv: "Jendouba", delegation: "Bousalem", transaction: 1577, vente: 1675, loyerNm: 6.68, loyerMeuble: 7.89, coeff: 0.909, classe: "Périphérique / rural" },
+  "TN2254": { code: "TN2254", gouv: "Jendouba", delegation: "Tabarka", transaction: 2501, vente: 2582, loyerNm: 9.45, loyerMeuble: 11.15, coeff: 1.401, classe: "Touristique / littoral" },
+  "TN2255": { code: "TN2255", gouv: "Jendouba", delegation: "Aïn Draham", transaction: 2004, vente: 2094, loyerNm: 7.99, loyerMeuble: 9.42, coeff: 1.136, classe: "Touristique / littoral" },
+  "TN2256": { code: "TN2256", gouv: "Jendouba", delegation: "Fernana", transaction: 1374, vente: 1473, loyerNm: 6.03, loyerMeuble: 7.11, coeff: 0.799, classe: "Périphérique / rural" },
+  "TN2257": { code: "TN2257", gouv: "Jendouba", delegation: "Ghardimaou", transaction: 1581, vente: 1679, loyerNm: 6.7, loyerMeuble: 7.9, coeff: 0.911, classe: "Périphérique / rural" },
+  "TN2258": { code: "TN2258", gouv: "Jendouba", delegation: "Oued Mliz", transaction: 1562, vente: 1661, loyerNm: 6.64, loyerMeuble: 7.83, coeff: 0.901, classe: "Périphérique / rural" },
+  "TN2259": { code: "TN2259", gouv: "Jendouba", delegation: "Balta Bou Aouane", transaction: 1356, vente: 1456, loyerNm: 5.97, loyerMeuble: 7.05, coeff: 0.79, classe: "Périphérique / rural" },
+  "TN2351": { code: "TN2351", gouv: "Le Kef", delegation: "Kef Ouest", transaction: 1197, vente: 1266, loyerNm: 5.76, loyerMeuble: 6.8, coeff: 0.988, classe: "Intermédiaire" },
+  "TN2352": { code: "TN2352", gouv: "Le Kef", delegation: "Kef Est", transaction: 1339, vente: 1403, loyerNm: 6.25, loyerMeuble: 7.38, coeff: 1.095, classe: "Pôle urbain" },
+  "TN2353": { code: "TN2353", gouv: "Le Kef", delegation: "Nebeur", transaction: 1250, vente: 1315, loyerNm: 5.94, loyerMeuble: 7.01, coeff: 1.027, classe: "Intermédiaire" },
+  "TN2354": { code: "TN2354", gouv: "Le Kef", delegation: "Sakiet Sidi Youssef", transaction: 1085, vente: 1154, loyerNm: 5.35, loyerMeuble: 6.31, coeff: 0.901, classe: "Périphérique / rural" },
+  "TN2355": { code: "TN2355", gouv: "Le Kef", delegation: "Tajerouine", transaction: 1230, vente: 1296, loyerNm: 5.87, loyerMeuble: 6.93, coeff: 1.012, classe: "Intermédiaire" },
+  "TN2356": { code: "TN2356", gouv: "Le Kef", delegation: "Kalaat Senan", transaction: 1283, vente: 1351, loyerNm: 6.07, loyerMeuble: 7.16, coeff: 1.055, classe: "Intermédiaire" },
+  "TN2357": { code: "TN2357", gouv: "Le Kef", delegation: "Kalaa Khesba", transaction: 1266, vente: 1333, loyerNm: 6.0, loyerMeuble: 7.09, coeff: 1.041, classe: "Intermédiaire" },
+  "TN2358": { code: "TN2358", gouv: "Le Kef", delegation: "Jerissa", transaction: 1234, vente: 1302, loyerNm: 5.89, loyerMeuble: 6.95, coeff: 1.016, classe: "Intermédiaire" },
+  "TN2359": { code: "TN2359", gouv: "Le Kef", delegation: "Ksour", transaction: 1104, vente: 1172, loyerNm: 5.42, loyerMeuble: 6.39, coeff: 0.915, classe: "Périphérique / rural" },
+  "TN2360": { code: "TN2360", gouv: "Le Kef", delegation: "Dahmani", transaction: 1295, vente: 1361, loyerNm: 6.1, loyerMeuble: 7.2, coeff: 1.062, classe: "Intermédiaire" },
+  "TN2361": { code: "TN2361", gouv: "Le Kef", delegation: "Es Sers", transaction: 1047, vente: 1116, loyerNm: 5.21, loyerMeuble: 6.15, coeff: 0.872, classe: "Périphérique / rural" },
+  "TN2451": { code: "TN2451", gouv: "Siliana", delegation: "Siliana Nord", transaction: 1249, vente: 1310, loyerNm: 5.86, loyerMeuble: 6.92, coeff: 1.097, classe: "Pôle urbain" },
+  "TN2452": { code: "TN2452", gouv: "Siliana", delegation: "Siliana Sud", transaction: 1388, vente: 1443, loyerNm: 6.33, loyerMeuble: 7.47, coeff: 1.207, classe: "Pôle urbain" },
+  "TN2453": { code: "TN2453", gouv: "Siliana", delegation: "Bouarada", transaction: 1238, vente: 1298, loyerNm: 5.82, loyerMeuble: 6.86, coeff: 1.086, classe: "Pôle urbain" },
+  "TN2454": { code: "TN2454", gouv: "Siliana", delegation: "Gaafour", transaction: 1018, vente: 1082, loyerNm: 5.03, loyerMeuble: 5.93, coeff: 0.905, classe: "Périphérique / rural" },
+  "TN2455": { code: "TN2455", gouv: "Siliana", delegation: "El Krib", transaction: 1064, vente: 1128, loyerNm: 5.2, loyerMeuble: 6.14, coeff: 0.944, classe: "Intermédiaire" },
+  "TN2456": { code: "TN2456", gouv: "Siliana", delegation: "Bourouis", transaction: 1041, vente: 1105, loyerNm: 5.12, loyerMeuble: 6.04, coeff: 0.925, classe: "Intermédiaire" },
+  "TN2457": { code: "TN2457", gouv: "Siliana", delegation: "Makthar", transaction: 984, vente: 1049, loyerNm: 4.9, loyerMeuble: 5.79, coeff: 0.878, classe: "Périphérique / rural" },
+  "TN2458": { code: "TN2458", gouv: "Siliana", delegation: "Rouhia", transaction: 1148, vente: 1209, loyerNm: 5.49, loyerMeuble: 6.48, coeff: 1.011, classe: "Intermédiaire" },
+  "TN2459": { code: "TN2459", gouv: "Siliana", delegation: "Kesra", transaction: 1012, vente: 1075, loyerNm: 5.0, loyerMeuble: 5.9, coeff: 0.9, classe: "Périphérique / rural" },
+  "TN2460": { code: "TN2460", gouv: "Siliana", delegation: "Bargou", transaction: 1116, vente: 1178, loyerNm: 5.38, loyerMeuble: 6.35, coeff: 0.986, classe: "Intermédiaire" },
+  "TN2461": { code: "TN2461", gouv: "Siliana", delegation: "Laroussa", transaction: 1173, vente: 1236, loyerNm: 5.59, loyerMeuble: 6.6, coeff: 1.034, classe: "Intermédiaire" },
+  "TN3151": { code: "TN3151", gouv: "Sousse", delegation: "Sousse Médina", transaction: 4058, vente: 4229, loyerNm: 14.99, loyerMeuble: 17.69, coeff: 1.179, classe: "Pôle urbain" },
+  "TN3152": { code: "TN3152", gouv: "Sousse", delegation: "Sousse Riadh", transaction: 3390, vente: 3572, loyerNm: 13.1, loyerMeuble: 15.46, coeff: 0.995, classe: "Intermédiaire" },
+  "TN3153": { code: "TN3153", gouv: "Sousse", delegation: "Sousse Jaouhara", transaction: 3205, vente: 3390, loyerNm: 12.56, loyerMeuble: 14.83, coeff: 0.945, classe: "Intermédiaire" },
+  "TN3154": { code: "TN3154", gouv: "Sousse", delegation: "Sousse Sidi Abdelhamid", transaction: 3350, vente: 3535, loyerNm: 12.99, loyerMeuble: 15.33, coeff: 0.985, classe: "Intermédiaire" },
+  "TN3155": { code: "TN3155", gouv: "Sousse", delegation: "Hammam Sousse", transaction: 4727, vente: 4886, loyerNm: 16.83, loyerMeuble: 19.86, coeff: 1.362, classe: "Touristique / littoral" },
+  "TN3156": { code: "TN3156", gouv: "Sousse", delegation: "Akouda", transaction: 3448, vente: 3638, loyerNm: 13.29, loyerMeuble: 15.69, coeff: 1.014, classe: "Intermédiaire" },
+  "TN3157": { code: "TN3157", gouv: "Sousse", delegation: "Kalaa Kebira", transaction: 2806, vente: 2995, loyerNm: 11.38, loyerMeuble: 13.42, coeff: 0.835, classe: "Périphérique / rural" },
+  "TN3158": { code: "TN3158", gouv: "Sousse", delegation: "Sidi Bou Ali", transaction: 3372, vente: 3564, loyerNm: 13.08, loyerMeuble: 15.43, coeff: 0.993, classe: "Intermédiaire" },
+  "TN3159": { code: "TN3159", gouv: "Sousse", delegation: "Hergla", transaction: 4391, vente: 4558, loyerNm: 15.92, loyerMeuble: 18.78, coeff: 1.27, classe: "Touristique / littoral" },
+  "TN3160": { code: "TN3160", gouv: "Sousse", delegation: "Enfidha", transaction: 3165, vente: 3359, loyerNm: 12.47, loyerMeuble: 14.72, coeff: 0.936, classe: "Intermédiaire" },
+  "TN3161": { code: "TN3161", gouv: "Sousse", delegation: "Bouficha", transaction: 3237, vente: 3431, loyerNm: 12.69, loyerMeuble: 14.97, coeff: 0.956, classe: "Intermédiaire" },
+  "TN3162": { code: "TN3162", gouv: "Sousse", delegation: "Kondar", transaction: 2914, vente: 3109, loyerNm: 11.72, loyerMeuble: 13.83, coeff: 0.866, classe: "Périphérique / rural" },
+  "TN3163": { code: "TN3163", gouv: "Sousse", delegation: "Sidi El Heni", transaction: 2882, vente: 3076, loyerNm: 11.63, loyerMeuble: 13.72, coeff: 0.857, classe: "Périphérique / rural" },
+  "TN3164": { code: "TN3164", gouv: "Sousse", delegation: "M'Saken", transaction: 2881, vente: 3068, loyerNm: 11.6, loyerMeuble: 13.69, coeff: 0.855, classe: "Périphérique / rural" },
+  "TN3165": { code: "TN3165", gouv: "Sousse", delegation: "Kalaa Sghira", transaction: 3070, vente: 3269, loyerNm: 12.2, loyerMeuble: 14.4, coeff: 0.911, classe: "Périphérique / rural" },
+  "TN3166": { code: "TN3166", gouv: "Sousse", delegation: "Zaouia Ksiba Thraya", transaction: 3098, vente: 3288, loyerNm: 12.26, loyerMeuble: 14.47, coeff: 0.916, classe: "Périphérique / rural" },
+  "TN3251": { code: "TN3251", gouv: "Monastir", delegation: "Monastir", transaction: 3880, vente: 4005, loyerNm: 15.56, loyerMeuble: 18.36, coeff: 1.404, classe: "Touristique / littoral" },
+  "TN3252": { code: "TN3252", gouv: "Monastir", delegation: "Ouerdanine", transaction: 2734, vente: 2881, loyerNm: 11.96, loyerMeuble: 14.11, coeff: 1.01, classe: "Intermédiaire" },
+  "TN3253": { code: "TN3253", gouv: "Monastir", delegation: "Sahline", transaction: 2761, vente: 2909, loyerNm: 12.05, loyerMeuble: 14.22, coeff: 1.02, classe: "Intermédiaire" },
+  "TN3254": { code: "TN3254", gouv: "Monastir", delegation: "Zeramdine", transaction: 2993, vente: 3131, loyerNm: 12.78, loyerMeuble: 15.08, coeff: 1.098, classe: "Pôle urbain" },
+  "TN3255": { code: "TN3255", gouv: "Monastir", delegation: "Beni Hassen", transaction: 2444, vente: 2594, loyerNm: 10.99, loyerMeuble: 12.97, coeff: 0.91, classe: "Périphérique / rural" },
+  "TN3256": { code: "TN3256", gouv: "Monastir", delegation: "Jammel", transaction: 2482, vente: 2634, loyerNm: 11.13, loyerMeuble: 13.13, coeff: 0.924, classe: "Intermédiaire" },
+  "TN3257": { code: "TN3257", gouv: "Monastir", delegation: "Bembla", transaction: 2388, vente: 2539, loyerNm: 10.81, loyerMeuble: 12.75, coeff: 0.89, classe: "Périphérique / rural" },
+  "TN3258": { code: "TN3258", gouv: "Monastir", delegation: "Moknine", transaction: 2681, vente: 2836, loyerNm: 11.81, loyerMeuble: 13.93, coeff: 0.994, classe: "Intermédiaire" },
+  "TN3259": { code: "TN3259", gouv: "Monastir", delegation: "Bekalta", transaction: 2712, vente: 2858, loyerNm: 11.88, loyerMeuble: 14.02, coeff: 1.002, classe: "Intermédiaire" },
+  "TN3260": { code: "TN3260", gouv: "Monastir", delegation: "Teboulba", transaction: 2417, vente: 2565, loyerNm: 10.9, loyerMeuble: 12.86, coeff: 0.9, classe: "Périphérique / rural" },
+  "TN3261": { code: "TN3261", gouv: "Monastir", delegation: "Ksar Hellal", transaction: 2473, vente: 2625, loyerNm: 11.1, loyerMeuble: 13.1, coeff: 0.921, classe: "Intermédiaire" },
+  "TN3262": { code: "TN3262", gouv: "Monastir", delegation: "Ksibet El Mediouni", transaction: 2596, vente: 2746, loyerNm: 11.51, loyerMeuble: 13.58, coeff: 0.963, classe: "Intermédiaire" },
+  "TN3263": { code: "TN3263", gouv: "Monastir", delegation: "Sayada-Lamta-Bou Hjar", transaction: 2407, vente: 2559, loyerNm: 10.87, loyerMeuble: 12.83, coeff: 0.897, classe: "Périphérique / rural" },
+  "TN3351": { code: "TN3351", gouv: "Mahdia", delegation: "Mahdia", transaction: 3309, vente: 3418, loyerNm: 13.07, loyerMeuble: 15.42, coeff: 1.378, classe: "Touristique / littoral" },
+  "TN3352": { code: "TN3352", gouv: "Mahdia", delegation: "Boumerdès", transaction: 2306, vente: 2435, loyerNm: 9.96, loyerMeuble: 11.76, coeff: 0.982, classe: "Intermédiaire" },
+  "TN3353": { code: "TN3353", gouv: "Mahdia", delegation: "Ouled Chamekh", transaction: 2274, vente: 2403, loyerNm: 9.86, loyerMeuble: 11.64, coeff: 0.969, classe: "Intermédiaire" },
+  "TN3354": { code: "TN3354", gouv: "Mahdia", delegation: "Chorbane", transaction: 2220, vente: 2352, loyerNm: 9.69, loyerMeuble: 11.44, coeff: 0.948, classe: "Intermédiaire" },
+  "TN3355": { code: "TN3355", gouv: "Mahdia", delegation: "Hbira", transaction: 2032, vente: 2165, loyerNm: 9.07, loyerMeuble: 10.7, coeff: 0.873, classe: "Périphérique / rural" },
+  "TN3356": { code: "TN3356", gouv: "Mahdia", delegation: "Souassi", transaction: 2423, vente: 2555, loyerNm: 10.36, loyerMeuble: 12.22, coeff: 1.03, classe: "Intermédiaire" },
+  "TN3357": { code: "TN3357", gouv: "Mahdia", delegation: "El Jem", transaction: 2093, vente: 2228, loyerNm: 9.28, loyerMeuble: 10.95, coeff: 0.898, classe: "Périphérique / rural" },
+  "TN3358": { code: "TN3358", gouv: "Mahdia", delegation: "Chebba", transaction: 2773, vente: 2890, loyerNm: 11.43, loyerMeuble: 13.49, coeff: 1.166, classe: "Touristique / littoral" },
+  "TN3359": { code: "TN3359", gouv: "Mahdia", delegation: "Melloulech", transaction: 2011, vente: 2144, loyerNm: 9.0, loyerMeuble: 10.62, coeff: 0.865, classe: "Périphérique / rural" },
+  "TN3360": { code: "TN3360", gouv: "Mahdia", delegation: "Sidi Alouane", transaction: 2087, vente: 2219, loyerNm: 9.25, loyerMeuble: 10.92, coeff: 0.895, classe: "Périphérique / rural" },
+  "TN3361": { code: "TN3361", gouv: "Mahdia", delegation: "Ksour Essef", transaction: 2305, vente: 2433, loyerNm: 9.96, loyerMeuble: 11.75, coeff: 0.981, classe: "Intermédiaire" },
+  "TN3451": { code: "TN3451", gouv: "Sfax", delegation: "Sfax Médina", transaction: 3354, vente: 3491, loyerNm: 13.02, loyerMeuble: 15.36, coeff: 1.186, classe: "Pôle urbain" },
+  "TN3452": { code: "TN3452", gouv: "Sfax", delegation: "Sfax Ouest", transaction: 3154, vente: 3304, loyerNm: 12.46, loyerMeuble: 14.7, coeff: 1.122, classe: "Pôle urbain" },
+  "TN3453": { code: "TN3453", gouv: "Sfax", delegation: "Sakiet Ezzit", transaction: 3414, vente: 3550, loyerNm: 13.2, loyerMeuble: 15.57, coeff: 1.206, classe: "Pôle urbain" },
+  "TN3454": { code: "TN3454", gouv: "Sfax", delegation: "Sakiet Eddaier", transaction: 2746, vente: 2900, loyerNm: 11.23, loyerMeuble: 13.25, coeff: 0.985, classe: "Intermédiaire" },
+  "TN3455": { code: "TN3455", gouv: "Sfax", delegation: "Sfax Sud", transaction: 3102, vente: 3255, loyerNm: 12.31, loyerMeuble: 14.53, coeff: 1.106, classe: "Pôle urbain" },
+  "TN3456": { code: "TN3456", gouv: "Sfax", delegation: "Thyna", transaction: 2745, vente: 2900, loyerNm: 11.22, loyerMeuble: 13.24, coeff: 0.985, classe: "Intermédiaire" },
+  "TN3457": { code: "TN3457", gouv: "Sfax", delegation: "Agareb", transaction: 2321, vente: 2479, loyerNm: 9.9, loyerMeuble: 11.68, coeff: 0.842, classe: "Périphérique / rural" },
+  "TN3458": { code: "TN3458", gouv: "Sfax", delegation: "Jebeniana", transaction: 2649, vente: 2802, loyerNm: 10.92, loyerMeuble: 12.89, coeff: 0.952, classe: "Intermédiaire" },
+  "TN3459": { code: "TN3459", gouv: "Sfax", delegation: "El Amra", transaction: 2549, vente: 2706, loyerNm: 10.62, loyerMeuble: 12.53, coeff: 0.919, classe: "Périphérique / rural" },
+  "TN3460": { code: "TN3460", gouv: "Sfax", delegation: "Hencha", transaction: 2541, vente: 2701, loyerNm: 10.6, loyerMeuble: 12.51, coeff: 0.918, classe: "Périphérique / rural" },
+  "TN3461": { code: "TN3461", gouv: "Sfax", delegation: "Menzel Chaker", transaction: 2793, vente: 2946, loyerNm: 11.37, loyerMeuble: 13.41, coeff: 1.001, classe: "Intermédiaire" },
+  "TN3462": { code: "TN3462", gouv: "Sfax", delegation: "El Ghraiba", transaction: 2542, vente: 2700, loyerNm: 10.6, loyerMeuble: 12.51, coeff: 0.917, classe: "Périphérique / rural" },
+  "TN3463": { code: "TN3463", gouv: "Sfax", delegation: "Bir Ali Ben Khélifa", transaction: 2451, vente: 2606, loyerNm: 10.31, loyerMeuble: 12.16, coeff: 0.885, classe: "Périphérique / rural" },
+  "TN3464": { code: "TN3464", gouv: "Sfax", delegation: "Skhira", transaction: 2319, vente: 2478, loyerNm: 9.9, loyerMeuble: 11.68, coeff: 0.842, classe: "Périphérique / rural" },
+  "TN3465": { code: "TN3465", gouv: "Sfax", delegation: "Mahres", transaction: 2402, vente: 2560, loyerNm: 10.16, loyerMeuble: 11.99, coeff: 0.87, classe: "Périphérique / rural" },
+  "TN3466": { code: "TN3466", gouv: "Sfax", delegation: "Kerkennah", transaction: 3472, vente: 3609, loyerNm: 13.37, loyerMeuble: 15.78, coeff: 1.226, classe: "Touristique / littoral" },
+  "TN4151": { code: "TN4151", gouv: "Kairouan", delegation: "Kairouan Nord", transaction: 1729, vente: 1796, loyerNm: 7.65, loyerMeuble: 9.03, coeff: 1.237, classe: "Pôle urbain" },
+  "TN4152": { code: "TN4152", gouv: "Kairouan", delegation: "Kairouan Sud", transaction: 1402, vente: 1477, loyerNm: 6.54, loyerMeuble: 7.72, coeff: 1.017, classe: "Intermédiaire" },
+  "TN4153": { code: "TN4153", gouv: "Kairouan", delegation: "Chebika", transaction: 1411, vente: 1487, loyerNm: 6.58, loyerMeuble: 7.76, coeff: 1.024, classe: "Intermédiaire" },
+  "TN4154": { code: "TN4154", gouv: "Kairouan", delegation: "Sbikha", transaction: 1461, vente: 1536, loyerNm: 6.75, loyerMeuble: 7.96, coeff: 1.057, classe: "Intermédiaire" },
+  "TN4155": { code: "TN4155", gouv: "Kairouan", delegation: "Oueslatia", transaction: 1405, vente: 1481, loyerNm: 6.56, loyerMeuble: 7.74, coeff: 1.02, classe: "Intermédiaire" },
+  "TN4156": { code: "TN4156", gouv: "Kairouan", delegation: "Haffouz", transaction: 1299, vente: 1378, loyerNm: 6.19, loyerMeuble: 7.3, coeff: 0.949, classe: "Intermédiaire" },
+  "TN4157": { code: "TN4157", gouv: "Kairouan", delegation: "Alaa", transaction: 1264, vente: 1343, loyerNm: 6.06, loyerMeuble: 7.15, coeff: 0.924, classe: "Intermédiaire" },
+  "TN4158": { code: "TN4158", gouv: "Kairouan", delegation: "Hajeb El Ayoun", transaction: 1456, vente: 1530, loyerNm: 6.73, loyerMeuble: 7.94, coeff: 1.053, classe: "Intermédiaire" },
+  "TN4159": { code: "TN4159", gouv: "Kairouan", delegation: "Nasrallah", transaction: 1178, vente: 1258, loyerNm: 5.75, loyerMeuble: 6.79, coeff: 0.866, classe: "Périphérique / rural" },
+  "TN4160": { code: "TN4160", gouv: "Kairouan", delegation: "Chrarda", transaction: 1277, vente: 1353, loyerNm: 6.1, loyerMeuble: 7.2, coeff: 0.932, classe: "Intermédiaire" },
+  "TN4161": { code: "TN4161", gouv: "Kairouan", delegation: "Bouhajla", transaction: 1211, vente: 1289, loyerNm: 5.86, loyerMeuble: 6.92, coeff: 0.887, classe: "Périphérique / rural" },
+  "TN4251": { code: "TN4251", gouv: "Kasserine", delegation: "Kasserine Nord", transaction: 1276, vente: 1325, loyerNm: 6.09, loyerMeuble: 7.19, coeff: 1.251, classe: "Pôle urbain" },
+  "TN4252": { code: "TN4252", gouv: "Kasserine", delegation: "Kasserine Sud", transaction: 1114, vente: 1169, loyerNm: 5.52, loyerMeuble: 6.51, coeff: 1.104, classe: "Pôle urbain" },
+  "TN4253": { code: "TN4253", gouv: "Kasserine", delegation: "Ezzouhour", transaction: 921, vente: 978, loyerNm: 4.78, loyerMeuble: 5.64, coeff: 0.924, classe: "Intermédiaire" },
+  "TN4254": { code: "TN4254", gouv: "Kasserine", delegation: "Hassi El Ferid", transaction: 839, vente: 895, loyerNm: 4.45, loyerMeuble: 5.26, coeff: 0.845, classe: "Périphérique / rural" },
+  "TN4255": { code: "TN4255", gouv: "Kasserine", delegation: "Sbeitla", transaction: 1021, vente: 1077, loyerNm: 5.16, loyerMeuble: 6.09, coeff: 1.017, classe: "Intermédiaire" },
+  "TN4256": { code: "TN4256", gouv: "Kasserine", delegation: "Sbiba", transaction: 899, vente: 955, loyerNm: 4.69, loyerMeuble: 5.54, coeff: 0.902, classe: "Périphérique / rural" },
+  "TN4257": { code: "TN4257", gouv: "Kasserine", delegation: "Jedeliane", transaction: 1058, vente: 1114, loyerNm: 5.31, loyerMeuble: 6.26, coeff: 1.052, classe: "Intermédiaire" },
+  "TN4258": { code: "TN4258", gouv: "Kasserine", delegation: "Ayoun", transaction: 921, vente: 978, loyerNm: 4.78, loyerMeuble: 5.64, coeff: 0.923, classe: "Intermédiaire" },
+  "TN4259": { code: "TN4259", gouv: "Kasserine", delegation: "Thala", transaction: 1115, vente: 1168, loyerNm: 5.51, loyerMeuble: 6.5, coeff: 1.103, classe: "Pôle urbain" },
+  "TN4260": { code: "TN4260", gouv: "Kasserine", delegation: "Hidra", transaction: 949, vente: 1006, loyerNm: 4.89, loyerMeuble: 5.77, coeff: 0.95, classe: "Intermédiaire" },
+  "TN4261": { code: "TN4261", gouv: "Kasserine", delegation: "Foussana", transaction: 1048, vente: 1103, loyerNm: 5.26, loyerMeuble: 6.21, coeff: 1.041, classe: "Intermédiaire" },
+  "TN4262": { code: "TN4262", gouv: "Kasserine", delegation: "Feriana", transaction: 939, vente: 995, loyerNm: 4.85, loyerMeuble: 5.72, coeff: 0.939, classe: "Intermédiaire" },
+  "TN4263": { code: "TN4263", gouv: "Kasserine", delegation: "Majel Belabbes", transaction: 913, vente: 971, loyerNm: 4.75, loyerMeuble: 5.61, coeff: 0.917, classe: "Périphérique / rural" },
+  "TN4351": { code: "TN4351", gouv: "Sidi Bouzid", delegation: "Sidi Bouzid Ouest", transaction: 1139, vente: 1186, loyerNm: 5.53, loyerMeuble: 6.53, coeff: 1.175, classe: "Pôle urbain" },
+  "TN4352": { code: "TN4352", gouv: "Sidi Bouzid", delegation: "Sidi Bouzid Est", transaction: 1079, vente: 1127, loyerNm: 5.31, loyerMeuble: 6.27, coeff: 1.116, classe: "Pôle urbain" },
+  "TN4353": { code: "TN4353", gouv: "Sidi Bouzid", delegation: "Jelma", transaction: 997, vente: 1049, loyerNm: 5.02, loyerMeuble: 5.92, coeff: 1.04, classe: "Intermédiaire" },
+  "TN4354": { code: "TN4354", gouv: "Sidi Bouzid", delegation: "Sabalat Ouled Asker", transaction: 982, vente: 1035, loyerNm: 4.96, loyerMeuble: 5.86, coeff: 1.025, classe: "Intermédiaire" },
+  "TN4355": { code: "TN4355", gouv: "Sidi Bouzid", delegation: "Bir El Hfay", transaction: 914, vente: 968, loyerNm: 4.7, loyerMeuble: 5.55, coeff: 0.959, classe: "Intermédiaire" },
+  "TN4356": { code: "TN4356", gouv: "Sidi Bouzid", delegation: "Sidi Ali Ben Aoun", transaction: 889, vente: 944, loyerNm: 4.61, loyerMeuble: 5.44, coeff: 0.935, classe: "Intermédiaire" },
+  "TN4357": { code: "TN4357", gouv: "Sidi Bouzid", delegation: "Menzel Bouzaiene", transaction: 1010, vente: 1061, loyerNm: 5.06, loyerMeuble: 5.97, coeff: 1.051, classe: "Intermédiaire" },
+  "TN4358": { code: "TN4358", gouv: "Sidi Bouzid", delegation: "Meknassi", transaction: 816, vente: 870, loyerNm: 4.32, loyerMeuble: 5.1, coeff: 0.862, classe: "Périphérique / rural" },
+  "TN4359": { code: "TN4359", gouv: "Sidi Bouzid", delegation: "Souk Jedid", transaction: 974, vente: 1026, loyerNm: 4.93, loyerMeuble: 5.81, coeff: 1.016, classe: "Intermédiaire" },
+  "TN4360": { code: "TN4360", gouv: "Sidi Bouzid", delegation: "Mazzouna", transaction: 938, vente: 992, loyerNm: 4.8, loyerMeuble: 5.66, coeff: 0.982, classe: "Intermédiaire" },
+  "TN4361": { code: "TN4361", gouv: "Sidi Bouzid", delegation: "Regueb", transaction: 811, vente: 865, loyerNm: 4.3, loyerMeuble: 5.07, coeff: 0.857, classe: "Périphérique / rural" },
+  "TN4362": { code: "TN4362", gouv: "Sidi Bouzid", delegation: "Ouled Haffouz", transaction: 894, vente: 948, loyerNm: 4.63, loyerMeuble: 5.46, coeff: 0.939, classe: "Intermédiaire" },
+  "TN5151": { code: "TN5151", gouv: "Gabès", delegation: "Gabès Médina", transaction: 1971, vente: 2049, loyerNm: 8.73, loyerMeuble: 10.3, coeff: 1.202, classe: "Pôle urbain" },
+  "TN5152": { code: "TN5152", gouv: "Gabès", delegation: "Gabès Ouest", transaction: 1803, vente: 1886, loyerNm: 8.17, loyerMeuble: 9.64, coeff: 1.107, classe: "Pôle urbain" },
+  "TN5153": { code: "TN5153", gouv: "Gabès", delegation: "Gabès Sud", transaction: 1931, vente: 2010, loyerNm: 8.6, loyerMeuble: 10.14, coeff: 1.18, classe: "Pôle urbain" },
+  "TN5154": { code: "TN5154", gouv: "Gabès", delegation: "Ghannouch", transaction: 1574, vente: 1665, loyerNm: 7.4, loyerMeuble: 8.73, coeff: 0.977, classe: "Intermédiaire" },
+  "TN5155": { code: "TN5155", gouv: "Gabès", delegation: "Metouia", transaction: 1427, vente: 1517, loyerNm: 6.86, loyerMeuble: 8.1, coeff: 0.89, classe: "Périphérique / rural" },
+  "TN5156": { code: "TN5156", gouv: "Gabès", delegation: "Menzel Habib", transaction: 1409, vente: 1500, loyerNm: 6.8, loyerMeuble: 8.03, coeff: 0.88, classe: "Périphérique / rural" },
+  "TN5157": { code: "TN5157", gouv: "Gabès", delegation: "Hamma", transaction: 1620, vente: 1710, loyerNm: 7.55, loyerMeuble: 8.91, coeff: 1.003, classe: "Intermédiaire" },
+  "TN5158": { code: "TN5158", gouv: "Gabès", delegation: "Matmata", transaction: 1389, vente: 1481, loyerNm: 6.73, loyerMeuble: 7.94, coeff: 0.869, classe: "Périphérique / rural" },
+  "TN5159": { code: "TN5159", gouv: "Gabès", delegation: "Matmata Nouvelle", transaction: 1479, vente: 1570, loyerNm: 7.06, loyerMeuble: 8.33, coeff: 0.921, classe: "Intermédiaire" },
+  "TN5160": { code: "TN5160", gouv: "Gabès", delegation: "Mareth", transaction: 1445, vente: 1536, loyerNm: 6.93, loyerMeuble: 8.18, coeff: 0.901, classe: "Périphérique / rural" },
+  "TN5251": { code: "TN5251", gouv: "Médenine", delegation: "Médenine Nord", transaction: 2440, vente: 2600, loyerNm: 9.92, loyerMeuble: 11.71, coeff: 0.882, classe: "Périphérique / rural" },
+  "TN5252": { code: "TN5252", gouv: "Médenine", delegation: "Médenine Sud", transaction: 2731, vente: 2889, loyerNm: 10.8, loyerMeuble: 12.74, coeff: 0.98, classe: "Intermédiaire" },
+  "TN5253": { code: "TN5253", gouv: "Médenine", delegation: "Beni Khedache", transaction: 2128, vente: 2286, loyerNm: 8.95, loyerMeuble: 10.56, coeff: 0.776, classe: "Périphérique / rural" },
+  "TN5254": { code: "TN5254", gouv: "Médenine", delegation: "Ben Guerdane", transaction: 2222, vente: 2378, loyerNm: 9.24, loyerMeuble: 10.91, coeff: 0.807, classe: "Périphérique / rural" },
+  "TN5255": { code: "TN5255", gouv: "Médenine", delegation: "Zarzis", transaction: 3175, vente: 3317, loyerNm: 12.06, loyerMeuble: 14.23, coeff: 1.126, classe: "Touristique / littoral" },
+  "TN5256": { code: "TN5256", gouv: "Médenine", delegation: "Houmt Souk", transaction: 3476, vente: 3609, loyerNm: 12.9, loyerMeuble: 15.22, coeff: 1.225, classe: "Touristique / littoral" },
+  "TN5257": { code: "TN5257", gouv: "Médenine", delegation: "Djerba Midoun", transaction: 3800, vente: 3927, loyerNm: 13.8, loyerMeuble: 16.29, coeff: 1.333, classe: "Touristique / littoral" },
+  "TN5258": { code: "TN5258", gouv: "Médenine", delegation: "Djerba Ajim", transaction: 2509, vente: 2668, loyerNm: 10.13, loyerMeuble: 11.95, coeff: 0.905, classe: "Touristique / littoral" },
+  "TN5259": { code: "TN5259", gouv: "Médenine", delegation: "Sidi Makhlouf", transaction: 2499, vente: 2654, loyerNm: 10.09, loyerMeuble: 11.91, coeff: 0.901, classe: "Périphérique / rural" },
+  "TN5351": { code: "TN5351", gouv: "Tataouine", delegation: "Tataouine Nord", transaction: 1316, vente: 1370, loyerNm: 6.16, loyerMeuble: 7.27, coeff: 1.193, classe: "Pôle urbain" },
+  "TN5352": { code: "TN5352", gouv: "Tataouine", delegation: "Tataouine Sud", transaction: 1279, vente: 1333, loyerNm: 6.02, loyerMeuble: 7.11, coeff: 1.161, classe: "Pôle urbain" },
+  "TN5353": { code: "TN5353", gouv: "Tataouine", delegation: "Samar", transaction: 1115, vente: 1176, loyerNm: 5.45, loyerMeuble: 6.43, coeff: 1.024, classe: "Intermédiaire" },
+  "TN5354": { code: "TN5354", gouv: "Tataouine", delegation: "Bir Lahmar", transaction: 977, vente: 1037, loyerNm: 4.93, loyerMeuble: 5.81, coeff: 0.903, classe: "Périphérique / rural" },
+  "TN5355": { code: "TN5355", gouv: "Tataouine", delegation: "Ghomrassen", transaction: 1130, vente: 1189, loyerNm: 5.49, loyerMeuble: 6.48, coeff: 1.035, classe: "Intermédiaire" },
+  "TN5356": { code: "TN5356", gouv: "Tataouine", delegation: "Dhiba", transaction: 928, vente: 989, loyerNm: 4.74, loyerMeuble: 5.6, coeff: 0.861, classe: "Périphérique / rural" },
+  "TN5357": { code: "TN5357", gouv: "Tataouine", delegation: "Remada", transaction: 858, vente: 919, loyerNm: 4.47, loyerMeuble: 5.28, coeff: 0.8, classe: "Périphérique / rural" },
+  "TN6151": { code: "TN6151", gouv: "Gafsa", delegation: "Gafsa Nord", transaction: 1632, vente: 1709, loyerNm: 7.69, loyerMeuble: 9.07, coeff: 1.104, classe: "Pôle urbain" },
+  "TN6152": { code: "TN6152", gouv: "Gafsa", delegation: "Sidi Aich", transaction: 1454, vente: 1537, loyerNm: 7.07, loyerMeuble: 8.34, coeff: 0.993, classe: "Intermédiaire" },
+  "TN6153": { code: "TN6153", gouv: "Gafsa", delegation: "Ksar", transaction: 1407, vente: 1489, loyerNm: 6.89, loyerMeuble: 8.13, coeff: 0.962, classe: "Intermédiaire" },
+  "TN6154": { code: "TN6154", gouv: "Gafsa", delegation: "Gafsa Sud", transaction: 1641, vente: 1716, loyerNm: 7.71, loyerMeuble: 9.1, coeff: 1.109, classe: "Pôle urbain" },
+  "TN6155": { code: "TN6155", gouv: "Gafsa", delegation: "Oum Larais", transaction: 1600, vente: 1680, loyerNm: 7.58, loyerMeuble: 8.95, coeff: 1.085, classe: "Pôle urbain" },
+  "TN6156": { code: "TN6156", gouv: "Gafsa", delegation: "Redeyef", transaction: 1316, vente: 1399, loyerNm: 6.55, loyerMeuble: 7.73, coeff: 0.904, classe: "Périphérique / rural" },
+  "TN6157": { code: "TN6157", gouv: "Gafsa", delegation: "Metlaoui", transaction: 1302, vente: 1382, loyerNm: 6.49, loyerMeuble: 7.66, coeff: 0.893, classe: "Périphérique / rural" },
+  "TN6158": { code: "TN6158", gouv: "Gafsa", delegation: "Mdhilla", transaction: 1488, vente: 1570, loyerNm: 7.18, loyerMeuble: 8.48, coeff: 1.014, classe: "Intermédiaire" },
+  "TN6159": { code: "TN6159", gouv: "Gafsa", delegation: "Guetar", transaction: 1430, vente: 1511, loyerNm: 6.97, loyerMeuble: 8.22, coeff: 0.977, classe: "Intermédiaire" },
+  "TN6160": { code: "TN6160", gouv: "Gafsa", delegation: "Belkhir", transaction: 1489, vente: 1571, loyerNm: 7.19, loyerMeuble: 8.48, coeff: 1.015, classe: "Intermédiaire" },
+  "TN6161": { code: "TN6161", gouv: "Gafsa", delegation: "Sened", transaction: 1355, vente: 1439, loyerNm: 6.7, loyerMeuble: 7.91, coeff: 0.93, classe: "Intermédiaire" },
+  "TN6251": { code: "TN6251", gouv: "Tozeur", delegation: "Tozeur", transaction: 2073, vente: 2147, loyerNm: 8.6, loyerMeuble: 10.15, coeff: 1.291, classe: "Touristique / littoral" },
+  "TN6252": { code: "TN6252", gouv: "Tozeur", delegation: "Degueche", transaction: 1350, vente: 1440, loyerNm: 6.25, loyerMeuble: 7.37, coeff: 0.866, classe: "Périphérique / rural" },
+  "TN6253": { code: "TN6253", gouv: "Tozeur", delegation: "Tamaghza", transaction: 1342, vente: 1431, loyerNm: 6.22, loyerMeuble: 7.34, coeff: 0.861, classe: "Périphérique / rural" },
+  "TN6254": { code: "TN6254", gouv: "Tozeur", delegation: "Nefta", transaction: 1830, vente: 1907, loyerNm: 7.82, loyerMeuble: 9.23, coeff: 1.147, classe: "Touristique / littoral" },
+  "TN6255": { code: "TN6255", gouv: "Tozeur", delegation: "Hazoua", transaction: 1233, vente: 1323, loyerNm: 5.84, loyerMeuble: 6.89, coeff: 0.795, classe: "Périphérique / rural" },
+  "TN6351": { code: "TN6351", gouv: "Kébili", delegation: "Kébili Sud", transaction: 1248, vente: 1319, loyerNm: 5.72, loyerMeuble: 6.74, coeff: 0.977, classe: "Intermédiaire" },
+  "TN6352": { code: "TN6352", gouv: "Kébili", delegation: "Kébili Nord", transaction: 1308, vente: 1379, loyerNm: 5.92, loyerMeuble: 6.99, coeff: 1.021, classe: "Intermédiaire" },
+  "TN6353": { code: "TN6353", gouv: "Kébili", delegation: "Souk El Ahed", transaction: 1104, vente: 1178, loyerNm: 5.22, loyerMeuble: 6.16, coeff: 0.872, classe: "Périphérique / rural" },
+  "TN6354": { code: "TN6354", gouv: "Kébili", delegation: "Douz Nord", transaction: 1422, vente: 1489, loyerNm: 6.3, loyerMeuble: 7.43, coeff: 1.103, classe: "Touristique / littoral" },
+  "TN6355": { code: "TN6355", gouv: "Kébili", delegation: "Douz Sud", transaction: 1481, vente: 1547, loyerNm: 6.49, loyerMeuble: 7.66, coeff: 1.146, classe: "Touristique / littoral" },
+  "TN6356": { code: "TN6356", gouv: "Kébili", delegation: "Faouar", transaction: 1090, vente: 1164, loyerNm: 5.17, loyerMeuble: 6.1, coeff: 0.862, classe: "Périphérique / rural" },
+};
+
+// Lookup index by governorate
+const _gouvIndex: Record<string, DelegationData[]> = {};
+for (const d of Object.values(DELEGATIONS)) {
+  if (!_gouvIndex[d.gouv]) _gouvIndex[d.gouv] = [];
+  _gouvIndex[d.gouv].push(d);
+}
+
+export function getDelegations(gouvernorat: string): DelegationData[] {
+  return _gouvIndex[gouvernorat] ?? [];
+}
+
+export function findDelegation(gouvernorat: string, nom: string): DelegationData | undefined {
+  const list = _gouvIndex[gouvernorat] ?? [];
+  const lower = nom.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  for (const d of list) {
+    if (d.delegation.toLowerCase() === nom.toLowerCase()) return d;
+  }
+  for (const d of list) {
+    const dNorm = d.delegation.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    if (dNorm.includes(lower) || lower.includes(dNorm)) return d;
+  }
+  return undefined;
+}
+
+export function getGovAvgTransaction(gouvernorat: string): number {
+  const list = _gouvIndex[gouvernorat] ?? [];
+  if (list.length === 0) return 0;
+  return list.reduce((s, d) => s + d.transaction, 0) / list.length;
+}
+
+export function getGovAvgRentNm(gouvernorat: string): number {
+  const list = _gouvIndex[gouvernorat] ?? [];
+  if (list.length === 0) return 0;
+  return list.reduce((s, d) => s + d.loyerNm, 0) / list.length;
+}
+
+export function getGovAvgRentMeuble(gouvernorat: string): number {
+  const list = _gouvIndex[gouvernorat] ?? [];
+  if (list.length === 0) return 0;
+  return list.reduce((s, d) => s + d.loyerMeuble, 0) / list.length;
+}
+

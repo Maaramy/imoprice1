@@ -1,0 +1,56 @@
+import { useAuth } from "@/hooks/use-auth";
+import { Loader2 } from "lucide-react";
+import logo from "@/assets/logo.svg";
+import { useEffect, type ReactNode } from "react";
+import { Navigate, useLocation } from "react-router";
+import { motion } from "framer-motion";
+import { useMutation, useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+
+export function RequireAuth({ children }: { children: ReactNode }) {
+  const { isLoading, isAuthenticated } = useAuth();
+  const location = useLocation();
+  const mySub = useQuery(api.plans.mySubscription);
+  const ensureDefaultPlan = useMutation(api.plans.ensureDefaultPlan);
+
+  // Every signed-in user automatically gets the free Start plan
+  useEffect(() => {
+    if (isAuthenticated && mySub === null) {
+      ensureDefaultPlan();
+    }
+  }, [isAuthenticated, mySub, ensureDefaultPlan]);
+
+  if (isLoading) {
+    return (
+      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-gray-50 to-white">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4 }}
+          className="flex flex-col items-center gap-5"
+        >
+          <img src={logo} alt="imoprice AI" width={56} height={56} className="size-14 rounded-2xl shadow-lg shadow-blue-200" />
+          <div className="text-center">
+            <p className="text-xs font-bold text-gray-900">
+              <span className="text-blue-600">imo</span>price <span className="text-indigo-600">AI</span>
+            </p>
+            <p className="text-xs text-gray-500 mt-1">Préparation de votre espace...</p>
+          </div>
+          <Loader2 className="size-5 animate-spin text-blue-600 mt-1" aria-hidden="true" />
+        </motion.div>
+      </main>
+    );
+  }
+
+  if (!isAuthenticated) {
+    const returnTo = `${location.pathname}${location.search}`;
+    return (
+      <Navigate
+        to={`/auth?returnTo=${encodeURIComponent(returnTo)}`}
+        replace
+      />
+    );
+  }
+
+  return children;
+}

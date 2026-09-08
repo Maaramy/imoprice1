@@ -98,7 +98,7 @@ export default function NotFound() {
       {/* Footer */}
       <div className="relative z-10 text-center py-8">
         <p className="text-xs text-gray-400 dark:text-gray-500">
-          © {new Date().getFullYear()} imoprice AI — Estimation immobilière IA
+          © {new Date().getFullYear()} baticost AI — Estimation immobilière IA
         </p>
       </div>
     </div>

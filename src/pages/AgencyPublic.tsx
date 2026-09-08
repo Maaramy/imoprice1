@@ -167,7 +167,7 @@ export default function AgencyPublic() {
               <div className="rounded-xl bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/20 dark:to-orange-950/20 border border-amber-100 dark:border-amber-900/30 p-4 flex items-center gap-3">
                 <Sparkles className="size-5 text-amber-500 shrink-0" />
                 <div>
-                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">Agence partenaire imoprice AI</p>
+                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">Agence partenaire baticost AI</p>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
                     Cette agence est abonnée et vérifiée sur notre plateforme.
                   </p>

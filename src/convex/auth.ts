@@ -26,7 +26,7 @@ const passwordReset = Email({
         {
           to: email,
           otp: token,
-          appName: process.env.VLY_APP_NAME || "imoprice AI",
+          appName: process.env.VLY_APP_NAME || "baticost AI",
         },
         {
           headers: {

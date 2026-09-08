@@ -42,7 +42,7 @@ export default function SaleResultScreen() {
   const exportPdf = async () => {
     setExporting(true);
     try {
-      await exportAndShare(buildSaleReportHtml(r, p), `imoprice-estimation-${id.slice(0, 6)}.pdf`);
+      await exportAndShare(buildSaleReportHtml(r, p), `baticost-estimation-${id.slice(0, 6)}.pdf`);
     } finally {
       setExporting(false);
     }
@@ -50,13 +50,13 @@ export default function SaleResultScreen() {
 
   const shareText = async () => {
     await Share.share({
-      title: "Estimation immobilière — imoprice AI",
+      title: "Estimation immobilière — baticost AI",
       message:
         `🏠 ${typeLabel} — ${location}\n` +
         `Valeur estimée : ${formatTND(r.estimatedValue)}\n` +
         `Fourchette : ${formatTND(r.priceMin)} – ${formatTND(r.priceMax)}\n` +
         `Prix au m² : ${formatPerSqm(r.avgPricePerSqm)} · Fiabilité ${r.confidenceIndex} %\n` +
-        `— via l'application imoprice AI`,
+        `— via l'application baticost AI`,
     });
   };
 

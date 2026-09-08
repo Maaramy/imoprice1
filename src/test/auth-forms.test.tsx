@@ -79,7 +79,7 @@ describe("Sign In form", () => {
 
   it("shows brand header", () => {
     renderAuth();
-    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("imoprice AI");
+    expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("baticost AI");
     expect(screen.getByText("Estimation immobilière intelligente")).toBeInTheDocument();
   });
 
@@ -333,7 +333,7 @@ describe("Brand elements", () => {
   it("has home button", () => {
     renderAuth();
     const btn = screen.getAllByRole("button").find(
-      (b) => b.textContent?.includes("imo") && b.textContent?.includes("AI"),
+      (b) => b.textContent?.includes("bati") && b.textContent?.includes("AI"),
     );
     expect(btn).toBeInTheDocument();
   });

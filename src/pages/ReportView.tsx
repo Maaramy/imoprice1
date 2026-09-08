@@ -284,7 +284,7 @@ export default function ReportView() {
         <div className="print-report-header">
           <div className="brand">
             <div className="brand-logo"><Home className="size-3 text-white" /></div>
-            <span className="brand-name">imoprice AI</span>
+            <span className="brand-name">baticost AI</span>
           </div>
           <div className="report-meta">
             <div>Rapport d'estimation immobilière</div>
@@ -295,7 +295,7 @@ export default function ReportView() {
         </div>
 
         {/* Watermark */}
-        <div className="print-watermark">IMOPRICE AI · RAPPORT OFFICIEL</div>
+        <div className="print-watermark">BATICOST AI · RAPPORT OFFICIEL</div>
 
         <div className="space-y-5 print:space-y-6">
 
@@ -308,7 +308,7 @@ export default function ReportView() {
                   <div className="flex size-9 items-center justify-center rounded-xl bg-white/20 print:bg-blue-600">
                     <Home className="size-5 text-white" />
                   </div>
-                  <span className="text-base font-bold print:text-gray-900">imoprice AI</span>
+                  <span className="text-base font-bold print:text-gray-900">baticost AI</span>
                 </div>
                 <Badge className="rounded-full bg-white/20 text-white border-0 text-[10px] print:bg-blue-100 print:text-blue-800">
                   Rapport d'estimation
@@ -678,7 +678,7 @@ export default function ReportView() {
               </span>
             </div>
             <p className="text-[10px] text-gray-400 dark:text-gray-500">
-              Rapport généré automatiquement par imoprice AI · {creationDate}
+              Rapport généré automatiquement par baticost AI · {creationDate}
             </p>
             <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-0.5">
               Ce rapport est fourni à titre indicatif et ne constitue pas une expertise professionnelle.
@@ -702,10 +702,10 @@ export default function ReportView() {
         <div className="print-report-footer">
           <div className="flex items-center justify-center gap-2 mb-1">
             <Home className="size-3 text-blue-600" />
-            <span className="font-bold text-xs text-blue-600">imoprice AI</span>
+            <span className="font-bold text-xs text-blue-600">baticost AI</span>
           </div>
           <div>Rapport d'estimation immobilière · Généré le {creationDate}</div>
-          <div>Ce rapport est fourni à titre indicatif. © imoprice AI</div>
+          <div>Ce rapport est fourni à titre indicatif. © baticost AI</div>
         </div>
       </div>
     </div>

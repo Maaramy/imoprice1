@@ -192,7 +192,7 @@ describe("claimAdminByEmail", () => {
   const originalEnv = process.env.ADMIN_EMAIL;
 
   beforeEach(() => {
-    process.env.ADMIN_EMAIL = "root@imoprice.tn";
+    process.env.ADMIN_EMAIL = "root@baticost.tn";
   });
   afterEach(() => {
     if (originalEnv === undefined) delete process.env.ADMIN_EMAIL;
@@ -234,7 +234,7 @@ describe("claimAdminByEmail", () => {
   it("promeut en admin le compte dont l'e-mail = ADMIN_EMAIL (même si un admin existe)", async () => {
     authMock.getAuthUserId.mockResolvedValue("user-1");
     const { ctx, patch } = makeCtx([
-      { _id: "user-1", table: "users", name: "Root", email: "root@imoprice.tn", role: "user" },
+      { _id: "user-1", table: "users", name: "Root", email: "root@baticost.tn", role: "user" },
       userRecord("admin-1", "admin"),
     ]);
 
@@ -246,7 +246,7 @@ describe("claimAdminByEmail", () => {
   it("est insensible à la casse pour la comparaison des e-mails", async () => {
     authMock.getAuthUserId.mockResolvedValue("user-1");
     const { ctx, patch } = makeCtx([
-      { _id: "user-1", table: "users", name: "Root", email: "Root@Imoprice.TN", role: "user" },
+      { _id: "user-1", table: "users", name: "Root", email: "Root@Baticost.TN", role: "user" },
       userRecord("admin-1", "admin"),
     ]);
 
@@ -277,15 +277,15 @@ describe("resetAdminByEmail", () => {
 
   it("promeut l'utilisateur dont l'e-mail correspond (insensible à la casse)", async () => {
     const { ctx, patch } = makeCtx([
-      { _id: "user-1", table: "users", name: "Jean", email: "Jean@Imoprice.TN", role: "user" },
+      { _id: "user-1", table: "users", name: "Jean", email: "Jean@Baticost.TN", role: "user" },
       userRecord("admin-1", "admin"),
     ]);
 
-    const res = await handler(ctx, { email: "jean@imoprice.tn" });
+    const res = await handler(ctx, { email: "jean@baticost.tn" });
     expect(res).toEqual({
       success: true,
       userId: "user-1",
-      email: "Jean@Imoprice.TN",
+      email: "Jean@Baticost.TN",
       wasAlreadyAdmin: false,
     });
     expect(patch).toHaveBeenCalledWith("user-1", { role: "admin" });

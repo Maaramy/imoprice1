@@ -9,7 +9,7 @@
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const FALLBACK_PREFIX = "imoprice-fallback:";
+const FALLBACK_PREFIX = "baticost-fallback:";
 
 /** Les clés SecureStore Android n'acceptent que [A-Za-z0-9._-]. */
 function sanitizeKey(key: string): string {

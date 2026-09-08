@@ -1349,7 +1349,7 @@ function GitHubTab() {
           <Github className="size-4 text-slate-700 dark:text-slate-300" /> Dépôt GitHub & synchronisation
         </CardTitle>
         <CardDescription className="text-xs text-slate-500 dark:text-slate-400">
-          Créez le dépôt « imoprice-ai » et activez la synchronisation automatique (CI, Convex production, OTA mobile).
+          Créez le dépôt « baticost-ai » et activez la synchronisation automatique (CI, Convex production, OTA mobile).
         </CardDescription>
       </CardHeader>
       <CardContent className="p-4 sm:p-5 space-y-4">
@@ -1385,7 +1385,7 @@ function GitHubTab() {
         <div className="rounded-xl border border-slate-200 dark:border-slate-800 p-4 space-y-3">
           <div className="flex items-center justify-between gap-3 flex-wrap">
             <div>
-              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">imoprice-ai</p>
+              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">baticost-ai</p>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Dépôt privé · contient le code web + mobile</p>
             </div>
             <Badge className="rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-0 text-[10px] px-2.5 py-1 font-semibold">
@@ -1402,7 +1402,7 @@ function GitHubTab() {
             ) : (
               <Github className="mr-1.5 size-4" />
             )}
-            {creating ? "Création en cours…" : "Créer le dépôt imoprice-ai"}
+            {creating ? "Création en cours…" : "Créer le dépôt baticost-ai"}
           </Button>
         </div>
 

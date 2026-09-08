@@ -1,6 +1,6 @@
 # Configuration GitHub — Dépôt & Synchronisation automatique
 
-Ce guide explique comment créer le dépôt GitHub du projet **imoprice AI** et activer la
+Ce guide explique comment créer le dépôt GitHub du projet **baticost AI** et activer la
 synchronisation automatique : à chaque push sur `main`, le code est vérifié (CI),
 les fonctions Convex sont déployées en production, et l'application mobile reçoit
 sa mise à jour OTA.
@@ -17,7 +17,7 @@ sa mise à jour OTA.
 **Option A — depuis le site github.com (recommandé)**
 
 1. Aller sur https://github.com/new
-2. Nom du dépôt : `imoprice-ai`
+2. Nom du dépôt : `baticost-ai`
 3. Visibilité : **Private** (l'application contient de la logique métier et des secrets)
 4. Ne pas cocher « Add a README » / « .gitignore » / « license » (le projet en a déjà)
 5. Cliquer **Create repository**
@@ -25,7 +25,7 @@ sa mise à jour OTA.
 **Option B — depuis votre machine avec la CLI GitHub**
 
 ```bash
-gh repo create imoprice-ai --private --source . --remote origin --push
+gh repo create baticost-ai --private --source . --remote origin --push
 ```
 
 ---
@@ -35,7 +35,7 @@ gh repo create imoprice-ai --private --source . --remote origin --push
 Depuis la racine du projet, sur votre machine :
 
 ```bash
-git remote add origin https://github.com/<VOTRE-COMPTE>/imoprice-ai.git
+git remote add origin https://github.com/<VOTRE-COMPTE>/baticost-ai.git
 git branch -M main
 git push -u origin main
 ```

@@ -172,7 +172,7 @@ export const sendUserMessage = mutation({
     if (agency.email) {
       await ctx.scheduler.runAfter(0, internal.notifications.sendEmail, {
         to: agency.email,
-        subject: `Nouveau message de ${user?.name || "l'utilisateur"} — imoprice AI`,
+        subject: `Nouveau message de ${user?.name || "l'utilisateur"} — baticost AI`,
         text: `Un utilisateur vient de vous répondre au sujet de votre demande : « ${content} ». Connectez-vous à votre espace agence pour répondre.`,
       });
     }

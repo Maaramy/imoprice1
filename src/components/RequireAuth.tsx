@@ -29,10 +29,10 @@ export function RequireAuth({ children }: { children: ReactNode }) {
           transition={{ duration: 0.4 }}
           className="flex flex-col items-center gap-5"
         >
-          <img src={logo} alt="imoprice AI" width={56} height={56} className="size-14 rounded-2xl shadow-lg shadow-blue-200" />
+          <img src={logo} alt="baticost AI" width={56} height={56} className="size-14 rounded-2xl shadow-lg shadow-blue-200" />
           <div className="text-center">
             <p className="text-xs font-bold text-gray-900">
-              <span className="text-blue-600">imo</span>price <span className="text-indigo-600">AI</span>
+              <span className="text-blue-600">bati</span>cost <span className="text-indigo-600">AI</span>
             </p>
             <p className="text-xs text-gray-500 mt-1">Préparation de votre espace...</p>
           </div>

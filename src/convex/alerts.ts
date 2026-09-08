@@ -144,7 +144,7 @@ export const checkPriceAlerts = internalMutation({
         type: "system",
         subject: "Alerte prix atteinte",
         content: wording,
-        senderName: "imoprice AI",
+        senderName: "baticost AI",
         createdAt: now,
       });
 
@@ -153,7 +153,7 @@ export const checkPriceAlerts = internalMutation({
       if (user?.email) {
         await ctx.scheduler.runAfter(0, internal.notifications.sendEmail, {
           to: user.email,
-          subject: "🔔 Alerte prix du marché — imoprice AI",
+          subject: "🔔 Alerte prix du marché — baticost AI",
           text: wording,
         });
       }

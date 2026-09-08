@@ -317,7 +317,7 @@ export default function EstimationResult() {
         yearBuilt: String(p.yearBuilt || ""),
         generalState: p.generalState || "bon_etat",
       };
-      localStorage.setItem("imoprice_draft", JSON.stringify(draft));
+      localStorage.setItem("baticost_draft", JSON.stringify(draft));
       nav("/estimate/new");
     }
   };
@@ -583,7 +583,7 @@ export default function EstimationResult() {
       <div className="print-report-header">
         <div className="brand">
           <div className="brand-logo"><Home className="size-3 text-white" /></div>
-          <span className="brand-name">imoprice AI</span>
+          <span className="brand-name">baticost AI</span>
         </div>
         <div className="report-meta">
           <div>Rapport d'estimation immobilière</div>
@@ -1455,7 +1455,7 @@ export default function EstimationResult() {
 
       {/* Print footer */}
       <div className="print-report-footer">
-        <div>Rapport généré automatiquement par imoprice AI — Estimation immobilière IA</div>
+        <div>Rapport généré automatiquement par baticost AI — Estimation immobilière IA</div>
         <div>Ce rapport est fourni à titre indicatif et ne constitue pas une expertise professionnelle.</div>
       </div>
     </div>

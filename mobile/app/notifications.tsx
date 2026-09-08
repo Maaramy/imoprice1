@@ -84,7 +84,7 @@ export default function NotificationsScreen() {
               <View style={styles.msgDot} />
               <View style={{ flex: 1 }}>
                 <Text style={styles.msgTitle} numberOfLines={1}>
-                  {m.agency?.name ?? m.senderName ?? "imoprice AI"}
+                  {m.agency?.name ?? m.senderName ?? "baticost AI"}
                 </Text>
                 <Text style={styles.msgContent} numberOfLines={2}>{m.content}</Text>
                 <Text style={styles.msgDate}>{formatDateTime(m.createdAt)}</Text>

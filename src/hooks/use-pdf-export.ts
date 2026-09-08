@@ -107,11 +107,11 @@ export function usePdfExport(options: UsePdfExportOptions = {}): PdfExportResult
 
       // Add metadata
       pdf.setProperties({
-        title: "Rapport d'estimation immobilière - imoprice AI",
+        title: "Rapport d'estimation immobilière - baticost AI",
         subject: "Estimation de valeur immobilière",
-        author: "imoprice AI",
+        author: "baticost AI",
         keywords: "estimation, immobilier, tunisie, rapport",
-        creator: "imoprice AI",
+        creator: "baticost AI",
       });
 
       setExportProgress("Téléchargement...");

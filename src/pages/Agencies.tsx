@@ -205,11 +205,11 @@ export default function Agencies() {
   // Update document title with badge
   useEffect(() => {
     if (waitingCount > 0) {
-      document.title = `(${waitingCount}) Espace Agences - imoprice AI`;
+      document.title = `(${waitingCount}) Espace Agences - baticost AI`;
     } else {
-      document.title = "Espace Agences - imoprice AI";
+      document.title = "Espace Agences - baticost AI";
     }
-    return () => { document.title = "imoprice AI"; };
+    return () => { document.title = "baticost AI"; };
   }, [waitingCount]);
 
   return (

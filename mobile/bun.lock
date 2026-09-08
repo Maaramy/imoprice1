@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "imoprice-ai-mobile",
+      "name": "baticost-ai-mobile",
       "dependencies": {
         "@convex-dev/auth": "^0.0.90",
         "@expo/vector-icons": "^14.1.0",

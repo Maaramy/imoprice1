@@ -43,9 +43,9 @@ export default function Providers() {
       <header className="sticky top-0 z-50 border-b border-slate-200/60 bg-white/85 backdrop-blur-xl">
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 lg:px-8">
           <button onClick={() => navigate("/")} className="flex items-center gap-2.5 group">
-            <img src={logo} alt="imoprice AI" width={36} height={36} className="size-9 rounded-xl shadow-lg shadow-blue-200/40" />
+            <img src={logo} alt="baticost AI" width={36} height={36} className="size-9 rounded-xl shadow-lg shadow-blue-200/40" />
             <span className="text-base font-bold tracking-tight text-slate-800">
-              <span className="text-blue-600">imo</span>price <span className="text-indigo-600">AI</span>
+              <span className="text-blue-600">bati</span>cost <span className="text-indigo-600">AI</span>
             </span>
           </button>
 
@@ -88,7 +88,7 @@ export default function Providers() {
               Les agences immobilières
               <br />
               <span className="bg-gradient-to-r from-amber-500 via-orange-500 to-blue-600 bg-clip-text text-transparent">
-                partenaires de imoprice AI
+                partenaires de baticost AI
               </span>
             </h1>
             <p className="mt-4 max-w-lg text-sm leading-relaxed text-slate-500 sm:text-base">
@@ -285,7 +285,7 @@ export default function Providers() {
                 <Building2 className="size-4" /> Vous êtes une agence immobilière ?
               </p>
               <p className="mt-1.5 text-xs leading-relaxed text-blue-200">
-                Rejoignez l'annuaire imoprice AI : recevez des demandes d'estimation
+                Rejoignez l'annuaire baticost AI : recevez des demandes d'estimation
                 des propriétaires de votre région et développez votre clientèle.
               </p>
             </div>
@@ -303,7 +303,7 @@ export default function Providers() {
       <footer className="border-t border-slate-200 bg-white py-8">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-5 sm:flex-row lg:px-8">
           <p className="text-xs text-slate-400">
-            © {new Date().getFullYear()} imoprice AI. Annuaire des agences partenaires.
+            © {new Date().getFullYear()} baticost AI. Annuaire des agences partenaires.
           </p>
           <div className="flex items-center gap-5">
             <button onClick={() => navigate("/pricing")} className="text-xs text-slate-400 transition-colors hover:text-blue-600">
@@ -312,7 +312,7 @@ export default function Providers() {
             <button onClick={() => navigate("/")} className="text-xs text-slate-400 transition-colors hover:text-blue-600">
               Accueil
             </button>
-            <a href="mailto:contact@imoprice.tn" className="flex items-center gap-1 text-xs text-slate-400 transition-colors hover:text-blue-600">
+            <a href="mailto:contact@baticost.tn" className="flex items-center gap-1 text-xs text-slate-400 transition-colors hover:text-blue-600">
               <Mail className="size-3" /> Contact
             </a>
           </div>

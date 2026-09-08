@@ -42,7 +42,7 @@ function shell(title: string, body: string): string {
   .foot { margin-top: 28px; padding-top: 12px; border-top: 1px solid #e2e8f0; color: #94a3b8; font-size: 11px; }
 </style></head><body>
 ${body}
-<div class="foot">Rapport généré par imoprice AI — estimation IA du marché immobilier tunisien · ${esc(formatDate(Date.now()))}</div>
+<div class="foot">Rapport généré par baticost AI — estimation IA du marché immobilier tunisien · ${esc(formatDate(Date.now()))}</div>
 </body></html>`;
 }
 
@@ -96,7 +96,7 @@ ${(result.comparableProperties ?? [])
 </table>
 <h2>Recommandations IA</h2>
 <ul>${(result.improvementSuggestions ?? []).map((f) => `<li>${esc(f)}</li>`).join("")}</ul>`;
-  return shell("Rapport d'estimation vente — imoprice AI", body);
+  return shell("Rapport d'estimation vente — baticost AI", body);
 }
 
 /** Rapport d'estimation LOYER. */
@@ -169,5 +169,5 @@ ${result.comparableRentals
 ${result.advisor.questions
   .map((qa) => `<div class="q"><b>${esc(qa.q)}</b><p>${esc(qa.a)}</p></div>`)
   .join("")}`;
-  return shell("Rapport d'estimation loyer — imoprice AI", body);
+  return shell("Rapport d'estimation loyer — baticost AI", body);
 }

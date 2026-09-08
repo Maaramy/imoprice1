@@ -86,7 +86,7 @@ export default function RentResultScreen() {
   const exportPdf = async () => {
     setExporting(true);
     try {
-      await exportAndShare(buildRentReportHtml(r, p), `imoprice-loyer-${id.slice(0, 6)}.pdf`);
+      await exportAndShare(buildRentReportHtml(r, p), `baticost-loyer-${id.slice(0, 6)}.pdf`);
     } finally {
       setExporting(false);
     }
@@ -97,14 +97,14 @@ export default function RentResultScreen() {
       ? `\nNuitée courte durée : ${formatTND(r.nightly.nightlyRent)}/nuit · Revenu annuel ${formatTND(r.nightly.annualRevenue)}\n`
       : "";
     await Share.share({
-      title: "Estimation loyer — imoprice AI",
+      title: "Estimation loyer — baticost AI",
       message:
         `🔑 ${typeLabel} — ${location}\n` +
         `Loyer mensuel recommandé : ${formatTND(r.estimatedRent)}\n` +
         `Fourchette : ${formatTND(r.rentMin)} – ${formatTND(r.rentMax)}\n` +
         `Prix au m² : ${formatPerSqm(r.rentPerSqm)} · Rendement ${formatPercent(r.grossYield)}\n` +
         night +
-        `— via l'application imoprice AI`,
+        `— via l'application baticost AI`,
     });
   };
 

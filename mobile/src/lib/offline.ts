@@ -5,7 +5,7 @@
 import { useEffect, useRef, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const PREFIX = "imoprice-cache:";
+const PREFIX = "baticost-cache:";
 const DEFAULT_TTL = 1000 * 60 * 60 * 24 * 30; // 30 jours
 
 export async function cacheSet(key: string, value: unknown, ttlMs = DEFAULT_TTL): Promise<void> {

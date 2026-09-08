@@ -63,7 +63,7 @@ export function SignatureSeal({ token, date, reportUrl, verified = true }: Signa
             </p>
             <p className="flex items-center gap-1.5">
               <CheckCircle className="size-3 text-emerald-500" />
-              Document signé numériquement par <strong className="text-gray-800 dark:text-gray-200">imoprice AI</strong>
+              Document signé numériquement par <strong className="text-gray-800 dark:text-gray-200">baticost AI</strong>
             </p>
           </div>
 
@@ -85,7 +85,7 @@ export function SignatureSeal({ token, date, reportUrl, verified = true }: Signa
       <div className="mt-3 pt-2 border-t border-emerald-100 dark:border-emerald-800/50">
         <div className="flex items-center justify-between text-[8px] text-gray-400 dark:text-gray-500">
           <span>Algorithme : SHA-256</span>
-          <span className="font-mono">imoprice v1.0</span>
+          <span className="font-mono">baticost v1.0</span>
           <span>ID: {hash}</span>
         </div>
       </div>

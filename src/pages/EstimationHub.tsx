@@ -198,7 +198,7 @@ export default function EstimationHub() {
       <footer className="border-t border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-slate-900/40 py-6">
         <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-2 px-4 sm:flex-row sm:px-6">
           <p className="text-[11px] text-slate-400 dark:text-slate-500">
-            © {new Date().getFullYear()} imoprice AI · {user?.email ?? ""}
+            © {new Date().getFullYear()} baticost AI · {user?.email ?? ""}
           </p>
           <Button variant="ghost" size="sm" onClick={() => nav("/dashboard")}
             className="text-[11px] text-slate-400 hover:text-blue-600 h-8">

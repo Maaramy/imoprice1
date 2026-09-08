@@ -3,7 +3,7 @@
  *
  * Reads the GitHub token from the environment (set via the Freebuff Keys tab
  * or the Convex dashboard environment variables, name: `GITHUB_TOKEN`,
- * fallback: `GH_TOKEN`) and creates the private `imoprice-ai` repository
+ * fallback: `GH_TOKEN`) and creates the private `baticost-ai` repository
  * through the GitHub REST API. Admin-guarded.
  */
 import { v } from "convex/values";
@@ -12,9 +12,9 @@ import { action, internalQuery, query, type ActionCtx } from "./_generated/serve
 import { internal } from "./_generated/api";
 import { requireAdmin } from "./admin";
 
-const REPO_NAME = "imoprice-ai";
+const REPO_NAME = "baticost-ai";
 const REPO_DESCRIPTION =
-  "imoprice AI — estimation immobilière intelligente pour la Tunisie (vente/achat, location, nuitée, agences).";
+  "baticost AI — estimation immobilière intelligente pour la Tunisie (vente/achat, location, nuitée, agences).";
 const API_BASE = "https://api.github.com";
 
 const readToken = (): string =>
@@ -24,7 +24,7 @@ const ghHeaders = (token: string): Record<string, string> => ({
   Authorization: `Bearer ${token}`,
   Accept: "application/vnd.github+json",
   "X-GitHub-Api-Version": "2022-11-28",
-  "User-Agent": "imoprice-ai",
+  "User-Agent": "baticost-ai",
   "Content-Type": "application/json",
 });
 
@@ -85,7 +85,7 @@ const parseErrorPayload = async (
 };
 
 /**
- * Admin-only: create the `imoprice-ai` GitHub repository (private).
+ * Admin-only: create the `baticost-ai` GitHub repository (private).
  * Returns a structured result instead of throwing for expected failures
  * (missing token, invalid token, repo already existing).
  */

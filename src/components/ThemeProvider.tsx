@@ -23,7 +23,7 @@ export function useTheme() {
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(() => {
     if (typeof window === "undefined") return "light";
-    const stored = localStorage.getItem("imoprice-theme") as Theme | null;
+    const stored = localStorage.getItem("baticost-theme") as Theme | null;
     if (stored === "light" || stored === "dark") return stored;
     // Check system preference
     if (window.matchMedia("(prefers-color-scheme: dark)").matches) return "dark";
@@ -37,7 +37,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     } else {
       root.classList.remove("dark");
     }
-    localStorage.setItem("imoprice-theme", theme);
+    localStorage.setItem("baticost-theme", theme);
   }, [theme]);
 
   const toggleTheme = () => {

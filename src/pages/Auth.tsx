@@ -538,7 +538,7 @@ function Auth({ redirectAfterAuth }: AuthProps = {}) {
                   </div>
                 </motion.div>
                 <h1 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
-                  <span className="text-[oklch(0.52_0.175_35.5)] dark:text-[oklch(0.7_0.14_35)]">imo</span>price <span className="text-[oklch(0.55_0.15_230)] dark:text-[oklch(0.7_0.14_230)]">AI</span>
+                  <span className="text-[oklch(0.52_0.175_35.5)] dark:text-[oklch(0.7_0.14_35)]">bati</span>cost <span className="text-[oklch(0.55_0.15_230)] dark:text-[oklch(0.7_0.14_230)]">AI</span>
                 </h1>
                 <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 mt-1">
                   Estimation immobilière intelligente
@@ -764,8 +764,8 @@ function BaseLayout({ children }: { children: React.ReactNode }) {
           onClick={() => navigate("/")}
           className="flex items-center gap-2 text-slate-400 hover:text-slate-700 dark:text-slate-500 dark:hover:text-slate-300 transition-all duration-300"
         >
-          <img src={logo} alt="imoprice AI" width={32} height={32} className="size-8 rounded-lg shadow-soft" />
-          <span className="text-sm font-bold tracking-tight"><span className="text-[oklch(0.52_0.175_35.5)] dark:text-[oklch(0.7_0.14_35)]">imo</span>price <span className="text-[oklch(0.55_0.15_230)] dark:text-[oklch(0.7_0.14_230)]">AI</span></span>
+          <img src={logo} alt="baticost AI" width={32} height={32} className="size-8 rounded-lg shadow-soft" />
+          <span className="text-sm font-bold tracking-tight"><span className="text-[oklch(0.52_0.175_35.5)] dark:text-[oklch(0.7_0.14_35)]">bati</span>cost <span className="text-[oklch(0.55_0.15_230)] dark:text-[oklch(0.7_0.14_230)]">AI</span></span>
         </motion.button>
       </div>
 

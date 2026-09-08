@@ -1,6 +1,6 @@
 # 🚀 Générer l'APK Android avec EAS Cloud — Guide pas à pas
 
-Ce guide explique comment compiler **imoprice AI Mobile** en **APK Android** via **EAS Build** (build cloud Expo). Aucun SDK Android ni Android Studio n'est requis : Expo compile tout dans le cloud.
+Ce guide explique comment compiler **baticost AI Mobile** en **APK Android** via **EAS Build** (build cloud Expo). Aucun SDK Android ni Android Studio n'est requis : Expo compile tout dans le cloud.
 
 > Toutes les commandes s'exécutent **depuis le dossier `mobile/`** :
 >
@@ -110,7 +110,7 @@ eas build:download <build_id>     # → fichier imoprice-ai-mobile.apk dans le d
 
 1. Transférez le fichier `.apk` vers le téléphone (USB, Google Drive, WhatsApp, etc.)
 2. Ouvrez le fichier → Android vous demande d'**autoriser les sources inconnues** → acceptez
-3. Installez, puis ouvrez **imoprice AI**
+3. Installez, puis ouvrez **baticost AI**
 
 > 💡 Astuce : envoyez le lien de téléchargement EAS à votre téléphone et ouvrez-le directement dans le navigateur — l'installation est immédiate.
 

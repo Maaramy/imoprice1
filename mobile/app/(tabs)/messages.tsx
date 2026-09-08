@@ -58,7 +58,7 @@ export default function MessagesScreen() {
                 </View>
                 <View style={{ flex: 1, marginHorizontal: spacing.md }}>
                   <Text style={[styles.agency, isUnread && { fontWeight: "800" }]}>
-                    {m.agency?.name ?? m.senderName ?? "imoprice AI"}
+                    {m.agency?.name ?? m.senderName ?? "baticost AI"}
                   </Text>
                   <Text style={styles.subject} numberOfLines={1}>
                     {m.subject ?? (m.direction === "in" ? "Message de l'agence" : "Votre réponse")}

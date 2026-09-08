@@ -19,7 +19,7 @@ export const searchAddress = action({
     const encoded = encodeURIComponent(args.query.trim() + ", Tunisie");
     const url = `https://nominatim.openstreetmap.org/search?q=${encoded}&format=json&limit=5&countrycodes=tn&accept-language=fr&addressdetails=1`;
     const res = await fetch(url, {
-      headers: { "User-Agent": "imoprice-ai/1.0" },
+      headers: { "User-Agent": "baticost-ai/1.0" },
     });
     if (!res.ok) return [];
     return (await res.json()) as NominatimResult[];
@@ -34,7 +34,7 @@ export const reverseGeocode = action({
   handler: async (_ctx, args) => {
     const url = `https://nominatim.openstreetmap.org/reverse?lat=${args.lat}&lon=${args.lng}&format=json&accept-language=fr&addressdetails=1`;
     const res = await fetch(url, {
-      headers: { "User-Agent": "imoprice-ai/1.0" },
+      headers: { "User-Agent": "baticost-ai/1.0" },
     });
     if (!res.ok) return null;
     return (await res.json()) as {

@@ -99,7 +99,7 @@ export default function ProfilScreen() {
         <Text style={styles.signOutText}>Se déconnecter</Text>
       </Pressable>
 
-      <Text style={styles.version}>imoprice AI mobile · v1.0.0</Text>
+      <Text style={styles.version}>baticost AI mobile · v1.0.0</Text>
     </Screen>
   );
 }

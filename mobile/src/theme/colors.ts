@@ -1,5 +1,5 @@
 /**
- * Palette de l'application mobile — cohérente avec le thème Web imoprice AI
+ * Palette de l'application mobile — cohérente avec le thème Web baticost AI
  * (bleu primaire, vert émeraude pour le module Location).
  */
 export const colors = {

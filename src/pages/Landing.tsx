@@ -207,10 +207,10 @@ export default function Landing() {
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${scrolled ? "glass-strong shadow-soft" : "border-b border-transparent bg-transparent"}`}
       >
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5 lg:px-8">
-          <button onClick={() => navigate("/")} className="group flex items-center gap-2.5" aria-label="imoprice AI — accueil">
-            <img src={logo} alt="imoprice AI" width={36} height={36} className="size-9 rounded-xl shadow-soft transition-transform duration-200 group-hover:scale-105" />
+          <button onClick={() => navigate("/")} className="group flex items-center gap-2.5" aria-label="baticost AI — accueil">
+            <img src={logo} alt="baticost AI" width={36} height={36} className="size-9 rounded-xl shadow-soft transition-transform duration-200 group-hover:scale-105" />
             <span className="text-base font-bold tracking-tight text-slate-900 dark:text-slate-50">
-              <span className="gradient-text">imo</span>price <span className="text-emerald-600 dark:text-emerald-400">AI</span>
+              <span className="gradient-text">bati</span>cost <span className="text-emerald-600 dark:text-emerald-400">AI</span>
             </span>
           </button>
 
@@ -434,7 +434,7 @@ export default function Landing() {
                   </div>
                 </div>
                 <div className="mx-auto flex items-center gap-1.5 rounded-full border border-slate-200/80 bg-white/80 px-3.5 py-1 text-[10px] font-medium text-slate-400 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-400">
-                  <ShieldCheck className="size-3 text-emerald-500" /> imoprice.tn/estimation
+                  <ShieldCheck className="size-3 text-emerald-500" /> baticost.tn/estimation
                 </div>
                 <div className="flex size-5 items-center justify-center">
                   <HardHat className="size-3.5 text-emerald-500" />
@@ -845,7 +845,7 @@ export default function Landing() {
             <h2 className="mx-auto max-w-2xl text-3xl font-black tracking-tight text-slate-900 dark:text-slate-50 sm:text-4xl">
               Ils nous font <span className="gradient-text">confiance</span>
             </h2>
-            <p className="mx-auto mt-3 max-w-lg text-base text-slate-500 dark:text-slate-400">Des milliers de Tunisiens utilisent déjà imoprice AI.</p>
+            <p className="mx-auto mt-3 max-w-lg text-base text-slate-500 dark:text-slate-400">Des milliers de Tunisiens utilisent déjà baticost AI.</p>
           </motion.div>
 
           <div className="mt-12 grid gap-5 md:grid-cols-3">
@@ -919,7 +919,7 @@ export default function Landing() {
               Prêt à connaître la valeur de votre bien ?
             </h2>
             <p className="mx-auto mt-4 max-w-lg text-base text-emerald-100/80">
-              Rejoignez les milliers de Tunisiens qui estiment, vendent et louent avec imoprice AI.
+              Rejoignez les milliers de Tunisiens qui estiment, vendent et louent avec baticost AI.
               Vos 3 premières estimations sont offertes.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
@@ -943,9 +943,9 @@ export default function Landing() {
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             <div>
               <div className="flex items-center gap-2.5">
-                <img src={logo} alt="imoprice AI" width={32} height={32} className="size-8 rounded-lg shadow-soft" />
+                <img src={logo} alt="baticost AI" width={32} height={32} className="size-8 rounded-lg shadow-soft" />
                 <span className="text-base font-bold tracking-tight text-slate-900 dark:text-slate-50">
-                  <span className="gradient-text">imo</span>price <span className="text-emerald-600 dark:text-emerald-400">AI</span>
+                  <span className="gradient-text">bati</span>cost <span className="text-emerald-600 dark:text-emerald-400">AI</span>
                 </span>
               </div>
               <p className="mt-3 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
@@ -1000,14 +1000,14 @@ export default function Landing() {
             <div>
               <h4 className="micro-label text-slate-400 dark:text-slate-500">Contact</h4>
               <ul className="mt-3 space-y-2.5">
-                <li><a href="mailto:contact@imoprice.tn" className="flex items-center gap-2 text-sm text-slate-500 transition-colors hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400"><Mail className="size-4" /> contact@imoprice.tn</a></li>
+                <li><a href="mailto:contact@baticost.tn" className="flex items-center gap-2 text-sm text-slate-500 transition-colors hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400"><Mail className="size-4" /> contact@baticost.tn</a></li>
                 <li className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400"><MapPin className="size-4" /> Tunis, Tunisie</li>
                 <li className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400"><Clock className="size-4" /> Support 7j/7</li>
               </ul>
             </div>
           </div>
           <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-slate-200/70 pt-6 sm:flex-row dark:border-slate-800">
-            <p className="text-xs text-slate-400 dark:text-slate-500">&copy; {new Date().getFullYear()} imoprice AI. Tous droits réservés.</p>
+            <p className="text-xs text-slate-400 dark:text-slate-500">&copy; {new Date().getFullYear()} baticost AI. Tous droits réservés.</p>
             <div className="flex items-center gap-4">
               <a href="#" className="text-xs text-slate-400 transition-colors hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300">Mentions légales</a>
               <a href="#" className="text-xs text-slate-400 transition-colors hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300">Confidentialité</a>

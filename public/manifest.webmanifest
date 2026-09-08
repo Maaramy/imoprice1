@@ -1,6 +1,6 @@
 {
-  "name": "imoprice AI",
-  "short_name": "imoprice AI",
+  "name": "baticost AI",
+  "short_name": "baticost AI",
   "description": "Estimation immobilière intelligente en Tunisie par IA",
   "start_url": "/",
   "display": "standalone",

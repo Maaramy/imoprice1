@@ -186,7 +186,7 @@ describe("Route démo /estimate/demo — flux sans étapes de saisie", () => {
 
     await userEvent.click(screen.getByLabelText("Modifier l'estimation"));
 
-    const draft = JSON.parse(localStorage.getItem("imoprice_draft") || "{}");
+    const draft = JSON.parse(localStorage.getItem("baticost_draft") || "{}");
     expect(draft.gouvernorat).toBe("Béja");
     expect(draft.ville).toBe("Béja Ville");
     expect(draft.propertyType).toBe("maison");

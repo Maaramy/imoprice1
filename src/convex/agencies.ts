@@ -189,7 +189,7 @@ export const sendEstimationToAgency = mutation({
       type: "system",
       subject: "Estimation envoyée",
       content: `Votre estimation a été envoyée à ${agency?.name || "l'agence"}. Ils vous contacteront sous peu.`,
-      senderName: agency?.name || "imoprice AI",
+      senderName: agency?.name || "baticost AI",
       senderLogo: agency?.logoUrl,
       createdAt: Date.now(),
     });
@@ -258,7 +258,7 @@ export const sendRentEstimationToAgency = mutation({
       type: "system",
       subject: "Estimation de loyer envoyée",
       content: `Votre estimation de loyer a été envoyée à ${agency?.name || "l'agence"}. Ils vous contacteront sous peu.`,
-      senderName: agency?.name || "imoprice AI",
+      senderName: agency?.name || "baticost AI",
       senderLogo: agency?.logoUrl,
       createdAt: Date.now(),
     });
@@ -554,7 +554,7 @@ export const updateRequestStatus = mutation({
         await ctx.scheduler.runAfter(0, internal.notifications.sendEmail, {
           to: user.email,
           subject: `${agencyProfile.name} a pris en charge votre demande`,
-          text: `${agencyProfile.name} a bien reçu votre estimation immobilière et vous contactera très prochainement. Vous pouvez suivre l'échange dans votre messagerie imoprice AI.`,
+          text: `${agencyProfile.name} a bien reçu votre estimation immobilière et vous contactera très prochainement. Vous pouvez suivre l'échange dans votre messagerie baticost AI.`,
         });
       }
     }
@@ -637,7 +637,7 @@ export const sendAgencyMessage = mutation({
       await ctx.scheduler.runAfter(0, internal.notifications.sendEmail, {
         to: user.email,
         subject: `Nouveau message de ${agencyProfile.name}`,
-        text: `${agencyProfile.name} vient de vous écrire au sujet de votre estimation : « ${content} ». Répondez depuis votre messagerie imoprice AI.`,
+        text: `${agencyProfile.name} vient de vous écrire au sujet de votre estimation : « ${content} ». Répondez depuis votre messagerie baticost AI.`,
       });
     }
 

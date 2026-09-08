@@ -68,7 +68,7 @@ export default function SettingsScreen() {
 
       <SectionCard title="À propos" icon="information-circle">
         <Text style={styles.aboutLine}>
-          imoprice AI — estimation immobilière et locative par intelligence artificielle pour le
+          baticost AI — estimation immobilière et locative par intelligence artificielle pour le
           marché tunisien.
         </Text>
         <Text style={styles.version}>Version 1.0.0 · Android · iOS en préparation</Text>

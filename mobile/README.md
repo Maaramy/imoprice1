@@ -1,6 +1,6 @@
-# imoprice AI — Application Mobile (React Native / Expo)
+# baticost AI — Application Mobile (React Native / Expo)
 
-Application **mobile native Android** (React Native + Expo) de la plateforme **imoprice AI** :
+Application **mobile native Android** (React Native + Expo) de la plateforme **baticost AI** :
 estimation immobilière et locative par intelligence artificielle pour le marché tunisien.
 
 > **Ce n'est pas une WebView.** L'application est un client natif complet qui parle
@@ -179,7 +179,7 @@ eas build -p android --profile production    # buildType: "app-bundle" → .aab 
 
 | Champ | Valeur |
 |---|---|
-| Nom | imoprice AI |
+| Nom | baticost AI |
 | Package | `com.imopriceai.app` |
 | Type | Application |
 | Catégorie | Immobilier / Productivité |
@@ -283,4 +283,4 @@ eas build -p android --profile production  # AAB pour Google Play
 
 ---
 
-*Documentation technique — imoprice AI mobile · React Native / Expo SDK 53 · Convex · Android-first, iOS-ready.*
+*Documentation technique — baticost AI mobile · React Native / Expo SDK 53 · Convex · Android-first, iOS-ready.*

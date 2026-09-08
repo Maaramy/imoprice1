@@ -12,7 +12,7 @@ export const PLANS = {
   start: {
     id: "start" as const,
     name: "Free",
-    description: "Pour découvrir imoprice AI gratuitement",
+    description: "Pour découvrir baticost AI gratuitement",
     price: 0,
     currency: "TND",
     period: "monthly" as const,
@@ -118,7 +118,7 @@ export const PAYMENT_METHODS: Record<
 
 /** ── Bank transfer details (virement bancaire) — default values ── */
 export const DEFAULT_BANK_DETAILS = {
-  beneficiary: "imoprice AI SARL",
+  beneficiary: "baticost AI SARL",
   bank: "Banque de Tunisie",
   agency: "Agence Tunis Centre",
   rib: "08 123 4567890123456789 12",
@@ -128,7 +128,7 @@ export const DEFAULT_BANK_DETAILS = {
 
 /** ── D17 (Poste Tunisie) details — default values ── */
 export const DEFAULT_D17_DETAILS = {
-  beneficiary: "imoprice AI SARL",
+  beneficiary: "baticost AI SARL",
   ccp: "1234567 8 12",
   center: "Centre de chèques postaux de Tunis",
   reason: "Votre adresse e-mail + forfait choisi",

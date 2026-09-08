@@ -783,6 +783,80 @@ Spinner:  <Loader2Icon className="size-4 animate-spin" role="status" />
 
 Règle : les icônes héritent de la taille du texte adjacent sauf contrainte explicite ; dans les boutons, `[&_svg:not([class*='size-'])]:size-4` force `size-4` par défaut.
 
+### 12.1 Patterns d'utilisation (référence BatiBuild — copiable tel quel)
+
+Les 10 patterns canoniques d'utilisation des icônes (source : DESIGN_SYSTEM BatiBuild).
+Notation `size-*` de BatiCost ≍ notation `h-* w-*` de BatiBuild (équivalents stricts : `size-4` ≡ `h-4 w-4`, `size-6` ≡ `h-6 w-6`, `size-8` ≡ `h-8 w-8`).
+
+```tsx
+// 1. Bouton avec icône (gauche)
+<Button>
+  <Plus className="h-4 w-4" />
+  Créer
+</Button>
+
+// 2. Bouton avec icône (droite, lien externe)
+<Button variant="outline">
+  Voir
+  <ExternalLink className="ml-2 h-4 w-4" />
+</Button>
+
+// 3. Icône seule (bouton icon)
+<Button variant="ghost" size="icon">
+  <Search className="h-4 w-4" />
+</Button>
+
+// 4. Icône inline dans du texte
+<span className="flex items-center gap-2 text-sm">
+  <MapPin className="h-4 w-4 text-muted-foreground" />
+  Tunis, Tunisie
+</span>
+
+// 5. Icône de statut (succès)
+<span className="flex items-center gap-2">
+  <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+  <span className="text-sm text-emerald-600">Actif</span>
+</span>
+
+// 6. Icône d'alerte
+<span className="flex items-center gap-2">
+  <AlertTriangle className="h-4 w-4 text-amber-600" />
+  <span className="text-sm text-amber-600">Attention</span>
+</span>
+
+// 7. Loading spinner
+<Loader2 className="h-4 w-4 animate-spin" />
+
+// 8. Icône dans une card (fond tinté)
+<div className="rounded-xl bg-primary/10 p-3">
+  <Building2 className="h-6 w-6 text-primary" />
+</div>
+
+// 9. Icône hero / feature
+<div className="rounded-2xl bg-emerald-50 p-4">
+  <HardHat className="h-8 w-8 text-emerald-600" />
+</div>
+
+// 10. Navigation sidebar
+<NavLink>
+  <Home className="h-4 w-4" />
+  <span>Tableau de bord</span>
+</NavLink>
+```
+
+**Mapping pattern → taille :**
+
+| Pattern | Taille icône | Conteneur | Couleur |
+|---|---|---|---|
+| 1–3. Boutons (icône ± label) | `h-4 w-4` | — (bouton) | héritée / courante |
+| 4. Inline dans du texte | `h-4 w-4` | `flex items-center gap-2` | `text-muted-foreground` |
+| 5. Statut succès | `h-4 w-4` | `flex items-center gap-2` | `text-emerald-600` |
+| 6. Alerte | `h-4 w-4` | `flex items-center gap-2` | `text-amber-600` |
+| 7. Loading | `h-4 w-4` + `animate-spin` | — | héritée |
+| 8. Card (tuile) | `h-6 w-6` | `rounded-xl bg-primary/10 p-3` | `text-primary` |
+| 9. Hero / feature | `h-8 w-8` | `rounded-2xl bg-emerald-50 p-4` | `text-emerald-600` |
+| 10. Sidebar nav | `h-4 w-4` | — | héritée |
+
 ---
 
 ## 13. Transitions & animations

@@ -464,7 +464,7 @@ function UsersTab() {
           <AlertDialogHeader>
             <AlertDialogTitle className="text-base">Supprimer l'utilisateur ?</AlertDialogTitle>
             <AlertDialogDescription className="text-xs">
-              Toutes ses données seront définitivement supprimées : biens, estimations, abonnements, demandes d'agence et profil agence. Cette action est irréversible.
+              Toutes ses données seront définitivement supprimées : biens, estimations, demandes d'agence et profil agence. Cette action est irréversible.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

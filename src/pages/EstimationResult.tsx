@@ -1367,13 +1367,13 @@ export default function EstimationResult() {
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 rounded-xl bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/20 dark:to-orange-950/20 border border-amber-100 dark:border-amber-900/30 p-3.5">
                   <div className="min-w-0">
                     <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">Vous êtes une agence immobilière ?</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Abonnez-vous pour apparaître ici et recevoir des demandes de clients</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Créez votre profil d'agence pour apparaître ici et recevoir des demandes de clients</p>
                   </div>
                   <Button
-                    onClick={() => nav("/pricing")}
+                    onClick={() => nav("/agencies")}
                     className="rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600 shrink-0 h-8 text-xs px-4 shadow-sm"
                   >
-                    <Sparkles className="mr-1.5 size-3.5" /> Voir l'offre
+                    <Sparkles className="mr-1.5 size-3.5" /> Espace agence
                   </Button>
                 </div>
               </CardContent>

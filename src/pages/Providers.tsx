@@ -50,12 +50,6 @@ export default function Providers() {
           </button>
 
           <div className="hidden items-center gap-3 md:flex">
-            <button
-              onClick={() => navigate("/pricing")}
-              className="rounded-lg px-3.5 py-2 text-[13px] font-medium text-slate-500 transition-all hover:bg-slate-100 hover:text-slate-800"
-            >
-              Forfaits
-            </button>
             {isAuthenticated ? (
               <Button onClick={() => navigate("/dashboard")}
                 className="h-9 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 px-4 text-xs font-semibold text-white shadow-lg shadow-blue-200/40 transition-all hover:shadow-xl hover:from-blue-600 hover:to-indigo-700"
@@ -306,9 +300,6 @@ export default function Providers() {
             © {new Date().getFullYear()} baticost AI. Annuaire des agences partenaires.
           </p>
           <div className="flex items-center gap-5">
-            <button onClick={() => navigate("/pricing")} className="text-xs text-slate-400 transition-colors hover:text-blue-600">
-              Forfaits
-            </button>
             <button onClick={() => navigate("/")} className="text-xs text-slate-400 transition-colors hover:text-blue-600">
               Accueil
             </button>

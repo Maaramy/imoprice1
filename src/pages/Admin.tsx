@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/table";
 import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogAction, AlertDialogCancel } from "@/components/ui/alert-dialog";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
-import { PlanEditDialog, type PlanEditTarget } from "@/components/PlanEditDialog";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 import {
@@ -25,15 +24,7 @@ import {
   ExternalLink, CheckCircle2 as CheckCircle2Icon, Megaphone,
 } from "lucide-react";
 import { AnnouncementEditor } from "@/components/admin/announcements/AnnouncementEditor";
-import { PLANS } from "@/convex/defaults";
 import { GOVERNORATS as TUNISIAN_GOUVERNORATS, PROPERTY_TYPES_LABELS } from "@/convex/types";
-
-const PLAN_META: Record<string, { label: string; cls: string }> = {
-  start: { label: "Free", cls: "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300" },
-  pro: { label: "Pro", cls: "bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300" },
-  expert: { label: "Expert", cls: "bg-amber-50 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300" },
-  agence: { label: "Agence", cls: "bg-violet-50 text-violet-700 dark:bg-violet-950/60 dark:text-violet-300" },
-};
 
 const fmtPrice = (v: number | null | undefined) =>
   v == null ? "—" : v.toLocaleString("fr-FR") + " TND";
@@ -222,7 +213,7 @@ function AdminShell({ userName }: { userName: string }) {
           <div>
             <h1 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-slate-100">Administration</h1>
             <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-              Gérez la plateforme : utilisateurs, abonnements, agences et paramètres
+              Gérez la plateforme : utilisateurs, agences, annonces et paramètres
             </p>
           </div>
         </div>
@@ -231,7 +222,6 @@ function AdminShell({ userName }: { userName: string }) {
           <TabsList className="w-full sm:w-auto h-auto flex-wrap justify-start gap-1 rounded-xl bg-slate-100/80 dark:bg-slate-900/60 p-1">
             <TabBtn value="overview" tab={tab} icon={<LayoutDashboard className="size-3.5" />} label="Aperçu" />
             <TabBtn value="users" tab={tab} icon={<Users className="size-3.5" />} label="Utilisateurs" />
-            <TabBtn value="subscriptions" tab={tab} icon={<CreditCard className="size-3.5" />} label="Abonnements" />
             <TabBtn value="agencies" tab={tab} icon={<Building2 className="size-3.5" />} label="Agences" />
             <TabBtn value="estimations" tab={tab} icon={<FileSearch className="size-3.5" />} label="Estimations" />
             <TabBtn value="announcements" tab={tab} icon={<Megaphone className="size-3.5" />} label="Annonces" />
@@ -244,9 +234,6 @@ function AdminShell({ userName }: { userName: string }) {
           </TabsContent>
           <TabsContent value="users" className="mt-0">
             <UsersTab />
-          </TabsContent>
-          <TabsContent value="subscriptions" className="mt-0">
-            <SubscriptionsTab />
           </TabsContent>
           <TabsContent value="agencies" className="mt-0">
             <AgenciesTab />
@@ -301,29 +288,12 @@ function OverviewTab() {
 
   return (
     <div className="space-y-4 sm:space-y-6">
-      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <CardStat icon={<Users className="size-4 text-blue-600" />} tone="bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400" label="Utilisateurs" value={stats.users} sub={`+${stats.newUsersThisMonth} ce mois`} />
         <CardStat icon={<FileSearch className="size-4 text-violet-600" />} tone="bg-violet-50 dark:bg-violet-950/60 text-violet-600 dark:text-violet-400" label="Estimations" value={stats.estimations} sub={`+${stats.estimationsThisMonth} ce mois`} />
         <CardStat icon={<Home className="size-4 text-teal-600" />} tone="bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400" label="Biens" value={stats.properties} />
-        <CardStat icon={<CreditCard className="size-4 text-emerald-600" />} tone="bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400" label="Abonnements actifs" value={stats.activeSubs} sub={`${stats.subscriptions} au total`} />
-        <CardStat icon={<Wallet className="size-4 text-amber-600" />} tone="bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400" label="Revenus payés" value={fmtMoney(stats.revenue) + " TND"} sub={`${stats.paidSubs} paiements`} />
         <CardStat icon={<Building2 className="size-4 text-rose-600" />} tone="bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400" label="Agences" value={stats.agencies} sub={`${stats.agencyRequests} demandes`} />
       </div>
-
-      {stats.pendingPayments > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: -6 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="rounded-xl border border-amber-200/70 dark:border-amber-900/50 bg-amber-50/80 dark:bg-amber-950/40 px-4 py-3 flex items-center gap-3"
-        >
-          <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/60 text-amber-600 dark:text-amber-400">
-            <Wallet className="size-4" />
-          </div>
-          <p className="text-xs sm:text-sm text-amber-800 dark:text-amber-200 font-medium">
-            <strong>{stats.pendingPayments}</strong> paiement{stats.pendingPayments > 1 ? "s" : ""} manuel{stats.pendingPayments > 1 ? "s" : ""} en attente de confirmation (virement/D17)
-          </p>
-        </motion.div>
-      )}
 
       {/* Recent estimations */}
       <Card className="border-0 bg-white/95 dark:bg-slate-900/95 shadow-[0_1px_3px_rgba(0,0,0,0.05)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.3)] rounded-2xl overflow-hidden">
@@ -372,7 +342,6 @@ function OverviewTab() {
 function UsersTab() {
   const [search, setSearch] = useState("");
   const [deleteId, setDeleteId] = useState<string | null>(null);
-  const [editTarget, setEditTarget] = useState<PlanEditTarget | null>(null);
   const users = useQuery(api.admin.listUsers, { search });
   const setRole = useMutation(api.admin.setUserRole);
   const deleteUser = useMutation(api.admin.deleteUser);
@@ -429,7 +398,6 @@ function UsersTab() {
             <TableHeader>
               <TableRow className="hover:bg-transparent">
                 <TableHead className="text-[10px] uppercase tracking-wide text-slate-400 dark:text-slate-500 h-9 px-4">Utilisateur</TableHead>
-                <TableHead className="text-[10px] uppercase tracking-wide text-slate-400 dark:text-slate-500 h-9">Forfait</TableHead>
                 <TableHead className="text-[10px] uppercase tracking-wide text-slate-400 dark:text-slate-500 h-9">Estim.</TableHead>
                 <TableHead className="text-[10px] uppercase tracking-wide text-slate-400 dark:text-slate-500 h-9">Rôle</TableHead>
                 <TableHead className="text-[10px] uppercase tracking-wide text-slate-400 dark:text-slate-500 h-9 text-right pr-4">Actions</TableHead>
@@ -437,9 +405,9 @@ function UsersTab() {
             </TableHeader>
             <TableBody>
               {!users ? (
-                <TableRow><TableCell colSpan={5} className="py-8 text-center"><Loader2 className="mx-auto size-4 animate-spin text-blue-600" /></TableCell></TableRow>
+                <TableRow><TableCell colSpan={4} className="py-8 text-center"><Loader2 className="mx-auto size-4 animate-spin text-blue-600" /></TableCell></TableRow>
               ) : users.length === 0 ? (
-                <TableRow><TableCell colSpan={5} className="py-8 text-center text-xs text-slate-400">Aucun utilisateur trouvé</TableCell></TableRow>
+                <TableRow><TableCell colSpan={4} className="py-8 text-center text-xs text-slate-400">Aucun utilisateur trouvé</TableCell></TableRow>
               ) : (
                 users.map((u) => (
                   <TableRow key={u._id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40">
@@ -453,15 +421,6 @@ function UsersTab() {
                           <p className="text-[10px] text-slate-400 dark:text-slate-500 truncate">{u.email || u.phone || "—"}</p>
                         </div>
                       </div>
-                    </TableCell>
-                    <TableCell>
-                      {u.subscription ? (
-                        <Badge className={`rounded-full border-0 text-[9px] px-2 py-0.5 font-semibold ${PLAN_META[u.subscription.planType]?.cls ?? "bg-slate-100 text-slate-600"}`}>
-                          {PLAN_META[u.subscription.planType]?.label ?? u.subscription.planType}
-                        </Badge>
-                      ) : (
-                        <span className="text-[10px] text-slate-400">—</span>
-                      )}
                     </TableCell>
                     <TableCell>
                       <span className="text-xs font-medium text-slate-600 dark:text-slate-300">{u.estimationsCount}</span>
@@ -481,33 +440,6 @@ function UsersTab() {
                     </TableCell>
                     <TableCell className="text-right pr-4">
                       <div className="flex items-center justify-end gap-1">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() =>
-                            setEditTarget({
-                              userId: u._id,
-                              userName: u.name || u.email || "Utilisateur",
-                              subscription: u.subscription
-                                ? {
-                                    subscriptionId: u.subscription.subscriptionId,
-                                    planType: u.subscription.planType,
-                                    status: u.subscription.status,
-                                    paymentStatus: u.subscription.paymentStatus,
-                                    paymentMethod: u.subscription.paymentMethod,
-                                    endDate: u.subscription.endDate,
-                                    estimationsUsed: u.subscription.estimationsUsed,
-                                    estimationsLimit: u.subscription.estimationsLimit,
-                                  }
-                                : null,
-                            })
-                          }
-                          className="size-7 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/50"
-                          aria-label={`Modifier le forfait de ${u.name || u.email || "utilisateur"}`}
-                          title="Modifier le forfait"
-                        >
-                          <Pencil className="size-3.5" />
-                        </Button>
                         <Button
                           variant="ghost"
                           size="icon"
@@ -545,171 +477,6 @@ function UsersTab() {
         </AlertDialogContent>
       </AlertDialog>
 
-      <PlanEditDialog
-        target={editTarget}
-        onClose={() => setEditTarget(null)}
-      />
-    </Card>
-  );
-}
-
-/* ═══════════════ ABONNEMENTS ═══════════════ */
-function SubscriptionsTab() {
-  const subs = useQuery(api.admin.listSubscriptions, {});
-  const confirmPay = useMutation(api.admin.adminConfirmPayment);
-  const adjust = useMutation(api.admin.adminAdjustSubscription);
-  const [busy, setBusy] = useState<string | null>(null);
-  const [editTarget, setEditTarget] = useState<PlanEditTarget | null>(null);
-
-  const handleConfirm = async (id: string) => {
-    setBusy(id);
-    try {
-      await confirmPay({ subscriptionId: id as any });
-      toast.success("Paiement confirmé — abonnement activé");
-    } catch (e: any) {
-      toast.error("Erreur", { description: e.message });
-    } finally {
-      setBusy(null);
-    }
-  };
-
-  const handleExtend = async (id: string) => {
-    setBusy(id);
-    try {
-      await adjust({ subscriptionId: id as any, endDate: Date.now() + 30 * 24 * 3600 * 1000, paymentStatus: "paid" });
-      toast.success("Abonnement prolongé de 30 jours");
-    } catch (e: any) {
-      toast.error("Erreur", { description: e.message });
-    } finally {
-      setBusy(null);
-    }
-  };
-
-  return (
-    <Card className="border-0 bg-white/95 dark:bg-slate-900/95 shadow-[0_1px_3px_rgba(0,0,0,0.05)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.3)] rounded-2xl overflow-hidden">
-      <CardHeader className="px-4 sm:px-5 py-4 border-b border-slate-100 dark:border-slate-800">
-        <CardTitle className="text-sm font-bold flex items-center gap-2">
-          <CreditCard className="size-4 text-emerald-600" /> Abonnements & paiements
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="p-0">
-        <div className="overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow className="hover:bg-transparent">
-                <TableHead className="text-[10px] uppercase tracking-wide text-slate-400 h-9 px-4">Client</TableHead>
-                <TableHead className="text-[10px] uppercase tracking-wide text-slate-400 h-9">Forfait</TableHead>
-                <TableHead className="text-[10px] uppercase tracking-wide text-slate-400 h-9">Paiement</TableHead>
-                <TableHead className="text-[10px] uppercase tracking-wide text-slate-400 h-9">Période</TableHead>
-                <TableHead className="text-[10px] uppercase tracking-wide text-slate-400 h-9">Quota</TableHead>
-                <TableHead className="text-[10px] uppercase tracking-wide text-slate-400 h-9 text-right pr-4">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {!subs ? (
-                <TableRow><TableCell colSpan={6} className="py-8 text-center"><Loader2 className="mx-auto size-4 animate-spin text-blue-600" /></TableCell></TableRow>
-              ) : subs.length === 0 ? (
-                <TableRow><TableCell colSpan={6} className="py-8 text-center text-xs text-slate-400">Aucun abonnement</TableCell></TableRow>
-              ) : (
-                subs.map((s) => {
-                  const pending = s.paymentStatus === "pending" && s.paymentMethod !== "simulation";
-                  return (
-                    <TableRow key={s._id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40">
-                      <TableCell className="px-4 py-2.5">
-                        <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 truncate">{s.userName}</p>
-                        <p className="text-[10px] text-slate-400 truncate">{s.userEmail}</p>
-                      </TableCell>
-                      <TableCell>
-                        <Badge className={`rounded-full border-0 text-[9px] px-2 py-0.5 font-semibold ${PLAN_META[s.planType]?.cls ?? ""}`}>
-                          {s.planName} · {s.price} TND
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <div className="space-y-0.5">
-                          <Badge className={`rounded-full border-0 text-[9px] px-2 py-0 font-semibold ${
-                            s.paymentStatus === "paid" ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300"
-                            : pending ? "bg-amber-50 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300"
-                            : s.paymentStatus === "free" ? "bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400"
-                            : "bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400"
-                          }`}>
-                            {s.paymentStatus === "paid" ? "Payé" : s.paymentStatus === "free" ? "Gratuit" : pending ? "En attente" : s.paymentStatus}
-                          </Badge>
-                          <p className="text-[9px] text-slate-400">
-                            {s.paymentMethod === "virement" ? "💳 Virement" : s.paymentMethod === "d17" ? "📮 D17" : "⚡ Démo"}
-                            {s.paymentRef ? ` · ${s.paymentRef}` : ""}
-                          </p>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <p className="text-[10px] text-slate-500 dark:text-slate-400">{fmtDate(s.startDate)}</p>
-                        <p className="text-[10px] text-slate-400">→ {fmtDate(s.endDate)}</p>
-                      </TableCell>
-                      <TableCell>
-                        <span className="text-[10px] font-medium text-slate-500 dark:text-slate-400">{s.estimationsUsed}/{s.estimationsLimit}</span>
-                      </TableCell>
-                      <TableCell className="text-right pr-4">
-                        <div className="flex items-center justify-end gap-1">
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() =>
-                              setEditTarget({
-                                userId: s.userId,
-                                userName: s.userName || s.userEmail || "Client",
-                                subscription: {
-                                  subscriptionId: s._id,
-                                  planType: s.planType,
-                                  status: s.status,
-                                  paymentStatus: s.paymentStatus,
-                                  paymentMethod: s.paymentMethod,
-                                  endDate: s.endDate,
-                                  estimationsUsed: s.estimationsUsed,
-                                  estimationsLimit: s.estimationsLimit,
-                                },
-                              })
-                            }
-                            className="size-7 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/50"
-                            aria-label={`Modifier le forfait de ${s.userName || s.userEmail || "client"}`}
-                            title="Modifier le forfait"
-                          >
-                            <Pencil className="size-3.5" />
-                          </Button>
-                          {pending && (
-                            <Button
-                              variant="outline"
-                              onClick={() => handleConfirm(s._id)}
-                              disabled={busy === s._id}
-                              className="h-7 rounded-lg text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900 hover:bg-emerald-50 dark:hover:bg-emerald-950/50 px-2"
-                            >
-                              {busy === s._id ? <Loader2 className="size-3 animate-spin mr-1" /> : <CheckCircle2 className="size-3 mr-1" />}
-                              Confirmer
-                            </Button>
-                          )}
-                          {s.status === "active" && s.planType !== "start" && (
-                            <Button
-                              variant="ghost"
-                              onClick={() => handleExtend(s._id)}
-                              disabled={busy === s._id}
-                              className="h-7 rounded-lg text-[10px] font-semibold text-blue-600 dark:text-blue-400 px-2"
-                            >
-                              +30j
-                            </Button>
-                          )}
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })
-              )}
-            </TableBody>
-          </Table>
-        </div>
-      </CardContent>
-
-      <PlanEditDialog
-        target={editTarget}
-        onClose={() => setEditTarget(null)}
-      />
     </Card>
   );
 }
@@ -978,11 +745,6 @@ function SettingsTab() {
   const reset = useMutation(api.settings.resetSettings);
   const [saving, setSaving] = useState(false);
 
-  const [bank, setBank] = useState({
-    beneficiary: "", bank: "", agency: "", rib: "", swift: "", reason: "",
-  });
-  const [d17, setD17] = useState({ beneficiary: "", ccp: "", center: "", reason: "" });
-  const [plans, setPlans] = useState<Record<string, { price?: number; estimations?: number; trialDays?: number }>>({});
   const [market, setMarket] = useState<{
     regionBasePrices: Record<string, Record<string, number>>;
     stateMultipliers: Record<string, number>;
@@ -992,21 +754,6 @@ function SettingsTab() {
 
   useEffect(() => {
     if (settings && !loaded) {
-      setBank({
-        beneficiary: settings.bankDetails.beneficiary ?? "",
-        bank: settings.bankDetails.bank ?? "",
-        agency: settings.bankDetails.agency ?? "",
-        rib: settings.bankDetails.rib ?? "",
-        swift: settings.bankDetails.swift ?? "",
-        reason: settings.bankDetails.reason ?? "",
-      });
-      setD17({
-        beneficiary: settings.d17Details.beneficiary ?? "",
-        ccp: settings.d17Details.ccp ?? "",
-        center: settings.d17Details.center ?? "",
-        reason: settings.d17Details.reason ?? "",
-      });
-      setPlans(settings.planOverrides ?? {});
       const mc = settings.marketConfig ?? {};
       setMarket({
         regionBasePrices: mc.regionBasePrices ?? {},
@@ -1021,21 +768,6 @@ function SettingsTab() {
     setSaving(true);
     try {
       await update({
-        bankDetails: {
-          beneficiary: bank.beneficiary.trim(),
-          bank: bank.bank.trim(),
-          agency: bank.agency.trim(),
-          rib: bank.rib.trim(),
-          swift: bank.swift.trim(),
-          reason: bank.reason.trim(),
-        },
-        d17Details: {
-          beneficiary: d17.beneficiary.trim(),
-          ccp: d17.ccp.trim(),
-          center: d17.center.trim(),
-          reason: d17.reason.trim(),
-        },
-        planOverrides: plans,
         marketConfig: market,
       });
       toast.success("Paramètres enregistrés", { description: "Les modifications sont appliquées immédiatement." });
@@ -1083,16 +815,6 @@ function SettingsTab() {
     }));
   };
 
-  const setPlanField = (planId: string, field: "price" | "estimations" | "trialDays", val: string) => {
-    setPlans((prev) => {
-      const current = prev[planId] ?? {};
-      return {
-        ...prev,
-        [planId]: { ...current, [field]: val === "" ? undefined : Number(val) },
-      };
-    });
-  };
-
   if (!settings) {
     return (
       <div className="flex items-center justify-center py-16">
@@ -1105,81 +827,6 @@ function SettingsTab() {
 
   return (
     <div className="space-y-4 sm:space-y-6">
-      {/* ── Coordonnées bancaires ── */}
-      <Card className="border-0 bg-white/95 dark:bg-slate-900/95 shadow-[0_1px_3px_rgba(0,0,0,0.05)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.3)] rounded-2xl overflow-hidden">
-        <CardHeader className="px-4 sm:px-5 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-3">
-          <div className="flex size-9 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400">
-            <Landmark className="size-4" />
-          </div>
-          <div>
-            <CardTitle className="text-sm font-bold">Virement bancaire</CardTitle>
-            <CardDescription className="text-[11px]">Coordonnées affichées dans le flow de paiement</CardDescription>
-          </div>
-        </CardHeader>
-        <CardContent className="p-4 sm:p-5 grid gap-3 sm:grid-cols-2">
-          <Field label="Bénéficiaire" value={bank.beneficiary} onChange={(v) => setBank((p) => ({ ...p, beneficiary: v }))} />
-          <Field label="Banque" value={bank.bank} onChange={(v) => setBank((p) => ({ ...p, bank: v }))} />
-          <Field label="Agence" value={bank.agency} onChange={(v) => setBank((p) => ({ ...p, agency: v }))} />
-          <Field label="RIB" value={bank.rib} onChange={(v) => setBank((p) => ({ ...p, rib: v }))} />
-          <Field label="SWIFT / BIC" value={bank.swift} onChange={(v) => setBank((p) => ({ ...p, swift: v }))} />
-          <Field label="Objet du virement" value={bank.reason} onChange={(v) => setBank((p) => ({ ...p, reason: v }))} />
-        </CardContent>
-      </Card>
-
-      {/* ── D17 ── */}
-      <Card className="border-0 bg-white/95 dark:bg-slate-900/95 shadow-[0_1px_3px_rgba(0,0,0,0.05)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.3)] rounded-2xl overflow-hidden">
-        <CardHeader className="px-4 sm:px-5 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-3">
-          <div className="flex size-9 items-center justify-center rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400">
-            <Send className="size-4" />
-          </div>
-          <div>
-            <CardTitle className="text-sm font-bold">D17 — Poste Tunisie</CardTitle>
-            <CardDescription className="text-[11px]">Coordonnées du mandat de versement</CardDescription>
-          </div>
-        </CardHeader>
-        <CardContent className="p-4 sm:p-5 grid gap-3 sm:grid-cols-2">
-          <Field label="Bénéficiaire" value={d17.beneficiary} onChange={(v) => setD17((p) => ({ ...p, beneficiary: v }))} />
-          <Field label="N° CCP" value={d17.ccp} onChange={(v) => setD17((p) => ({ ...p, ccp: v }))} />
-          <Field label="Centre" value={d17.center} onChange={(v) => setD17((p) => ({ ...p, center: v }))} />
-          <Field label="Motif" value={d17.reason} onChange={(v) => setD17((p) => ({ ...p, reason: v }))} />
-        </CardContent>
-      </Card>
-
-      {/* ── Plans ── */}
-      <Card className="border-0 bg-white/95 dark:bg-slate-900/95 shadow-[0_1px_3px_rgba(0,0,0,0.05)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.3)] rounded-2xl overflow-hidden">
-        <CardHeader className="px-4 sm:px-5 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-3">
-          <div className="flex size-9 items-center justify-center rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400">
-            <Wallet className="size-4" />
-          </div>
-          <div>
-            <CardTitle className="text-sm font-bold">Forfaits</CardTitle>
-            <CardDescription className="text-[11px]">Prix, quota mensuel et essai — laisser vide pour garder la valeur par défaut</CardDescription>
-          </div>
-        </CardHeader>
-        <CardContent className="p-4 sm:p-5">
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            {(Object.keys(PLANS) as Array<"start" | "pro" | "expert" | "agence">).map((pid) => {
-              const ov = plans[pid] ?? {};
-              return (
-                <div key={pid} className="rounded-xl border border-slate-200 dark:border-slate-700 p-3.5 space-y-2.5">
-                  <div className="flex items-center justify-between">
-                    <span className={`flex items-center gap-1.5 text-xs font-bold ${PLAN_META[pid].cls.split(" ").slice(0, 2).join(" ")} px-2 py-0.5 rounded-full`}>
-                      {PLAN_META[pid].label}
-                    </span>
-                    <span className="text-[10px] text-slate-400">{PLANS[pid].price} TND par défaut</span>
-                  </div>
-                  <div className="grid grid-cols-3 gap-2">
-                    <NumField label="Prix" value={ov.price} onChange={(v) => setPlanField(pid, "price", v)} />
-                    <NumField label="Quota" value={ov.estimations} onChange={(v) => setPlanField(pid, "estimations", v)} />
-                    <NumField label="Essai j" value={ov.trialDays} onChange={(v) => setPlanField(pid, "trialDays", v)} />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </CardContent>
-      </Card>
-
       {/* ── Moteur d'estimation ── */}
       <Card className="border-0 bg-white/95 dark:bg-slate-900/95 shadow-[0_1px_3px_rgba(0,0,0,0.05)] dark:shadow-[0_1px_3px_rgba(0,0,0,0.3)] rounded-2xl overflow-hidden">
         <CardHeader className="px-4 sm:px-5 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center gap-3">

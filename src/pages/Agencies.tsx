@@ -81,7 +81,6 @@ export default function Agencies() {
   const myAgencyProfile = useQuery(api.agencies.getMyAgencyProfile);
   const agencyRequests = useQuery(api.agencies.getMyAgencyRequests);
   const registerAgency = useMutation(api.agencies.registerAgencyProfile);
-  const subscribeToPlan = useMutation(api.plans.subscribeToPlan);
   const updateRequestStatus = useMutation(api.agencies.updateRequestStatus);
   const deleteAgencyRequest = useMutation(api.agencies.deleteAgencyRequest);
   const suggestPrice = useMutation(api.agencies.suggestPrice);
@@ -94,14 +93,12 @@ export default function Agencies() {
   const [sendingSuggest, setSendingSuggest] = useState(false);
   const [messageDraft, setMessageDraft] = useState<Record<string, string>>({});
   const [sendingMsgId, setSendingMsgId] = useState<string | null>(null);
-  const mySub = useQuery(api.plans.mySubscription);
 
   const [agencyForm, setAgencyForm] = useState({
     name: "", regions: [] as string[], address: "",
     phone: "", email: "", description: "", specialties: [] as string[], website: "",
   });
   const [savingAgency, setSavingAgency] = useState(false);
-  const [subscribingAgency, setSubscribingAgency] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [editForm, setEditForm] = useState({
     name: "", regions: [] as string[], address: "",
@@ -394,11 +391,6 @@ export default function Agencies() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="pt-0 space-y-3">
-                    <div className="rounded-xl bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/30 border border-amber-100 dark:border-amber-900/40 p-3">
-                      <p className="text-xs font-semibold text-amber-800 dark:text-amber-300 mb-1">Forfait Agence</p>
-                      <p className="text-lg font-bold text-amber-900 dark:text-amber-200">120 TND <span className="text-xs font-normal text-amber-600 dark:text-amber-400">/mois</span></p>
-                      <p className="text-xs text-amber-600 dark:text-amber-400 mt-0.5">2 mois d'essai gratuit</p>
-                    </div>
                     <ul className="space-y-1.5 text-xs text-slate-600 dark:text-slate-400">
                       {[
                         "Profil d'agence personnalisé",
@@ -406,7 +398,6 @@ export default function Agencies() {
                         "Recevoir des demandes de clients",
                         "Coordonnées et spécialités visibles",
                         "Tableau de bord des leads",
-                        "2 mois d'essai gratuit",
                       ].map((f, i) => (
                         <li key={i} className="flex items-center gap-1.5">
                           <CheckCircle2 className="size-3 text-emerald-500 shrink-0" /> {f}
@@ -418,7 +409,7 @@ export default function Agencies() {
                 <Card className={CARD_CLS}>
                   <CardContent className="p-4">
                     <p className="text-xs text-slate-500 dark:text-slate-400 text-center">
-                      Après avoir créé votre profil, souscrivez au forfait Agence pour être visible auprès des propriétaires.
+                      Après avoir créé votre profil, votre agence sera visible auprès des propriétaires.
                     </p>
                   </CardContent>
                 </Card>
@@ -463,52 +454,6 @@ export default function Agencies() {
                     <p className="text-xs text-slate-400">Adresse</p>
                     <p className="text-xs text-slate-600 dark:text-slate-300">{myAgencyProfile.address}</p>
                   </div>
-
-                  {/* Subscription status */}
-                  {(mySub?.planType === "agence" || mySub?.planType === "expert") && mySub.status === "active" && (
-                    <div className="rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-100 dark:border-emerald-900/40 p-2.5 mt-2">
-                      <div className="flex items-center gap-1.5 text-xs text-emerald-700 dark:text-emerald-300 flex-wrap">
-                        <CheckCircle2 className="size-3.5 shrink-0" />
-                        {mySub.planType === "expert" ? (
-                          <>Espace agence inclus avec votre forfait Expert — Visible dans les résultats</>
-                        ) : (
-                          <>Abonnement actif — Visible dans les résultats</>
-                        )}
-                        {mySub.trialEndDate && new Date(mySub.trialEndDate) > new Date() && (
-                          <span className="text-emerald-500">(Essai gratuit jusqu'au {new Date(mySub.trialEndDate).toLocaleDateString("fr-FR")})</span>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                  {(!mySub || (mySub.planType !== "agence" && mySub.planType !== "expert") || mySub.status !== "active") && (
-                    <div className="rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-100 dark:border-amber-900/40 p-2.5 mt-2">
-                      <div className="flex items-center justify-between gap-2">
-                        <p className="text-xs text-amber-700 dark:text-amber-300">
-                          {mySub?.planType === "expert" ? "Activation en cours..." : "Abonnez-vous pour être visible"}
-                        </p>
-                        {mySub?.planType === "expert" ? (
-                          <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">
-                         Inclus avec Expert
-                          </span>
-                        ) : (
-                          <Button onClick={async () => {
-                          setSubscribingAgency(true);
-                          try {
-                            const result = await subscribeToPlan({ planType: "agence" });
-                            toast.success("Abonnement agence activé !", { description: result.message });
-                          } catch (e: any) {
-                            toast.error("Erreur", { description: e?.data?.message || "Impossible de souscrire" });
-                          }
-                          setSubscribingAgency(false);
-                        }} disabled={subscribingAgency}
-                          className="rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs h-7 px-3 shrink-0 hover:from-amber-600 hover:to-orange-600"
-                        >
-                          {subscribingAgency ? <Loader2 className="size-3 animate-spin" /> : "120 TND/mois"}
-                        </Button>
-                        )}
-                      </div>
-                    </div>
-                  )}
 
                   {/* Edit profile button — opens dialog */}
                   <Button

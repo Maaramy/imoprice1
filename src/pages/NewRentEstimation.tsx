@@ -913,6 +913,5 @@ export default function NewRentEstimation() {
           </div>
         </div>
       </div>
-    </div>
   );
 }

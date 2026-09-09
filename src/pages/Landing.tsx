@@ -98,7 +98,7 @@ const faqs = [
   },
   {
     q: "Est-ce vraiment gratuit ?",
-    a: "Oui : le forfait Free offre 3 estimations par mois, sans carte bancaire. Les forfaits payants augmentent votre quota et débloquent le partage par QR code, la signature électronique et l'API.",
+    a: "Oui : l'estimation de vente est offerte, sans carte bancaire, avec analyse IA des photos et rapport détaillé.",
   },
   {
     q: "Puis-je estimer un loyer ou seulement une vente ?",
@@ -118,7 +118,6 @@ const navLinks = [
   { href: "#features", label: "Solutions" },
   { href: "#how-it-works", label: "Fonctionnement" },
   { href: "#invest", label: "Investissement" },
-  { href: "#pricing", label: "Tarifs" },
 ];
 
 const featuresData = [
@@ -139,28 +138,6 @@ const steps = [
   { icon: Calculator, title: "Estimez & valorisez", desc: "Valeur, fourchette, prix conseillés, rapport pro, mise en relation et annonce publiée.", color: "from-indigo-500 to-violet-600", tint: "indigo" },
 ];
 
-const plans = [
-  {
-    name: "Free", price: "0", tagline: "3 estimations / mois",
-    features: ["3 estimations/mois offertes", "Analyse IA des photos", "Rapport détaillé PDF", "Cartographie interactive"],
-    popular: false,
-  },
-  {
-    name: "Pro", price: "120", tagline: "10 estimations / mois",
-    features: ["10 estimations/mois", "Analyse IA des photos", "Rapport PDF + QR code", "Signature électronique", "Support prioritaire"],
-    popular: true,
-  },
-  {
-    name: "Expert", price: "320", tagline: "30 estimations / mois",
-    features: ["30 estimations/mois", "Partage par QR code", "API d'intégration", "Multi-utilisateurs", "Support dédié"],
-    popular: false,
-  },
-  {
-    name: "Agence", price: "120", tagline: "Visibilité & leads",
-    features: ["Profil d'agence personnalisé", "Recommandation aux clients", "Réception des demandes", "2 mois d'essai gratuit"],
-    popular: false,
-  },
-];
 
 const categories = [
   { label: "Maison", active: true, tint: "emerald" },
@@ -761,82 +738,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ═══════════ PRICING ═══════════ */}
-      <section id="pricing" className="relative border-y border-slate-200/70 bg-white/70 py-20 backdrop-blur-sm lg:py-28 dark:border-slate-800 dark:bg-slate-900/50">
-        <div className="mx-auto max-w-7xl px-5 lg:px-8">
-          <motion.div {...fadeUp} className="text-center">
-            <SectionPill color="amber">Tarifs</SectionPill>
-            <h2 className="mx-auto max-w-2xl text-3xl font-black tracking-tight text-slate-900 dark:text-slate-50 sm:text-4xl">
-              Un forfait pour <span className="gradient-text">chaque besoin</span>
-            </h2>
-            <p className="mx-auto mt-3 max-w-xl text-base text-slate-500 dark:text-slate-400">
-              Commencez gratuitement — 3 estimations par mois offertes, sans carte bancaire.
-              Paiement par virement bancaire ou mandat D17 (Poste Tunisie).
-            </p>
-          </motion.div>
-
-          <motion.div
-            variants={staggerContainer} initial="initial" whileInView="whileInView" viewport={{ once: true }}
-            className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-4"
-          >
-            {plans.map((p) => (
-              <motion.div
-                key={p.name} variants={staggerItem}
-                className={`relative flex flex-col rounded-2xl border bg-white/90 p-6 shadow-soft transition-all duration-200 dark:bg-slate-900/80 ${
-                  p.popular
-                    ? "border-emerald-300/70 shadow-soft-lg ring-1 ring-emerald-200/60 dark:border-emerald-700/60 dark:ring-emerald-800/50"
-                    : "border-slate-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-soft-lg dark:border-slate-800 dark:hover:border-slate-700"
-                }`}
-              >
-                {p.popular && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <Badge className="rounded-full bg-gradient-to-r from-emerald-600 to-emerald-500 px-4 py-0.5 text-[10px] font-bold text-white shadow-soft">✨ Le plus choisi</Badge>
-                  </div>
-                )}
-                <div>
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-display text-lg font-bold text-slate-900 dark:text-slate-50">{p.name}</h3>
-                    <span className={`flex size-6 items-center justify-center rounded-lg ${p.popular ? "bg-emerald-600" : "bg-slate-100 dark:bg-slate-800"}`}>
-                      {p.name === "Free" ? <ShieldCheck className="size-3.5 text-emerald-600 dark:text-emerald-400" /> : p.name === "Pro" ? <Zap className="size-3.5 text-emerald-600 dark:text-emerald-400" /> : p.name === "Expert" ? <Activity className="size-3.5 text-emerald-600 dark:text-emerald-400" /> : <Building2 className="size-3.5 text-emerald-600 dark:text-emerald-400" />}
-                    </span>
-                  </div>
-                  <p className="mt-1 text-xs font-semibold text-slate-400 dark:text-slate-500">{p.tagline}</p>
-                  <div className="mt-4 flex items-baseline gap-1">
-                    {p.price === "0" ? (
-                      <span className="font-display text-3xl font-black tracking-tight text-emerald-600 dark:text-emerald-400">Gratuit</span>
-                    ) : (
-                      <>
-                        <span className="font-display text-3xl font-black tracking-tight text-slate-900 tabular-nums dark:text-slate-50">{p.price}</span>
-                        <span className="text-xs text-slate-400">TND/mois</span>
-                      </>
-                    )}
-                  </div>
-                  <ul className="mt-6 space-y-2.5">
-                    {p.features.map((f) => (
-                      <li key={f} className="flex items-start gap-2.5 text-[13px] text-slate-600 dark:text-slate-300">
-                        <div className="mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full bg-emerald-50 dark:bg-emerald-950/60">
-                          <CheckCircle2 className="size-3 text-emerald-600 dark:text-emerald-400" />
-                        </div>
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="mt-7 pt-1">
-                  <Button onClick={() => navigate("/pricing")}
-                    className={`h-11 w-full rounded-md text-sm font-bold transition-all ${
-                      p.popular
-                        ? "bg-gradient-to-r from-emerald-600 to-emerald-500 text-white shadow-[0_8px_20px_-8px_rgba(16,185,129,0.55)] hover:brightness-110"
-                        : "border-2 border-slate-200 bg-white text-slate-700 hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/40 dark:hover:text-emerald-300"
-                    }`}
-                  >Découvrir {p.name}</Button>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
       {/* ═══════════ TESTIMONIALS ═══════════ */}
       <section id="testimonials" className="relative py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
@@ -962,11 +863,9 @@ export default function Landing() {
                   { label: "Solutions", href: "#features" },
                   { label: "Fonctionnement", href: "#how-it-works" },
                   { label: "Investissement locatif", href: "#invest" },
-                  { label: "Tarifs", href: "/pricing", nav: true },
                 ].map((l) => (
                   <li key={l.label}>
-                    <a href={l.href} onClick={l.nav ? (e) => { e.preventDefault(); navigate(l.href); } : undefined}
-                      className="text-sm text-slate-500 transition-colors hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400"
+                    <a href={l.href} className="text-sm text-slate-500 transition-colors hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400"
                     >{l.label}</a>
                   </li>
                 ))}
@@ -986,14 +885,9 @@ export default function Landing() {
                   >Espace agence</a>
                 </li>
                 <li>
-                  <a href="/pricing" onClick={(e) => { e.preventDefault(); navigate("/pricing"); }}
+                  <a href="/agencies" onClick={(e) => { e.preventDefault(); navigate("/agencies"); }}
                     className="text-sm text-slate-500 transition-colors hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400"
                   >Devenir partenaire</a>
-                </li>
-                <li>
-                  <a href="/pricing" onClick={(e) => { e.preventDefault(); navigate("/pricing"); }}
-                    className="text-sm text-slate-500 transition-colors hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400"
-                  >Forfait Agence</a>
                 </li>
               </ul>
             </div>

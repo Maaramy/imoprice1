@@ -1,24 +1,13 @@
 import { useAuth } from "@/hooks/use-auth";
 import { Loader2 } from "lucide-react";
 import logo from "@/assets/logo.svg";
-import { useEffect, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Navigate, useLocation } from "react-router";
 import { motion } from "framer-motion";
-import { useMutation, useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
 
 export function RequireAuth({ children }: { children: ReactNode }) {
   const { isLoading, isAuthenticated } = useAuth();
   const location = useLocation();
-  const mySub = useQuery(api.plans.mySubscription);
-  const ensureDefaultPlan = useMutation(api.plans.ensureDefaultPlan);
-
-  // Every signed-in user automatically gets the free Start plan
-  useEffect(() => {
-    if (isAuthenticated && mySub === null) {
-      ensureDefaultPlan();
-    }
-  }, [isAuthenticated, mySub, ensureDefaultPlan]);
 
   if (isLoading) {
     return (

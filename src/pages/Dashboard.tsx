@@ -311,8 +311,8 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
       <div className="mx-auto max-w-7xl px-3 sm:px-6 py-3 sm:py-6 pb-6 sm:pb-10">
-        {/* ═══ HEADER ═══ */}
-        <div className="mb-4 sm:mb-6">
+        {/* ═══ HEADER (sticky) ═══ */}
+        <div className="sticky top-0 z-40 -mx-3 sm:-mx-6 px-3 sm:px-6 py-3 sm:py-4 mb-4 sm:mb-6 bg-gradient-to-b from-slate-50 via-white/95 to-transparent dark:from-gray-950 dark:via-gray-900/95 backdrop-blur-sm">
           <div className="flex items-center justify-between gap-3">
             {/* Greeting */}
             <div className="flex items-center gap-3 min-w-0 flex-1">

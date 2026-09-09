@@ -1394,33 +1394,6 @@ export default function Dashboard() {
         </motion.div>
       )}
 
-      {/* ═══ BOTTOM NAV (mobile) ═══ */}
-
-      <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-slate-200/70 dark:border-slate-800/70 bg-white/95 dark:bg-gray-950/95 backdrop-blur-2xl shadow-[0_-2px_10px_rgba(0,0,0,0.03)] sm:hidden">
-        <div className="flex items-center justify-around px-2 py-1.5">
-          {[
-            { icon: LayoutDashboard, label: "Dashboard", active: true, onClick: () => {} },
-            { icon: Plus, label: "Estimer", onClick: () => navigate("/estimate") },
-            { icon: KeyRound, label: "Loyer", onClick: () => navigate("/estimate/loyer/new") },
-            { icon: Building, label: "Agences", onClick: () => navigate("/agencies") },
-            { icon: User, label: "Profil", onClick: () => { setProfileName(user?.name || ""); setProfileOpen(true); } },
-          ].map((item) => (
-            <button
-              key={item.label}
-              onClick={item.onClick}
-              className="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all duration-200"
-            >
-              <item.icon className="size-5 text-blue-600 dark:text-blue-400" />
-              <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400">{item.label}</span>
-            </button>
-          ))}
-        </div>
-      </nav>
-
-      {/* Spacer for bottom nav on mobile */}
-      <div className="h-16 sm:hidden" />
-
-      {/* MESSAGE_DETAIL_DIALOG */}
       <Dialog open={msgOpen} onOpenChange={setMsgOpen}>
         <DialogContent className="max-w-[calc(100%-1rem)] gap-0 overflow-hidden rounded-2xl p-0 sm:max-w-md">
           <DialogHeader className="border-b border-slate-100 px-4 pt-6 pb-3 text-left dark:border-slate-800 sm:px-6">

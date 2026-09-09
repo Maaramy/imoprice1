@@ -25,7 +25,7 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { toast } from "sonner";
 import { GOVERNORATS, VILLES_BY_GOUVERNORAT, QUARTIERS_BY_VILLE } from "@/convex/types";
-import { cn, daysUntilNextReset, quotaBarColor } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { SegmentedToggle } from "@/components/SegmentedToggle";
 import { getPropertyVisionService, type AnalysisProgress } from "@/lib/property-vision";
 import { computeEnhancedEstimation, getBasePrice } from "@/lib/enhanced-estimation";
@@ -215,12 +215,9 @@ export default function NewEstimation() {
   const [loading, setLoading] = useState(false);
   const [need, setNeed] = useState<"vendre" | "acheter">("vendre");
   const [f, setF] = useState<FD>(INIT);
-  const remaining = useQuery(api.plans.remainingEstimations);
-  const quotaBlocked = !!remaining && !remaining.canEstimate;
   const create = useMutation(api.properties.createProperty);
   const estimate = useMutation(api.estimation.estimateProperty);
   const seed = useMutation(api.partners.seedPartners);
-  const incrementUsage = useMutation(api.plans.incrementEstimationUsage);
 
   const [photos, setPhotos] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
@@ -301,8 +298,6 @@ export default function NewEstimation() {
 
   const go = (s: number) => setStep(s);
   const valid = () => {
-    // When the quota is exhausted, the final "Estimer" button stays locked
-    if (quotaBlocked && step === STEPS.length - 1) return false;
     switch (step) {
       case 0: return !!f.gouvernorat && !!f.ville;
       case 1: {
@@ -335,26 +330,6 @@ export default function NewEstimation() {
   /* ── Submit ── */
 
   const submit = async () => {
-    // Check estimation limits before proceeding
-    if (remaining && !remaining.canEstimate) {
-      setLoading(false);
-      toast.error(
-        remaining.reason === "essai_termine"
-          ? "Essai gratuit terminé"
-          : remaining.reason === "abonnement_expire"
-            ? "Abonnement expiré"
-            : remaining.reason === "paiement_en_attente"
-              ? "Paiement en attente de confirmation"
-              : "Limite d'estimations atteinte",
-        {
-          description: remaining.reason === "paiement_en_attente"
-            ? "Confirmez votre virement ou D17 pour activer votre forfait."
-            : "Passez à un forfait supérieur pour débloquer plus d'estimations.",
-        },
-      );
-      return;
-    }
-
     setLoading(true);
     setProgressPct(0);
     const vision = getPropertyVisionService();
@@ -422,7 +397,6 @@ export default function NewEstimation() {
       await animatePct(78);
       const { estimationId } = await estimate({ propertyId: id });
       await seed();
-      await incrementUsage();
       vision.terminate();
       await animatePct(90);
 
@@ -530,70 +504,6 @@ export default function NewEstimation() {
 
       {/* ═══ MAIN ═══ */}
       <div className="mx-auto max-w-3xl px-3 sm:px-4 py-3 sm:py-4 pb-20 sm:pb-24">
-
-        {/* Booster banner when the estimation limit is reached */}
-        {remaining && !remaining.canEstimate && (
-          <motion.div
-            initial={{ opacity: 0, y: -6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.25 }}
-            className="mb-3 sm:mb-4"
-          >
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3 rounded-xl border border-amber-200 dark:border-amber-800/60 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/40 dark:to-orange-950/30 px-3.5 py-3 sm:px-4 shadow-sm">
-              <div className="flex items-start gap-2.5 flex-1 min-w-0">
-                <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400">
-                  <AlertTriangle className="size-4" />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-xs sm:text-sm font-bold text-amber-800 dark:text-amber-300 leading-tight">
-                    {remaining.reason === "limite_atteinte"
-                      ? "Quota d'estimations atteint"
-                      : remaining.reason === "essai_termine"
-                        ? "Essai gratuit terminé"
-                        : remaining.reason === "abonnement_expire"
-                          ? "Abonnement expiré"
-                          : remaining.reason === "paiement_en_attente"
-                            ? "Paiement en attente de confirmation"
-                            : "Aucun forfait actif"}
-                  </p>
-                  <p className="text-[10px] sm:text-xs text-amber-700/80 dark:text-amber-400/80 leading-tight mt-0.5">
-                    {remaining.estimationsLimit > 0 && (
-                      <span className="font-semibold">
-                        {Math.max(remaining.remaining, 0)}/{remaining.estimationsLimit} restantes ce mois · réinit. dans {daysUntilNextReset()} j
-                      </span>
-                    )}{" "}
-                    Passez à un forfait supérieur pour débloquer plus d'estimations.
-                  </p>
-                  {remaining.reason === "limite_atteinte" && remaining.estimationsLimit > 0 && (
-                    <div className="mt-2 h-1.5 w-full max-w-[240px] rounded-full bg-amber-100 dark:bg-amber-900/40 overflow-hidden" aria-hidden="true">
-                      <div
-                        className={`h-full rounded-full ${quotaBarColor(Math.max(remaining.remaining, 0) / remaining.estimationsLimit)}`}
-                        style={{ width: `${(remaining.estimationsLimit - Math.max(remaining.remaining, 0)) / remaining.estimationsLimit * 100}%` }}
-                      />
-                    </div>
-                  )}
-                </div>
-              </div>
-              <Button
-                onClick={() => nav("/pricing")}
-                className={`shrink-0 h-9 rounded-lg text-xs sm:text-sm font-semibold text-white shadow-md transition-all hover:shadow-lg hover:brightness-110 ${
-                  remaining.planType === "start"
-                    ? "bg-gradient-to-r from-blue-600 to-blue-500 shadow-blue-200/50 dark:shadow-blue-900/40"
-                    : remaining.planType === "pro"
-                      ? "bg-gradient-to-r from-violet-600 to-purple-600 shadow-violet-200/50 dark:shadow-violet-900/40"
-                      : "bg-gradient-to-r from-amber-600 to-orange-500 shadow-amber-200/50 dark:shadow-amber-900/40"
-                }`}
-              >
-                <Rocket className="size-3.5 mr-1" />
-                {remaining.planType === "start"
-                  ? "Booster à Pro"
-                  : remaining.planType === "pro"
-                    ? "Booster à Expert"
-                    : "Voir les forfaits"}
-              </Button>
-            </div>
-          </motion.div>
-        )}
 
         {/* Step header */}
         <motion.div

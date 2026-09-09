@@ -26,7 +26,7 @@ import {
   RENT_FINISH_LABELS, RENT_ZONE_TYPES, RENT_ZONE_LABELS,
   type RentPropertyInput,
 } from "@/convex/types";
-import { cn, daysUntilNextReset, quotaBarColor } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { SegmentedToggle } from "@/components/SegmentedToggle";
 import { computeRentEstimation, detectRentZoneType, getRentBasePrice } from "@/lib/rent-estimation";
 
@@ -135,10 +135,7 @@ export default function NewRentEstimation() {
   const [loading, setLoading] = useState(false);
   const [need, setNeed] = useState<"louer_bien" | "louer">("louer_bien");
   const [f, setF] = useState<RDF>(INIT);
-  const remaining = useQuery(api.plans.remainingEstimations);
-  const quotaBlocked = !!remaining && !remaining.canEstimate;
   const createRent = useMutation(api.rent.createRentEstimation);
-  const incrementUsage = useMutation(api.plans.incrementEstimationUsage);
 
   const [govSheetOpen, setGovSheetOpen] = useState(false);
   const [villeSheetOpen, setVilleSheetOpen] = useState(false);
@@ -206,7 +203,6 @@ export default function NewRentEstimation() {
   };
 
   const valid = () => {
-    if (quotaBlocked && step === STEPS.length - 1) return false;
     switch (step) {
       case 0: return !!f.gouvernorat && !!f.ville;
       case 1: return !!f.propertyType && !!f.builtSurface;
@@ -217,16 +213,6 @@ export default function NewRentEstimation() {
   };
 
   const submit = async () => {
-    if (remaining && !remaining.canEstimate) {
-      toast.error(
-        remaining.reason === "essai_termine" ? "Essai gratuit terminé"
-          : remaining.reason === "abonnement_expire" ? "Abonnement expiré"
-            : remaining.reason === "paiement_en_attente" ? "Paiement en attente de confirmation"
-              : "Limite d'estimations atteinte",
-        { description: "Passez à un forfait supérieur pour débloquer plus d'estimations." },
-      );
-      return;
-    }
     setLoading(true);
     setProgressPct(0);
 
@@ -296,7 +282,6 @@ export default function NewRentEstimation() {
       await animatePct(55);
 
       const { estimationId } = await createRent({ property });
-      await incrementUsage();
       await animatePct(85);
 
       sessionStorage.setItem(`rent_${estimationId}`, JSON.stringify({ property, result: local }));
@@ -376,28 +361,6 @@ export default function NewRentEstimation() {
 
       {/* ═══ MAIN ═══ */}
       <div className="mx-auto max-w-3xl px-3 sm:px-4 py-3 sm:py-4 pb-20 sm:pb-24">
-
-        {remaining && !remaining.canEstimate && (
-          <div className="mb-3 sm:mb-4 flex flex-col sm:flex-row sm:items-center gap-3 rounded-xl border border-amber-200 dark:border-amber-800/60 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/40 dark:to-orange-950/30 px-3.5 py-3 sm:px-4 shadow-sm">
-            <div className="flex items-start gap-2.5 flex-1 min-w-0">
-              <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400">
-                <AlertTriangle className="size-4" />
-              </div>
-              <div className="min-w-0">
-                <p className="text-xs sm:text-sm font-bold text-amber-800 dark:text-amber-300 leading-tight">Quota d'estimations atteint</p>
-                <p className="text-[10px] sm:text-xs text-amber-700/80 dark:text-amber-400/80 leading-tight mt-0.5">
-                  {remaining.estimationsLimit > 0 && (
-                    <span className="font-semibold">{Math.max(remaining.remaining, 0)}/{remaining.estimationsLimit} restantes ce mois · réinit. dans {daysUntilNextReset()} j</span>
-                  )}{" "}
-                  Passez à un forfait supérieur pour débloquer plus d'estimations.
-                </p>
-              </div>
-            </div>
-            <Button onClick={() => nav("/pricing")} className="shrink-0 h-9 rounded-lg text-xs font-semibold text-white bg-gradient-to-r from-amber-600 to-orange-500">
-              <Rocket className="size-3.5 mr-1" /> Booster mon forfait
-            </Button>
-          </div>
-        )}
 
         <motion.div
           key={`h-${step}`}
@@ -935,16 +898,6 @@ export default function NewRentEstimation() {
             className="rounded-xl h-10 sm:h-11 px-4 text-xs sm:text-sm">
             <ArrowLeft className="size-3.5 mr-1" /> Précédent
           </Button>
-          <div className="flex items-center gap-2">
-            {remaining && remaining.estimationsLimit > 0 && (
-              <div className="hidden sm:flex items-center gap-2 mr-1">
-                <div className="h-1.5 w-24 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-                  <div className={cn("h-full rounded-full", quotaBarColor(Math.max(remaining.remaining, 0) / remaining.estimationsLimit))}
-                    style={{ width: `${(remaining.estimationsLimit - Math.max(remaining.remaining, 0)) / remaining.estimationsLimit * 100}%` }} />
-                </div>
-                <span className="text-[10px] text-slate-400">{Math.max(remaining.remaining, 0)} rest.</span>
-              </div>
-            )}
             {step < STEPS.length - 1 ? (
               <Button onClick={() => setStep((s) => s + 1)} disabled={!valid() || loading}
                 className="rounded-xl h-10 sm:h-11 px-5 text-xs sm:text-sm bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white shadow-md shadow-emerald-200/50 dark:shadow-emerald-900/50">

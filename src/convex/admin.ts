@@ -4,9 +4,7 @@
  */
 import { getAuthUserId } from "@convex-dev/auth/server";
 import { mutation, internalMutation, query, QueryCtx } from "./_generated/server";
-import type { Doc } from "./_generated/dataModel";
 import { v } from "convex/values";
-import { PLANS, monthKey } from "./defaults";
 
 /** Guard: throw unless the current user is an admin. */
 export const requireAdmin = async (ctx: Pick<QueryCtx, "db">) => {
@@ -139,23 +137,13 @@ export const getAdminStats = query({
   handler: async (ctx) => {
     await requireAdmin(ctx);
 
-    const [users, properties, estimations, subscriptions, partners, requests] = await Promise.all([
+    const [users, properties, estimations, partners, requests] = await Promise.all([
       ctx.db.query("users").collect(),
       ctx.db.query("properties").collect(),
       ctx.db.query("estimations").collect(),
-      ctx.db.query("subscriptions").collect(),
       ctx.db.query("professionalPartners").collect(),
       ctx.db.query("agencyRequests").collect(),
     ]);
-
-    const activeSubs = subscriptions.filter(
-      (s) => s.status === "active" && (!s.endDate || s.endDate > Date.now()),
-    );
-    const pendingPayments = subscriptions.filter(
-      (s) => s.paymentStatus === "pending" && s.paymentMethod !== "simulation",
-    );
-    const paidSubs = subscriptions.filter((s) => s.paymentStatus === "paid");
-    const revenue = paidSubs.reduce((sum, s) => sum + (PLANS[s.planType]?.price ?? 0), 0);
 
     const now = new Date();
     const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
@@ -170,11 +158,6 @@ export const getAdminStats = query({
       properties: properties.length,
       estimations: estimations.length,
       estimationsThisMonth,
-      subscriptions: subscriptions.length,
-      activeSubs: activeSubs.length,
-      pendingPayments: pendingPayments.length,
-      paidSubs: paidSubs.length,
-      revenue,
       agencies: partners.filter((p) => p.type === "agence").length,
       agencyRequests: requests.length,
     };
@@ -191,7 +174,6 @@ export const listUsers = query({
     await requireAdmin(ctx);
 
     const users = await ctx.db.query("users").collect();
-    const subs = await ctx.db.query("subscriptions").collect();
     const estimations = await ctx.db.query("estimations").collect();
 
     const estCount = new Map<string, number>();
@@ -202,9 +184,6 @@ export const listUsers = query({
     const search = (args.search ?? "").trim().toLowerCase();
     const result = users
       .map((u) => {
-        const sub = subs
-          .filter((s) => s.userId === u._id)
-          .sort((a, b) => b.createdAt - a.createdAt)[0];
         return {
           _id: u._id,
           name: u.name ?? "",
@@ -213,18 +192,6 @@ export const listUsers = query({
           image: u.image ?? null,
           role: u.role ?? "user",
           createdAt: u._creationTime,
-          subscription: sub
-            ? {
-                subscriptionId: sub._id,
-                planType: sub.planType,
-                status: sub.status,
-                paymentStatus: sub.paymentStatus,
-                paymentMethod: sub.paymentMethod ?? null,
-                endDate: sub.endDate ?? null,
-                estimationsUsed: sub.estimationsUsed,
-                estimationsLimit: sub.estimationsLimit,
-              }
-            : null,
           estimationsCount: estCount.get(u._id) ?? 0,
         };
       })
@@ -267,175 +234,20 @@ export const deleteUser = mutation({
     const adminId = await requireAdmin(ctx);
     if (adminId === args.userId) throw new Error("Vous ne pouvez pas supprimer votre propre compte");
 
-    const [properties, estimations, subs, listings, requests, reports, partners] = await Promise.all([
+    const [properties, estimations, listings, requests, reports, partners] = await Promise.all([
       ctx.db.query("properties").withIndex("by_user", (q) => q.eq("userId", args.userId)).collect(),
       ctx.db.query("estimations").withIndex("by_user", (q) => q.eq("userId", args.userId)).collect(),
-      ctx.db.query("subscriptions").withIndex("by_user", (q) => q.eq("userId", args.userId)).collect(),
       ctx.db.query("listings").withIndex("by_user", (q) => q.eq("userId", args.userId)).collect(),
       ctx.db.query("agencyRequests").withIndex("by_user", (q) => q.eq("userId", args.userId)).collect(),
       ctx.db.query("sharedReports").withIndex("by_user", (q) => q.eq("userId", args.userId)).collect(),
       ctx.db.query("professionalPartners").filter((q) => q.eq(q.field("userId"), args.userId)).collect(),
     ]);
 
-    for (const item of [...properties, ...estimations, ...subs, ...listings, ...requests, ...reports, ...partners]) {
+    for (const item of [...properties, ...estimations, ...listings, ...requests, ...reports, ...partners]) {
       await ctx.db.delete(item._id);
     }
     await ctx.db.delete(args.userId);
-    return { success: true, deleted: 1 + properties.length + estimations.length + subs.length + listings.length + requests.length + reports.length + partners.length };
-  },
-});
-
-/** Admin: list all subscriptions with the user email. */
-export const listSubscriptions = query({
-  args: {
-    limit: v.optional(v.number()),
-  },
-  handler: async (ctx, args) => {
-    await requireAdmin(ctx);
-    const subs = await ctx.db.query("subscriptions").order("desc").collect();
-    const result = await Promise.all(
-      subs.slice(0, args.limit ?? 300).map(async (s) => {
-        const user = await ctx.db.get(s.userId);
-        return {
-          _id: s._id,
-          userId: s.userId,
-          userEmail: user?.email ?? "—",
-          userName: user?.name ?? "—",
-          planType: s.planType,
-          planName: PLANS[s.planType]?.name ?? s.planType,
-          price: PLANS[s.planType]?.price ?? 0,
-          status: s.status,
-          paymentStatus: s.paymentStatus,
-          paymentMethod: s.paymentMethod ?? "simulation",
-          paymentRef: s.paymentRef ?? null,
-          startDate: s.startDate,
-          endDate: s.endDate ?? null,
-          trialEndDate: s.trialEndDate ?? null,
-          estimationsUsed: s.estimationsUsed,
-          estimationsLimit: s.estimationsLimit,
-          createdAt: s.createdAt,
-        };
-      }),
-    );
-    return result;
-  },
-});
-
-/** Admin: confirm any pending manual payment. */
-export const adminConfirmPayment = mutation({
-  args: {
-    subscriptionId: v.id("subscriptions"),
-  },
-  handler: async (ctx, args) => {
-    await requireAdmin(ctx);
-    const sub = await ctx.db.get(args.subscriptionId);
-    if (!sub) throw new Error("Abonnement introuvable");
-    if (sub.paymentStatus !== "pending") throw new Error("Ce paiement n'est pas en attente");
-
-    const now = Date.now();
-    const isAgenceAfterTrial = sub.planType === "agence" && !!sub.trialEndDate;
-    const newEndDate = isAgenceAfterTrial
-      ? now + 365 * 24 * 60 * 60 * 1000
-      : now + 30 * 24 * 60 * 60 * 1000;
-
-    await ctx.db.patch(args.subscriptionId, {
-      paymentStatus: "paid",
-      endDate: newEndDate,
-      trialEndDate: undefined,
-    });
-    return { success: true, message: "Paiement confirmé — abonnement activé" };
-  },
-});
-
-/**
- * Admin: adjust a subscription — or create one for a user without a plan.
- *
- * Target by `subscriptionId`, or by `userId` (latest subscription is edited;
- * a default plan is created when the user has none). Allows the admin to edit
- * the plan, the monthly quota, the used counter, payment status/method and
- * the subscription dates directly from the admin UI.
- */
-export const adminAdjustSubscription = mutation({
-  args: {
-    subscriptionId: v.optional(v.id("subscriptions")),
-    userId: v.optional(v.id("users")),
-    planType: v.optional(v.union(v.literal("start"), v.literal("pro"), v.literal("expert"), v.literal("agence"))),
-    estimationsLimit: v.optional(v.number()),
-    estimationsUsed: v.optional(v.number()),
-    startDate: v.optional(v.number()),
-    endDate: v.optional(v.number()),
-    trialEndDate: v.optional(v.number()),
-    paymentStatus: v.optional(v.union(v.literal("pending"), v.literal("paid"), v.literal("free"))),
-    status: v.optional(v.union(v.literal("active"), v.literal("expired"), v.literal("cancelled"))),
-    paymentMethod: v.optional(v.union(v.literal("simulation"), v.literal("virement"), v.literal("d17"))),
-    paymentRef: v.optional(v.string()),
-  },
-  handler: async (ctx, args) => {
-    await requireAdmin(ctx);
-
-    const now = Date.now();
-    let sub: Doc<"subscriptions"> | null = null;
-
-    if (args.subscriptionId) {
-      sub = await ctx.db.get(args.subscriptionId);
-      if (!sub) throw new Error("Abonnement introuvable");
-    } else if (args.userId) {
-      sub = await ctx.db
-        .query("subscriptions")
-        .withIndex("by_user", (q) => q.eq("userId", args.userId!))
-        .order("desc")
-        .first();
-    } else {
-      throw new Error("Abonnement ou utilisateur requis");
-    }
-
-    // No subscription yet → create one with the requested plan (default: Free)
-    if (!sub) {
-      if (!args.userId) throw new Error("Abonnement ou utilisateur requis");
-      const planId = args.planType ?? "start";
-      const plan = PLANS[planId];
-      const subId = await ctx.db.insert("subscriptions", {
-        userId: args.userId,
-        planType: planId,
-        status: args.status ?? "active",
-        startDate: args.startDate ?? now,
-        endDate: args.endDate,
-        estimationsUsed: args.estimationsUsed ?? 0,
-        estimationsLimit: args.estimationsLimit ?? plan?.estimations ?? 3,
-        quotaMonth: monthKey(now),
-        paymentStatus: args.paymentStatus ?? (plan?.price === 0 ? "free" : "paid"),
-        paymentMethod: args.paymentMethod ?? "simulation",
-        paymentRef: args.paymentRef?.trim() || undefined,
-        createdAt: now,
-      });
-      return { success: true, created: true, subscriptionId: subId };
-    }
-
-    const patch: Record<string, unknown> = {};
-    // Changing the plan aligns the monthly quota with the plan's default,
-    // unless the admin explicitly overrides the limit.
-    if (args.planType !== undefined) {
-      patch.planType = args.planType;
-      if (args.estimationsLimit === undefined && PLANS[args.planType]) {
-        patch.estimationsLimit = PLANS[args.planType].estimations;
-      }
-    }
-    if (args.estimationsLimit !== undefined) patch.estimationsLimit = args.estimationsLimit;
-    if (args.estimationsUsed !== undefined) {
-      patch.estimationsUsed = args.estimationsUsed;
-      // Reset the monthly quota context so the new counter takes effect now
-      patch.quotaMonth = monthKey();
-    }
-    if (args.startDate !== undefined) patch.startDate = args.startDate;
-    if (args.endDate !== undefined) patch.endDate = args.endDate;
-    if (args.trialEndDate !== undefined) patch.trialEndDate = args.trialEndDate;
-    if (args.paymentStatus !== undefined) patch.paymentStatus = args.paymentStatus;
-    if (args.status !== undefined) patch.status = args.status;
-    if (args.paymentMethod !== undefined) patch.paymentMethod = args.paymentMethod;
-    if (args.paymentRef !== undefined) patch.paymentRef = args.paymentRef.trim() || undefined;
-
-    await ctx.db.patch(sub._id, patch);
-    return { success: true, created: false, subscriptionId: sub._id };
+    return { success: true, deleted: 1 + properties.length + estimations.length + listings.length + requests.length + reports.length + partners.length };
   },
 });
 

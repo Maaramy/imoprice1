@@ -3,15 +3,6 @@ import { internal } from "./_generated/api";
 
 const crons = cronJobs();
 
-// Reset all monthly estimation quotas on the 1st of each month (00:00 UTC).
-// The lazy reset in plans.ts also handles month changes at read/write time,
-// so this cron simply keeps the stored counters tidy.
-crons.cron(
-  "monthly-quota-reset",
-  "0 0 1 * *",
-  internal.plans.resetMonthlyQuotas,
-);
-
 // Alertes prix du marché : vérification quotidienne à 07:00 UTC.
 crons.cron(
   "price-alerts-daily-check",

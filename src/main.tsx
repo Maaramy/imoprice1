@@ -91,7 +91,6 @@ const Compare = lazyWithRetry(() => import("./pages/Compare.tsx"));
 const NewRentEstimation = lazyWithRetry(() => import("./pages/NewRentEstimation.tsx"));
 const RentEstimationResult = lazyWithRetry(() => import("./pages/RentEstimationResult.tsx"));
 const ReportView = lazyWithRetry(() => import("./pages/ReportView.tsx"));
-const Pricing = lazyWithRetry(() => import("./pages/Pricing.tsx"));
 const Settings = lazyWithRetry(() => import("./pages/Settings.tsx"));
 const Agencies = lazyWithRetry(() => import("./pages/Agencies.tsx"));
 const AgencyPublic = lazyWithRetry(() => import("./pages/AgencyPublic.tsx"));
@@ -299,15 +298,6 @@ createRoot(document.getElementById("root")!).render(
                       </RequireAuth>
                     }
                   />
-                  <Route
-                    path="/pricing"
-                    element={
-                      <PageTransition pageKey="pricing">
-                        <Pricing />
-                      </PageTransition>
-                    }
-                  />
-
                   <Route
                     path="/settings"
                     element={

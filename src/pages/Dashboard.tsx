@@ -2,10 +2,8 @@ import { useEffect, useState, useMemo, useRef } from "react";
 import { useNavigate } from "react-router";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { PAYMENT_METHODS } from "@/convex/defaults";
 
 import { useAuth } from "@/hooks/use-auth";
-import { daysUntilNextReset } from "@/lib/utils";
 import { RENT_PROPERTY_TYPES_LABELS, GOVERNORATS, PROPERTY_TYPES, PROPERTY_TYPES_LABELS } from "@/convex/types";
 import { ThemeToggle } from "@/components/ThemeProvider";
 import { AnnouncementSection } from "@/components/announcements/AnnouncementSection";
@@ -115,31 +113,6 @@ function CardAccent({ color = "from-emerald-500 via-emerald-400 to-teal-400" }: 
   return <div className={`absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r ${color} opacity-60`} />;
 }
 
-/** Plan badge icon (matches Pricing page plan icons) */
-function planIcon(type: string) {
-  const cls = "size-3 sm:size-3.5 shrink-0";
-  switch (type) {
-    case "pro": return <Zap className={cls} />;
-    case "expert": return <Sparkles className={cls} />;
-    case "agence": return <Building2 className={cls} />;
-    default: return <Shield className={cls} />;
-  }
-}
-
-/** Plan badge color: Free = green, Pro = blue, Expert = gold, Agence = orange */
-function planBadgeClass(type: string) {
-  switch (type) {
-    case "pro":
-      return "bg-emerald-50 text-emerald-700 ring-emerald-200/70 dark:bg-emerald-950/40 dark:text-emerald-300 dark:ring-emerald-800/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/50";
-    case "expert":
-      return "bg-amber-50 text-amber-700 ring-amber-200/70 dark:bg-amber-950/40 dark:text-amber-300 dark:ring-amber-800/60 hover:bg-amber-100 dark:hover:bg-amber-900/50";
-    case "agence":
-      return "bg-orange-50 text-orange-700 ring-orange-200/70 dark:bg-orange-950/40 dark:text-orange-300 dark:ring-orange-800/60 hover:bg-orange-100 dark:hover:bg-orange-900/50";
-    default:
-      return "bg-emerald-50 text-emerald-700 ring-emerald-200/70 dark:bg-emerald-950/40 dark:text-emerald-300 dark:ring-emerald-800/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/50";
-  }
-}
-
 const STAT_CARDS = [
   { label: "Estimations", key: "total", icon: BarChart3, gradient: "from-emerald-500 to-emerald-600", bg: "bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400", accent: "from-emerald-500 to-emerald-400" },
   { label: "Confiance moy.", key: "confidence", icon: Brain, gradient: "from-teal-500 to-teal-600", bg: "bg-teal-50 dark:bg-teal-950/50 text-teal-600 dark:text-teal-400", accent: "from-teal-500 to-teal-400" },
@@ -166,7 +139,6 @@ export default function Dashboard() {
   const [savingProfile, setSavingProfile] = useState(false);
   const avatarInputRef = useRef<HTMLInputElement>(null);
   const updateProfile = useMutation(api.users.updateUserProfile);
-  const confirmPayment = useMutation(api.plans.confirmManualPayment);
   const handleSignOut = async () => { await signOut(); navigate("/"); };
 
   // Sync profile fields when user data loads
@@ -226,14 +198,7 @@ export default function Dashboard() {
     }
   }, [filteredEstimations, sortKey]);
 
-  const mySub = useQuery(api.plans.mySubscription);
-  const quota = useQuery(api.plans.remainingEstimations);
-  const quotaRemaining = quota?.remaining ?? (mySub ? Math.max(mySub.estimationsLimit - mySub.estimationsUsed, 0) : 0);
-  const planLabel = mySub
-    ? mySub.planType === "start" ? "Free" : mySub.planType === "pro" ? "Pro" : mySub.planType === "agence" ? "Agence" : "Expert"
-    : "";
   const myAgencyProfile = useQuery(api.agencies.getMyAgencyProfile);
-  const paymentHistory = useQuery(api.plans.getPaymentHistory);
 
   // ── Inbox (messagerie) ──
   const inbox = useQuery(api.messages.getMyInbox);
@@ -395,12 +360,6 @@ export default function Dashboard() {
                     <KeyRound className="size-4 text-emerald-500" />
                     Estimer un loyer
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate("/pricing")}
-                    className="rounded-lg text-sm cursor-pointer"
-                  >
-                    <Sparkles className="size-4 text-amber-500" />
-                    Forfaits
-                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => navigate("/agencies")}
                     className="rounded-lg text-sm cursor-pointer"
                   >
@@ -446,45 +405,6 @@ export default function Dashboard() {
                     <p className="text-xs sm:text-sm text-slate-400 dark:text-slate-500 truncate leading-tight">
                       {user.email}
                     </p>
-                  )}
-                  {mySub && mySub.status === "active" && (
-                    <Badge
-                      onClick={() => navigate("/pricing")}
-                      title={`${planLabel} · ${quotaRemaining} estimation(s) restante(s) ce mois · Réinitialisation dans ${daysUntilNextReset()} jour${daysUntilNextReset() > 1 ? "s" : ""}`}
-                      className={`group cursor-pointer rounded-full border-0 text-[10px] sm:text-xs font-semibold px-2.5 py-1 gap-1 ring-1 transition-all ${planBadgeClass(mySub.planType)}`}
-                    >
-                      {planIcon(mySub.planType)}
-                      {planLabel} · {quotaRemaining} rest.
-                    </Badge>
-                  )}
-                  {mySub && mySub.status === "active" && mySub.estimationsLimit > 0 && quotaRemaining > 0 && quotaRemaining <= mySub.estimationsLimit * 0.2 && (
-                    <span
-                      title="Quota presque épuisé — passez à un forfait supérieur"
-                      className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 dark:bg-amber-950/40 ring-1 ring-amber-300/60 dark:ring-amber-700/50 px-2 py-1 text-[10px] sm:text-xs font-bold text-amber-700 dark:text-amber-300"
-                    >
-                      <span className="relative flex size-2" aria-hidden="true">
-                        <span className="absolute inline-flex size-full animate-ping rounded-full bg-amber-400 opacity-75" />
-                        <span className="relative inline-flex size-2 rounded-full bg-amber-500" />
-                      </span>
-                      Quota bas
-                    </span>
-                  )}
-                  {!mySub && user && (
-                    <Badge
-                      onClick={() => navigate("/pricing")}
-                      className="cursor-pointer rounded-full border-0 text-[10px] sm:text-xs font-medium px-2 py-0.5 bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all"
-                    >
-                      Aucun forfait
-                    </Badge>
-                  )}
-                  {mySub && mySub.status === "active" && mySub.planType === "expert" && myAgencyProfile && (
-                    <Badge
-                      onClick={() => navigate("/agencies")}
-                      className="cursor-pointer rounded-full border-0 text-[10px] sm:text-xs font-medium px-2 py-0.5 bg-gradient-to-r from-emerald-50 to-teal-100 text-emerald-700 dark:from-emerald-950/50 dark:to-teal-900/50 dark:text-emerald-300 hover:from-emerald-100 hover:to-teal-200 dark:hover:from-emerald-900/70 dark:hover:to-teal-800/70 transition-all"
-                    >
-                      <Building className="size-3 mr-0.5" />
-                      Agence incluse
-                    </Badge>
                   )}
                 </div>
               </div>
@@ -1483,7 +1403,6 @@ export default function Dashboard() {
             { icon: Plus, label: "Estimer", onClick: () => navigate("/estimate") },
             { icon: KeyRound, label: "Loyer", onClick: () => navigate("/estimate/loyer/new") },
             { icon: Building, label: "Agences", onClick: () => navigate("/agencies") },
-            { icon: Sparkles, label: "Forfaits", onClick: () => navigate("/pricing") },
             { icon: User, label: "Profil", onClick: () => { setProfileName(user?.name || ""); setProfileOpen(true); } },
           ].map((item) => (
             <button
@@ -1668,83 +1587,6 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Payment history */}
-            {paymentHistory && paymentHistory.length > 0 && (
-              <div className="space-y-1.5">
-                <div className="flex items-center gap-1.5 mb-2">
-                  <History className="size-3.5 sm:size-4 text-slate-400" />
-                  <span className="text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-400">
-                    Historique des paiements
-                  </span>
-                </div>
-                <div className="space-y-1.5 max-h-36 overflow-y-auto pr-0.5 scrollbar-thin">
-                  {paymentHistory.map((sub: any) => {
-                    const methodLabel = PAYMENT_METHODS[sub.paymentMethod as keyof typeof PAYMENT_METHODS]?.shortLabel;
-                    const isPendingManual = sub.paymentStatus === "pending" && sub.paymentMethod !== "simulation";
-                    return (
-                      <div
-                        key={sub.id}
-                        className="flex items-center justify-between gap-2 rounded-xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900/30 px-3.5 py-2.5"
-                      >
-                        <div className="min-w-0 flex-1">
-                          <p className="text-xs font-semibold text-slate-700 dark:text-slate-300 truncate">
-                            Forfait {sub.planName}
-                          </p>
-                          <p className="text-[10px] text-slate-400 dark:text-slate-500 truncate">
-                            {new Date(sub.startDate).toLocaleDateString("fr-FR", {
-                              day: "numeric", month: "short", year: "numeric",
-                            })}
-                            {sub.endDate && ` → ${new Date(sub.endDate).toLocaleDateString("fr-FR", {
-                              day: "numeric", month: "short", year: "numeric",
-                            })}`}
-                          </p>
-                          {(methodLabel || sub.paymentRef) && (
-                            <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate mt-0.5">
-                              {methodLabel && <span className="font-medium">{methodLabel}</span>}
-                              {sub.paymentRef && <span className="text-slate-400 dark:text-slate-500"> · {sub.paymentRef}</span>}
-                            </p>
-                          )}
-                        </div>
-                        <div className="text-right shrink-0 ml-2 flex flex-col items-end gap-1">
-                          <span className="text-xs font-bold text-slate-900 dark:text-slate-100">
-                            {sub.price} {sub.currency}
-                          </span>
-                          <Badge
-                            className={`rounded-full border-0 text-[9px] px-1.5 py-0 font-semibold ${
-                              sub.paymentStatus === "paid"
-                                ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300"
-                                : sub.paymentStatus === "pending"
-                                ? "bg-amber-50 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"
-                                : "bg-slate-50 text-slate-500 dark:bg-slate-800 dark:text-slate-400"
-                            }`}>
-                            {sub.paymentStatus === "paid" ? "Payé" : sub.paymentStatus === "pending" ? "En attente" : "Expiré"}
-                          </Badge>
-                          {isPendingManual && (
-                            <button
-                              onClick={async () => {
-                                try {
-                                  await confirmPayment({ subscriptionId: sub.id });
-                                  toast.success("Paiement confirmé !", {
-                                    description: "Votre forfait est maintenant actif.",
-                                  });
-                                } catch (e: any) {
-                                  toast.error("Erreur", {
-                                    description: e?.data?.message || e?.message || "Impossible de confirmer le paiement.",
-                                  });
-                                }
-                              }}
-                              className="text-[10px] font-semibold text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 underline underline-offset-2 transition-colors"
-                            >
-                              Confirmer le paiement
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
           </div>
 
           <DialogFooter className="flex-row gap-2 pt-2">

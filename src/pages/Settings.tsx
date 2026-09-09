@@ -4,7 +4,6 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useAuth } from "@/hooks/use-auth";
 import { useTheme } from "@/components/ThemeProvider";
-import { daysUntilNextReset, quotaBarColor } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,7 +16,7 @@ import { toast } from "sonner";
 import {
   ArrowLeft, User, Lock, Bell, SlidersHorizontal,
   AtSign, Phone, Camera, Loader2, Save,
-  Moon, Sun, Monitor, BarChart3, RefreshCw,
+  Moon, Sun, Monitor,
 } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
@@ -48,7 +47,6 @@ export default function Settings() {
   const { user, signOut } = useAuth();
   const { theme, setTheme } = useTheme();
   const updateProfile = useMutation(api.users.updateUserProfile);
-  const usage = useQuery(api.plans.getMonthlyUsage);
 
   // ─── Profile state ───
   const [profileName, setProfileName] = useState(user?.name || "");
@@ -119,7 +117,6 @@ export default function Settings() {
     { value: "security", label: "Sécurité", icon: Lock },
     { value: "notifications", label: "Notifications", icon: Bell },
     { value: "preferences", label: "Préférences", icon: SlidersHorizontal },
-    { value: "usage", label: "Usage", icon: BarChart3 },
   ];
 
   return (
@@ -421,68 +418,6 @@ export default function Settings() {
             </Card>
           </TabsContent>
 
-          {/* ─── TAB: USAGE ─── */}
-          <TabsContent value="usage" className="space-y-4">
-            <Card className={CARD_CLS}>
-              <CardAccent color="from-blue-500 via-sky-400 to-cyan-400" />
-              <CardContent className="p-4 sm:p-6">
-                <SectionLabel icon={BarChart3} label="Utilisation des estimations" desc="Quota mensuel et historique" />
-
-                {usage ? (
-                  <>
-                    {/* Current month summary */}
-                    <div className="mb-5 sm:mb-6 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 p-3.5 sm:p-4">
-                      <div className="flex items-center justify-between gap-2 flex-wrap">
-                        <div>
-                          <p className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200">
-                            {usage.planName ?? "—"} · {usage.usedThisMonth}/{usage.limit} utilisées ce mois
-                          </p>
-                          <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                            <RefreshCw className="inline size-3 mr-1 -mt-0.5" />
-                            Prochaine réinitialisation dans {daysUntilNextReset()} jour{daysUntilNextReset() > 1 ? "s" : ""}
-                          </p>
-                        </div>
-                        <span className="rounded-full bg-blue-50 dark:bg-blue-950/50 px-2.5 py-1 text-[10px] sm:text-xs font-bold text-blue-600 dark:text-blue-300">
-                          {Math.max(usage.remaining, 0)} restantes
-                        </span>
-                      </div>
-                      <div className="mt-3 h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
-                        <div
-                          className={`h-full rounded-full transition-all ${quotaBarColor(usage.limit > 0 ? Math.max(usage.remaining, 0) / usage.limit : 0)}`}
-                          style={{ width: `${usage.limit > 0 ? Math.min(100, (usage.usedThisMonth / usage.limit) * 100) : 0}%` }}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Monthly history */}
-                    <p className="text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300 mb-2.5">Historique mensuel</p>
-                    <div className="space-y-2.5">
-                      {usage.months.map((m) => (
-                        <div key={m.key} className="flex items-center gap-3">
-                          <span className={`w-16 shrink-0 text-[10px] sm:text-xs font-medium ${m.isCurrent ? "text-blue-600 dark:text-blue-300 font-bold" : "text-slate-500 dark:text-slate-400"}`}>
-                            {m.label}
-                          </span>
-                          <div className="flex-1 h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-                            <div
-                              className={`h-full rounded-full ${quotaBarColor(m.limit > 0 ? Math.max(m.limit - m.count, 0) / m.limit : 0)}`}
-                              style={{ width: `${m.limit > 0 ? Math.min(100, (m.count / m.limit) * 100) : m.count > 0 ? 100 : 0}%` }}
-                            />
-                          </div>
-                          <span className="w-14 shrink-0 text-right text-[10px] sm:text-xs font-semibold text-slate-600 dark:text-slate-300">
-                            {m.count}/{m.limit}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                ) : (
-                  <div className="flex items-center justify-center py-10">
-                    <span className="size-5 rounded-full bg-slate-200 dark:bg-slate-700 animate-pulse" />
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
         </Tabs>
       </div>
     </div>

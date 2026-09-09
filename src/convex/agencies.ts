@@ -2,7 +2,6 @@ import { getAuthUserId } from "@convex-dev/auth/server";
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 import { internal } from "./_generated/api";
-import { PLANS } from "./plans";
 
 /* ── Register or update agency profile (multi-region + multi-specialty) ── */
 export const registerAgencyProfile = mutation({
@@ -47,21 +46,8 @@ export const registerAgencyProfile = mutation({
       await ctx.db.patch(myProfile._id, updateData);
       return { id: myProfile._id, created: false };
     } else {
-      // Create new
-      // Check if the user has an active agency subscription
-      const sub = await ctx.db
-        .query("subscriptions")
-        .withIndex("by_user", (q) => q.eq("userId", userId))
-        .order("desc")
-        .first();
-
-      // Expert users automatically get agency features
-      const isSubscribed = !!(
-        sub && sub.status === "active" &&
-        (!sub.endDate || Date.now() < sub.endDate) &&
-        (sub.planType === "agence" || sub.planType === "expert")
-      );
-
+      // Create new — the agency is visible immediately; the admin can still
+      // toggle its visibility via the admin panel (toggleAgencyStatus).
       const id = await ctx.db.insert("professionalPartners", {
         userId,
         name: args.name,
@@ -74,7 +60,7 @@ export const registerAgencyProfile = mutation({
         website: args.website,
         description: args.description,
         logoUrl: args.logoUrl,
-        isSubscribed,
+        isSubscribed: true,
       });
       return { id, created: true };
     }

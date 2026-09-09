@@ -423,76 +423,14 @@ const schema = defineSchema(
       .index("by_triggered", ["triggered"])
       .index("by_user_triggered", ["userId", "triggered"]),
 
-    // Site-wide configuration (bank details, D17, plan overrides, market config)
+    // Site-wide configuration (market engine config)
     // Single document with key "main"
     siteSettings: defineTable({
       key: v.string(),
-      bankDetails: v.optional(
-        v.object({
-          beneficiary: v.string(),
-          bank: v.string(),
-          agency: v.string(),
-          rib: v.string(),
-          swift: v.string(),
-          reason: v.string(),
-        }),
-      ),
-      d17Details: v.optional(
-        v.object({
-          beneficiary: v.string(),
-          ccp: v.string(),
-          center: v.string(),
-          reason: v.string(),
-        }),
-      ),
-      // Optional per-plan price/limit/trial overrides
-      planOverrides: v.optional(v.any()),
       // Optional estimation engine overrides (market prices, multipliers)
       marketConfig: v.optional(v.any()),
       updatedAt: v.number(),
     }).index("by_key", ["key"]),
-
-    // User subscriptions / plans
-    subscriptions: defineTable({
-      userId: v.id("users"),
-      planType: v.union(
-        v.literal("start"),
-        v.literal("pro"),
-        v.literal("expert"),
-        v.literal("agence"),
-      ),
-      status: v.union(
-        v.literal("active"),
-        v.literal("expired"),
-        v.literal("cancelled"),
-      ),
-      startDate: v.number(),
-      endDate: v.optional(v.number()),
-      estimationsUsed: v.number(),
-      estimationsLimit: v.number(),
-      trialEndDate: v.optional(v.number()),
-      // Month key ("YYYY-MM", UTC) the current estimationsUsed counter belongs to.
-      // Used to reset the monthly estimation quota automatically.
-      quotaMonth: v.optional(v.string()),
-      paymentStatus: v.union(
-        v.literal("pending"),
-        v.literal("paid"),
-        v.literal("free"),
-      ),
-      // Payment method used: simulation (demo), bank transfer (virement) or D17 (Poste Tunisie)
-      paymentMethod: v.optional(
-        v.union(
-          v.literal("simulation"),
-          v.literal("virement"),
-          v.literal("d17"),
-        ),
-      ),
-      // Optional user-provided payment reference (bank transfer ref / D17 voucher number)
-      paymentRef: v.optional(v.string()),
-      createdAt: v.number(),
-    })
-      .index("by_user", ["userId"])
-      .index("by_status", ["status"]),
 
     // Announcements — communications de la plateforme diffusées dans le Dashboard
     announcements: defineTable({

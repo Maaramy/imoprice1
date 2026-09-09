@@ -169,7 +169,6 @@ export default function EstimationResult() {
   const [sendingAgency, setSendingAgency] = useState(false);
   const r = isDemo ? DEMO_RESULT : (estimation || null);
   const p = isDemo ? DEMO_HOUSE : ((estimation as any)?.property || null);
-  const remaining = useQuery(api.plans.remainingEstimations);
 
   // ── Suivi de la valeur (historique des re-estimations) ──
   const historyData = useQuery(api.estimation.getPropertyHistory, (!isDemo && p?._id) ? { propertyId: p?._id as any } : "skip");
@@ -545,73 +544,6 @@ export default function EstimationResult() {
                 <strong>Exemple de démonstration</strong> — maison de 110 m² à Béja estimée par le BIM Engine.
                 Créez votre propre estimation pour un résultat personnalisé.
               </p>
-            </div>
-          </motion.div>
-        </div>
-      )}
-
-      {/* Booster banner when the estimation limit is reached */}
-      {!isDemo && remaining && !remaining.canEstimate && (
-        <div className="mx-auto max-w-6xl px-4 pt-3 print:hidden">
-          <motion.div
-            initial={{ opacity: 0, y: -6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.25 }}
-          >
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3 rounded-xl border border-amber-200 dark:border-amber-800/60 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/40 dark:to-orange-950/30 px-3.5 py-3 sm:px-4 shadow-sm">
-              <div className="flex items-start gap-2.5 flex-1 min-w-0">
-                <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/50 text-amber-600 dark:text-amber-400">
-                  <AlertTriangle className="size-4" />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-xs sm:text-sm font-bold text-amber-800 dark:text-amber-300 leading-tight">
-                    {remaining.reason === "limite_atteinte"
-                      ? "Quota d'estimations atteint"
-                      : remaining.reason === "essai_termine"
-                        ? "Essai gratuit terminé"
-                        : remaining.reason === "abonnement_expire"
-                          ? "Abonnement expiré"
-                          : remaining.reason === "paiement_en_attente"
-                            ? "Paiement en attente de confirmation"
-                            : "Aucun forfait actif"}
-                  </p>
-                  <p className="text-[10px] sm:text-xs text-amber-700/80 dark:text-amber-400/80 leading-tight mt-0.5">
-                    {remaining.estimationsLimit > 0 && (
-                      <span className="font-semibold">
-                        {Math.max(remaining.remaining, 0)}/{remaining.estimationsLimit} restantes ce mois · réinit. dans {daysUntilNextReset()} j
-                      </span>
-                    )}{" "}
-                    {remaining.reason === "paiement_en_attente"
-                      ? "Confirmez votre virement ou D17 dans les paramètres pour activer votre forfait."
-                      : "Passez à un forfait supérieur pour débloquer plus d'estimations."}
-                  </p>
-                  {remaining.reason === "limite_atteinte" && remaining.estimationsLimit > 0 && (
-                    <div className="mt-2 h-1.5 w-full max-w-[240px] rounded-full bg-amber-100 dark:bg-amber-900/40 overflow-hidden" aria-hidden="true">
-                      <div
-                        className={`h-full rounded-full ${quotaBarColor(Math.max(remaining.remaining, 0) / remaining.estimationsLimit)}`}
-                        style={{ width: `${(remaining.estimationsLimit - Math.max(remaining.remaining, 0)) / remaining.estimationsLimit * 100}%` }}
-                      />
-                    </div>
-                  )}
-                </div>
-              </div>
-              <Button
-                onClick={() => nav("/pricing")}
-                className={`shrink-0 h-9 rounded-lg text-xs sm:text-sm font-semibold text-white shadow-md transition-all hover:shadow-lg hover:brightness-110 ${
-                  remaining.planType === "start"
-                    ? "bg-gradient-to-r from-blue-600 to-blue-500 shadow-blue-200/50 dark:shadow-blue-900/40"
-                    : remaining.planType === "pro"
-                      ? "bg-gradient-to-r from-violet-600 to-purple-600 shadow-violet-200/50 dark:shadow-violet-900/40"
-                      : "bg-gradient-to-r from-amber-600 to-orange-500 shadow-amber-200/50 dark:shadow-amber-900/40"
-                }`}
-              >
-                <Rocket className="size-3.5 mr-1" />
-                {remaining.planType === "start"
-                  ? "Booster à Pro"
-                  : remaining.planType === "pro"
-                    ? "Booster à Expert"
-                    : "Voir les forfaits"}
-              </Button>
             </div>
           </motion.div>
         </div>

@@ -360,6 +360,12 @@ export default function Dashboard() {
                     <KeyRound className="size-4 text-emerald-500" />
                     Estimer un loyer
                   </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/invest/dashboard")}
+                    className="rounded-lg text-sm cursor-pointer"
+                  >
+                    <TrendingUp className="size-4 text-indigo-500" />
+                    Rentabilité d'investissement
+                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => navigate("/agencies")}
                     className="rounded-lg text-sm cursor-pointer"
                   >

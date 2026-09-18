@@ -96,10 +96,6 @@ const Agencies = lazyWithRetry(() => import("./pages/Agencies.tsx"));
 const AgencyPublic = lazyWithRetry(() => import("./pages/AgencyPublic.tsx"));
 const Providers = lazyWithRetry(() => import("./pages/Providers.tsx"));
 const Admin = lazyWithRetry(() => import("./pages/Admin.tsx"));
-const InvestLanding = lazyWithRetry(() => import("./pages/InvestLanding.tsx"));
-const InvestDashboard = lazyWithRetry(() => import("./pages/InvestDashboard.tsx"));
-const NewInvestment = lazyWithRetry(() => import("./pages/NewInvestment.tsx"));
-const InvestmentResult = lazyWithRetry(() => import("./pages/InvestmentResult.tsx"));
 const NotFound = lazyWithRetry(() => import("./pages/NotFound.tsx"));
 
 // Simple loading fallback for route transitions
@@ -333,43 +329,6 @@ createRoot(document.getElementById("root")!).render(
                     }
                   />
 
-
-                  {/* ═══ MODULE INVESTISSEMENT — landing publique dédiée ═══ */}
-                  <Route path="/invest" element={
-                    <PageTransition pageKey="invest-landing">
-                      <InvestLanding />
-                    </PageTransition>
-                  } />
-                  <Route
-                    path="/invest/dashboard"
-                    element={
-                      <RequireAuth>
-                        <PageTransition pageKey="invest-dashboard">
-                          <InvestDashboard />
-                        </PageTransition>
-                      </RequireAuth>
-                    }
-                  />
-                  <Route
-                    path="/invest/new"
-                    element={
-                      <RequireAuth>
-                        <PageTransition pageKey="invest-new">
-                          <NewInvestment />
-                        </PageTransition>
-                      </RequireAuth>
-                    }
-                  />
-                  <Route
-                    path="/invest/:id"
-                    element={
-                      <RequireAuth>
-                        <PageTransition pageKey="invest-result">
-                          <InvestmentResult />
-                        </PageTransition>
-                      </RequireAuth>
-                    }
-                  />
 
                   <Route path="/agency/:id" element={
                     <PageTransition pageKey="agency-public">

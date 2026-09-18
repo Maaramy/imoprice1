@@ -117,7 +117,7 @@ const faqs = [
 const navLinks = [
   { href: "#features", label: "Solutions" },
   { href: "#how-it-works", label: "Fonctionnement" },
-  { href: "#invest", label: "Investissement" },
+  { href: "#invest", label: "Location" },
 ];
 
 const featuresData = [
@@ -127,7 +127,7 @@ const featuresData = [
   { icon: FileText, title: "Rapports professionnels", desc: "Rapport PDF complet avec graphiques d'évolution, carte de localisation et QR code consultable en ligne.", color: "from-rose-500 to-pink-600", chip: "PDF + QR code", tint: "rose" },
   { icon: Handshake, title: "Mise en relation", desc: "Agences, notaires, experts et géomètres partenaires recommandés selon la région de votre bien.", color: "from-amber-500 to-orange-600", chip: "Professionnels", tint: "amber" },
   { icon: Megaphone, title: "Publication d'annonce", desc: "Publiez votre bien directement : annonce préremplie, description générée par l'IA et prix conseillé.", color: "from-sky-500 to-blue-600", chip: "Optionnel", tint: "sky" },
-  { icon: Scale, title: "Comparaison de biens", desc: "Comparez plusieurs biens côte à côte : prix au m², équipements, quartier — pour décider en toute connaissance.", color: "from-indigo-500 to-violet-600", chip: "Investissement", tint: "indigo" },
+  { icon: Scale, title: "Comparaison de biens", desc: "Comparez plusieurs biens côte à côte : prix au m², équipements, quartier — pour décider en toute connaissance.", color: "from-indigo-500 to-violet-600", chip: "Comparaison", tint: "indigo" },
   { icon: Bell, title: "Alertes de prix", desc: "Créez une alerte sur un quartier ou un type de bien : soyez prévenu dès qu'une opportunité apparaît.", color: "from-amber-500 to-yellow-600", chip: "Suivi du marché", tint: "amber" },
   { icon: TrendingUp, title: "Moteur BIM 2026", desc: "24 gouvernorats, 264 délégations, 2 073 quartiers calibrés : neuf vs ancien, décote de négociation et prime de meublé.", color: "from-violet-500 to-purple-600", chip: "IA", tint: "violet" },
 ];
@@ -200,10 +200,6 @@ export default function Landing() {
             <a href="#faq"
               className="rounded-lg px-3.5 py-2 text-[13px] font-medium text-slate-500 transition-all hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100"
             >FAQ</a>
-            <a href="/invest"
-              onClick={(e) => { e.preventDefault(); navigate("/invest"); }}
-              className="rounded-lg px-3.5 py-2 text-[13px] font-semibold text-indigo-600 transition-all hover:bg-indigo-50 dark:text-indigo-400 dark:hover:bg-indigo-950/40"
-            >Investissement</a>
           </div>
 
           <div className="hidden items-center gap-3 md:flex">
@@ -311,7 +307,6 @@ export default function Landing() {
               { label: "Vendre", cls: "border-emerald-500/25 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300" },
               { label: "Acheter", cls: "border-sky-500/25 bg-sky-500/10 text-sky-700 dark:text-sky-300" },
               { label: "Louer", cls: "border-teal-500/25 bg-teal-500/10 text-teal-700 dark:text-teal-300" },
-              { label: "Investir", cls: "border-indigo-500/25 bg-indigo-500/10 text-indigo-700 dark:text-indigo-300" },
             ].map((v) => (
               <span key={v.label} className={`rounded-full border px-3.5 py-1.5 text-xs font-semibold ${v.cls}`}>{v.label}</span>
             ))}
@@ -596,7 +591,7 @@ export default function Landing() {
           <motion.div {...fadeUp} className="text-center">
             <SectionPill color="emerald">Solutions</SectionPill>
             <h2 className="mx-auto max-w-2xl text-3xl font-black tracking-tight text-slate-900 dark:text-slate-50 sm:text-4xl">
-              Tout pour estimer, vendre, louer et <span className="gradient-text">investir</span>
+              Tout pour estimer, vendre, acheter et <span className="gradient-text">louer</span>
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-base text-slate-500 dark:text-slate-400">
               Une plateforme unique qui accompagne votre bien de l'estimation à la mise en vente
@@ -639,7 +634,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ═══════════ INVESTISSEMENT (location) ═══════════ */}
+      {/* ═══════════ LOYER & LOCATION SAISONNIÈRE ═══════════ */}
       <section id="invest" className="relative overflow-hidden py-20 lg:py-28">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute -right-40 top-1/3 h-[480px] w-[480px] rounded-full bg-indigo-300/10 blur-3xl dark:bg-indigo-500/10" />
@@ -648,7 +643,7 @@ export default function Landing() {
         <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <motion.div {...fadeUp}>
-              <SectionPill color="indigo">Investissement locatif</SectionPill>
+              <SectionPill color="indigo">Loyers & location</SectionPill>
               <h2 className="text-3xl font-black tracking-tight text-slate-900 dark:text-slate-50 sm:text-4xl">
                 Loyer mensuel ou location saisonnière, <span className="gradient-text">l'IA fixe le bon prix</span>
               </h2>
@@ -739,76 +734,6 @@ export default function Landing() {
               </div>
             </motion.div>
           </div>
-        </div>
-      </section>
-
-      {/* ═══════════ PROFITABILITÉ D'INVESTISSEMENT — module IA ═══════════ */}
-      <section
-        id="profitabilite"
-        className="relative overflow-hidden border-y border-slate-200/70 bg-gradient-to-b from-indigo-50/60 via-white to-white py-20 lg:py-28 dark:border-slate-800 dark:from-indigo-950/20 dark:via-slate-950 dark:to-slate-950"
-      >
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -right-32 top-10 h-[420px] w-[420px] rounded-full bg-violet-300/15 blur-3xl dark:bg-violet-500/10" />
-          <div className="absolute -left-32 bottom-0 h-[380px] w-[380px] rounded-full bg-emerald-300/15 blur-3xl dark:bg-emerald-500/10" />
-        </div>
-        <div className="relative mx-auto max-w-7xl px-5 lg:px-8">
-          <motion.div {...fadeUp} className="mx-auto max-w-3xl text-center">
-            <SectionPill color="indigo">Nouveau · Analyse de rentabilité par IA</SectionPill>
-            <h2 className="mt-4 text-3xl font-black tracking-tight text-slate-900 dark:text-slate-50 sm:text-4xl">
-              ROI, cash-flow et amortissement : <span className="gradient-text">sachez avant d'investir</span>
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-slate-500 dark:text-slate-400">
-              Un moteur d'intelligence artificielle dédié à la rentabilité des investissements
-              immobiliers en Tunisie : il calcule la rentabilité brute et nette, le retour sur
-              investissement (1 an, 5 ans, 10 ans), la durée de récupération du capital, les
-              prévisions de bénéfices et un score d'investissement sur 100.
-            </p>
-          </motion.div>
-
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              { icon: Calculator, title: "Rentabilité brute & nette", text: "Revenus locatifs, charges, fiscalité et financement intégrés au calcul." },
-              { icon: TrendingUp, title: "ROI 1 an · 5 ans · 10 ans", text: "ROI = (bénéfice net / investissement total) × 100, appréciation incluse." },
-              { icon: Wallet, title: "Cash-flow mensuel & annuel", text: "Ce qu'il vous reste réellement après crédit, charges et gestion." },
-              { icon: CalendarDays, title: "Récupération du capital", text: "Nombre d'années et date estimée d'amortissement complet." },
-              { icon: Activity, title: "Scénarios & prévisions IA", text: "Optimiste, réaliste, prudent — revenus à 1, 3, 5 et 10 ans." },
-              { icon: Scale, title: "Comparaison multi-actifs", text: "Appartement, villa, local commercial, bureau, terrain comparés." },
-              { icon: Sparkles, title: "Score IA d'investissement", text: "Note sur 100 : rentabilité, emplacement, demande, risque, liquidité." },
-              { icon: ShieldCheck, title: "Analyse des risques", text: "Vacance, inflation, taux, fiscalité et liquidité de revente." },
-              { icon: FileText, title: "Rapport PDF complet", text: "Synthèse, analyse financière, graphiques, cartes et recommandations." },
-            ].map((f, i) => (
-              <motion.div
-                key={f.title}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.45, delay: (i % 3) * 0.06 }}
-                className="group rounded-2xl border border-slate-200/80 bg-white/90 p-5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-indigo-300 hover:shadow-xl hover:shadow-indigo-100/50 dark:border-slate-800 dark:bg-slate-900/70 dark:hover:border-indigo-800 dark:hover:shadow-indigo-950/30"
-              >
-                <div className="flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 text-white shadow-soft transition-transform duration-300 group-hover:scale-110">
-                  <f.icon className="size-4" />
-                </div>
-                <h3 className="mt-3.5 text-sm font-bold text-slate-900 dark:text-slate-100">{f.title}</h3>
-                <p className="mt-1 text-xs leading-relaxed text-slate-500 dark:text-slate-400">{f.text}</p>
-              </motion.div>
-            ))}
-          </div>
-
-          <motion.div {...fadeUp} className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Button
-              onClick={() => navigate("/invest")}
-              className="h-12 rounded-md bg-gradient-to-r from-indigo-600 to-violet-600 px-6 text-sm font-bold text-white shadow-[0_8px_20px_-8px_rgba(99,102,241,0.6)] transition-all duration-200 hover:brightness-110"
-            >
-              <TrendingUp className="mr-2 inline size-4" /> Analyser un investissement
-            </Button>
-            <Button
-              variant="ghost"
-              onClick={() => navigate(isAuthenticated ? "/invest/dashboard" : "/auth?returnTo=%2Finvest%2Fdashboard")}
-              className="h-12 rounded-md px-4 text-sm font-semibold text-indigo-600 hover:bg-indigo-50 dark:text-indigo-400 dark:hover:bg-indigo-950/40"
-            >
-              Voir le tableau de bord <ArrowRight className="ml-2 size-4" />
-            </Button>
-          </motion.div>
         </div>
       </section>
 
@@ -924,7 +849,7 @@ export default function Landing() {
                 </span>
               </div>
               <p className="mt-3 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
-                Estimation immobilière intelligente pour la Tunisie : vente, achat, location et investissement.
+                Estimation immobilière pour la Tunisie : vente, achat et location.
               </p>
               <p className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-slate-400 dark:text-slate-500">
                 <HardHat className="size-3.5 text-emerald-600 dark:text-emerald-400" /> Moteur BIM · 24 gouvernorats · 2 073 quartiers

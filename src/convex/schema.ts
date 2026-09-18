@@ -478,37 +478,6 @@ const schema = defineSchema(
       .index("by_status", ["status"])
       .index("by_priority", ["priority"])
       .index("by_createdAt", ["createdAt"]),
-
-    // Investissements — module IA « Analyse de rentabilité des investissements immobiliers »
-    // Chaque document conserve l'entrée complète (snapshot) et le résultat de l'analyse.
-    investments: defineTable({
-      userId: v.id("users"),
-      // Snapshot de l'investissement saisi
-      input: v.any(),
-      // Champs dénormalisés pour l'affichage de la liste / du tableau de bord
-      designation: v.string(),
-      investmentType: v.string(),
-      gouvernorat: v.string(),
-      ville: v.optional(v.string()),
-      quartier: v.optional(v.string()),
-      // Indicateurs clés
-      totalInvestment: v.number(),
-      annualGrossIncome: v.number(),
-      netOperatingIncome: v.number(),
-      annualCashFlow: v.number(),
-      grossYield: v.number(),
-      netYield: v.number(),
-      roiAnnual: v.number(),
-      roi5: v.number(),
-      roi10: v.number(),
-      paybackYears: v.number(),
-      score: v.number(),
-      grade: v.string(),
-      // Résultat complet de l'analyse (projections, scénarios, comparaison, assistant…)
-      analysis: v.any(),
-      createdAt: v.number(),
-      updatedAt: v.number(),
-    }).index("by_user", ["userId"]),
   },
   {
     schemaValidation: false,

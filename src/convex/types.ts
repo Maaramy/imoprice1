@@ -507,7 +507,16 @@ export type AnnouncementStatus =
 
 export const ANNOUNCEMENT_TYPE_META: Record<
   AnnouncementType,
-  { label: string; emoji: string; color: string; badgeClass: string }
+  {
+    label: string;
+    emoji: string;
+    color: string;
+    badgeClass: string;
+    /** Accent (bordure gauche de la carte) — couleur par catégorie. */
+    accentClass: string;
+    /** Pastille d'icône de la carte — couleur par catégorie. */
+    chipClass: string;
+  }
 > = {
   information: {
     label: "Information",
@@ -515,6 +524,8 @@ export const ANNOUNCEMENT_TYPE_META: Record<
     color: "blue",
     badgeClass:
       "bg-blue-100 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 border-blue-200 dark:border-blue-800",
+    accentClass: "border-l-blue-500 dark:border-l-blue-400",
+    chipClass: "bg-blue-100 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300",
   },
   news: {
     label: "Nouveauté",
@@ -522,6 +533,8 @@ export const ANNOUNCEMENT_TYPE_META: Record<
     color: "green",
     badgeClass:
       "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800",
+    accentClass: "border-l-emerald-500 dark:border-l-emerald-400",
+    chipClass: "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300",
   },
   important: {
     label: "Important",
@@ -529,6 +542,8 @@ export const ANNOUNCEMENT_TYPE_META: Record<
     color: "orange",
     badgeClass:
       "bg-orange-100 text-orange-700 dark:bg-orange-950/60 dark:text-orange-300 border-orange-200 dark:border-orange-800",
+    accentClass: "border-l-orange-500 dark:border-l-orange-400",
+    chipClass: "bg-orange-100 text-orange-700 dark:bg-orange-950/60 dark:text-orange-300",
   },
   urgent: {
     label: "Urgent",
@@ -536,6 +551,8 @@ export const ANNOUNCEMENT_TYPE_META: Record<
     color: "red",
     badgeClass:
       "bg-red-100 text-red-700 dark:bg-red-950/60 dark:text-red-300 border-red-200 dark:border-red-800",
+    accentClass: "border-l-red-500 dark:border-l-red-400",
+    chipClass: "bg-red-100 text-red-700 dark:bg-red-950/60 dark:text-red-300",
   },
   maintenance: {
     label: "Maintenance",
@@ -543,6 +560,8 @@ export const ANNOUNCEMENT_TYPE_META: Record<
     color: "violet",
     badgeClass:
       "bg-violet-100 text-violet-700 dark:bg-violet-950/60 dark:text-violet-300 border-violet-200 dark:border-violet-800",
+    accentClass: "border-l-violet-500 dark:border-l-violet-400",
+    chipClass: "bg-violet-100 text-violet-700 dark:bg-violet-950/60 dark:text-violet-300",
   },
 };
 

@@ -1,6 +1,8 @@
 import type { Doc } from "../../convex/_generated/dataModel";
 import { ANNOUNCEMENT_TYPE_META } from "../../convex/types";
+import { cn } from "@/lib/utils";
 import { AnnouncementBadge } from "./AnnouncementBadge";
+import { ANNOUNCEMENT_PRIORITY_CLASS, ANNOUNCEMENT_TYPE_ICONS } from "./meta";
 
 export function formatAnnouncementDate(ts?: number): string {
   if (!ts) return "—";
@@ -20,32 +22,44 @@ export function AnnouncementCard({
   onOpen: (a: Doc<"announcements">) => void;
 }) {
   const meta = ANNOUNCEMENT_TYPE_META[announcement.type];
+  const TypeIcon = ANNOUNCEMENT_TYPE_ICONS[announcement.type];
+
   return (
     <button
       type="button"
       onClick={() => onOpen(announcement)}
-      className="group flex h-full w-full flex-col gap-2.5 rounded-xl border bg-card p-4 text-left transition-colors hover:border-primary/40"
+      className={cn(
+        "group flex h-full w-full flex-col gap-3 rounded-2xl border border-border/40 border-l-4 bg-card/80 p-4 text-left shadow-soft transition-all duration-200 hover:shadow-md active:scale-[0.99] sm:p-5",
+        meta.accentClass,
+      )}
       aria-label={`Lire l'annonce : ${announcement.title}`}
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-2.5">
           <span
             aria-hidden
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border text-lg"
-            style={{ background: "var(--announcement-tint, transparent)" }}
+            className={cn(
+              "flex h-7 w-7 shrink-0 items-center justify-center rounded-lg",
+              meta.chipClass,
+            )}
           >
-            {meta.emoji}
+            <TypeIcon className="size-4" />
           </span>
-          <AnnouncementBadge type={announcement.type} />
+          <AnnouncementBadge type={announcement.type} withIcon={false} />
         </div>
         {announcement.priority >= 5 && (
-          <span className="rounded-md bg-red-100 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-red-700 dark:bg-red-950/60 dark:text-red-300">
+          <span
+            className={cn(
+              "rounded-md px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider",
+              ANNOUNCEMENT_PRIORITY_CLASS,
+            )}
+          >
             Priorité haute
           </span>
         )}
       </div>
 
-      <h4 className="line-clamp-1 text-sm font-semibold text-foreground">
+      <h4 className="line-clamp-2 text-sm font-bold tracking-tight text-foreground sm:text-base">
         {announcement.title}
       </h4>
       <p className="line-clamp-2 flex-1 text-xs leading-relaxed text-muted-foreground">

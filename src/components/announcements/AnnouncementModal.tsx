@@ -1,5 +1,6 @@
 import type { Doc } from "../../convex/_generated/dataModel";
 import { ANNOUNCEMENT_TYPE_META } from "../../convex/types";
+import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -11,6 +12,7 @@ import {
 } from "../ui/dialog";
 import { AnnouncementBadge } from "./AnnouncementBadge";
 import { formatAnnouncementDate } from "./AnnouncementCard";
+import { ANNOUNCEMENT_TYPE_ICONS } from "./meta";
 
 /** Lecture complète d'une annonce (modal accessible). */
 export function AnnouncementModal({
@@ -22,17 +24,26 @@ export function AnnouncementModal({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
+  const meta = announcement ? ANNOUNCEMENT_TYPE_META[announcement.type] : null;
+  const TypeIcon = announcement ? ANNOUNCEMENT_TYPE_ICONS[announcement.type] : null;
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg">
-        {announcement && (
+      <DialogContent className="max-h-[85vh] overflow-y-auto rounded-2xl sm:max-w-lg">
+        {announcement && meta && TypeIcon && (
           <>
             <DialogHeader>
               <div className="mb-1 flex items-center gap-2">
-                <span aria-hidden className="text-2xl">
-                  {ANNOUNCEMENT_TYPE_META[announcement.type].emoji}
+                <span
+                  aria-hidden
+                  className={cn(
+                    "flex h-7 w-7 shrink-0 items-center justify-center rounded-lg",
+                    meta.chipClass,
+                  )}
+                >
+                  <TypeIcon className="size-4" />
                 </span>
-                <AnnouncementBadge type={announcement.type} />
+                <AnnouncementBadge type={announcement.type} withIcon={false} />
               </div>
               <DialogTitle className="text-lg leading-snug">
                 {announcement.title}

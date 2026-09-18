@@ -1,21 +1,27 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { Doc } from "../../convex/_generated/dataModel";
+import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { AnnouncementCard } from "./AnnouncementCard";
 import { AnnouncementEmptyState } from "./AnnouncementEmptyState";
 import { AnnouncementModal } from "./AnnouncementModal";
 
 /**
- * Carousel d'annonces : défilement automatique, pause au survol,
- * boutons précédent/suivant, indicateurs de pagination et swipe mobile.
- * Fonctionne avec 1 annonce, plusieurs ou un grand nombre.
+ * Carousel d'annonces : une carte visible à la fois, défilement automatique (5 s),
+ * pause au survol et au toucher, flèches circulaires 32 px, indicateurs de
+ * pagination et swipe mobile (seuil 40 px). Aucune librairie externe.
  */
 export function AnnouncementCarousel({
   announcements,
+  index,
+  onIndexChange,
 }: {
   announcements: Doc<"announcements">[];
+  /** Index courant du carousel (contrôlé par la section pour le compteur « n / total »). */
+  index: number;
+  onIndexChange: (index: number) => void;
 }) {
-  const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [active, setActive] = useState<Doc<"announcements"> | null>(null);
@@ -24,21 +30,21 @@ export function AnnouncementCarousel({
   const count = announcements.length;
 
   const goTo = useCallback(
-    (i: number) => setIndex(((i % count) + count) % count),
-    [count],
+    (i: number) => onIndexChange(((i % count) + count) % count),
+    [count, onIndexChange],
   );
 
-  // Autoplay : toutes les 5 s, en pause au survol / focus.
+  // Autoplay : toutes les 5 s, en pause au survol, au focus et au toucher.
   useEffect(() => {
     if (count <= 1 || paused) return;
-    const t = setInterval(() => setIndex((i) => (i + 1) % count), 5000);
+    const t = setInterval(() => onIndexChange((index + 1) % count), 5000);
     return () => clearInterval(t);
-  }, [count, paused]);
+  }, [count, paused, index, onIndexChange]);
 
   // Si le nombre d'annonces change, resynchroniser l'index.
   useEffect(() => {
-    if (index >= count) setIndex(0);
-  }, [count, index]);
+    if (index >= count) onIndexChange(0);
+  }, [count, index, onIndexChange]);
 
   if (count === 0) {
     return <AnnouncementEmptyState />;
@@ -50,9 +56,11 @@ export function AnnouncementCarousel({
   };
 
   const onTouchStart = (e: React.TouchEvent) => {
+    setPaused(true);
     touchStartX.current = e.touches[0].clientX;
   };
   const onTouchEnd = (e: React.TouchEvent) => {
+    setPaused(false);
     if (touchStartX.current === null) return;
     const delta = e.changedTouches[0].clientX - touchStartX.current;
     touchStartX.current = null;
@@ -70,7 +78,7 @@ export function AnnouncementCarousel({
       onBlurCapture={() => setPaused(false)}
     >
       <div
-        className="relative overflow-hidden rounded-xl"
+        className="relative overflow-hidden rounded-2xl"
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
       >
@@ -78,8 +86,13 @@ export function AnnouncementCarousel({
           className="flex transition-transform duration-500 ease-out"
           style={{ transform: `translateX(-${index * 100}%)` }}
         >
-          {announcements.map((a) => (
-            <div key={a._id} className="w-full shrink-0 px-0.5 py-0.5">
+          {announcements.map((a, i) => (
+            <div
+              key={a._id}
+              aria-hidden={i !== index}
+              inert={i !== index}
+              className="w-full shrink-0 px-0.5 py-0.5"
+            >
               <AnnouncementCard announcement={a} onOpen={openAnnouncement} />
             </div>
           ))}
@@ -91,21 +104,21 @@ export function AnnouncementCarousel({
               type="button"
               variant="outline"
               size="icon"
-              className="absolute left-2 top-1/2 z-10 h-7 w-7 -translate-y-1/2 rounded-full bg-background/90 shadow-none backdrop-blur"
+              className="absolute left-2 top-1/2 z-10 h-8 w-8 -translate-y-1/2 rounded-full border-border/50 bg-background/90 shadow-none backdrop-blur-sm"
               onClick={() => goTo(index - 1)}
               aria-label="Annonce précédente"
             >
-              ‹
+              <ChevronLeft className="size-4" />
             </Button>
             <Button
               type="button"
               variant="outline"
               size="icon"
-              className="absolute right-2 top-1/2 z-10 h-7 w-7 -translate-y-1/2 rounded-full bg-background/90 shadow-none backdrop-blur"
+              className="absolute right-2 top-1/2 z-10 h-8 w-8 -translate-y-1/2 rounded-full border-border/50 bg-background/90 shadow-none backdrop-blur-sm"
               onClick={() => goTo(index + 1)}
               aria-label="Annonce suivante"
             >
-              ›
+              <ChevronRight className="size-4" />
             </Button>
           </>
         )}
@@ -121,12 +134,17 @@ export function AnnouncementCarousel({
               aria-label={`Aller à l'annonce ${i + 1}`}
               aria-current={i === index}
               onClick={() => goTo(i)}
-              className={`h-1.5 rounded-full transition-all ${
-                i === index
-                  ? "w-5 bg-primary"
-                  : "w-1.5 bg-muted-foreground/30 hover:bg-muted-foreground/50"
-              }`}
-            />
+              className="flex h-8 items-center px-0.5"
+            >
+              <span
+                className={cn(
+                  "block h-1.5 rounded-full transition-all",
+                  i === index
+                    ? "w-6 bg-primary"
+                    : "w-1.5 bg-muted-foreground/25 hover:bg-muted-foreground/40",
+                )}
+              />
+            </button>
           ))}
         </div>
       )}

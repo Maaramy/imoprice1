@@ -44,6 +44,19 @@ export interface RentEstimationEntry {
 
 export type EstimationEntry = SaleEstimationEntry | RentEstimationEntry;
 
+/**
+ * Mode d'affichage du loyer. Le moteur stocke `nightly` (estimation courte durée)
+ * pour **toutes** les estimations — y compris mensuelles — donc l'indicateur fiable
+ * est le mode choisi dans le formulaire, sauvegardé dans le snapshot property.
+ */
+function resolveRentMode(est: RentEstimationLike): "mensuel" | "nuit" {
+  const mode = (est.property as { estimationMode?: string } | null | undefined)?.estimationMode;
+  if (mode === "nuitée" || mode === "nuit") return "nuit";
+  if (mode === "mensuel") return "mensuel";
+  // Anciens documents sans estimationMode : fallback sur la présence de nightly
+  return est.nightly?.nightlyRent ? "nuit" : "mensuel";
+}
+
 export const SALE_TYPE_LABELS: Record<string, string> = {
   appartement: "Appartement",
   maison: "Maison",
@@ -171,7 +184,7 @@ export function buildRentEstimationEntry(est: RentEstimationLike): RentEstimatio
     .map((p) => (typeof p === "string" ? p.trim() : ""))
     .filter(Boolean);
   const location = parts.join(", ");
-  const rentMode: "mensuel" | "nuit" = est.nightly?.nightlyRent ? "nuit" : "mensuel";
+  const rentMode = resolveRentMode(est);
   return {
     kind: "loyers",
     id: est._id,

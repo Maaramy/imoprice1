@@ -78,6 +78,40 @@ describe("estimationHistory", () => {
     expect(nightly.rentMode).toBe("nuit");
   });
 
+  it("traite une estimation mensuelle même si nightly est présent (régression)", () => {
+    // Le moteur calcule `nightly` pour toutes les estimations, y compris mensuelles.
+    // Sans estimationMode explicite dans le snapshot, le fallback historical garde
+    // la détection nightly — mais avec le mode du formulaire, ça reste mensuel.
+    const monthly = buildRentEstimationEntry({
+      _id: "rent3",
+      _creationTime: 1,
+      estimatedRent: 1200,
+      rentMin: 1100,
+      rentMax: 1300,
+      rentPerSqm: 12,
+      grossYield: 5,
+      confidenceIndex: 70,
+      nightly: { nightlyRent: 95 },
+      property: { propertyType: "appartement", estimationMode: "mensuel" },
+    });
+    expect(monthly.rentMode).toBe("mensuel");
+  });
+
+  it("détecte le mode nuitée via le snapshot property (estimationMode)", () => {
+    const nightly = buildRentEstimationEntry({
+      _id: "rent4",
+      _creationTime: 1,
+      estimatedRent: 90,
+      rentMin: 80,
+      rentMax: 100,
+      rentPerSqm: 6,
+      grossYield: 8,
+      confidenceIndex: 65,
+      property: { propertyType: "villa", estimationMode: "nuitée" },
+    });
+    expect(nightly.rentMode).toBe("nuit");
+  });
+
   it("tolère les données manquantes", () => {
     const bare = buildSaleEstimationEntry({
       _id: "x",

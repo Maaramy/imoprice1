@@ -312,9 +312,9 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
-      <div className="mx-auto max-w-7xl px-3.5 sm:px-6 py-3 sm:py-6 pb-6 sm:pb-10">
+      <div className="mx-auto max-w-7xl px-3 sm:px-6 py-3 sm:py-6 pb-6 sm:pb-10">
         {/* ═══ HEADER (sticky) ═══ */}
-        <div className="sticky top-0 z-40 -mx-3.5 sm:-mx-6 px-3.5 sm:px-6 py-3 sm:py-4 mb-4 sm:mb-6 bg-gradient-to-b from-slate-50 via-white/95 to-transparent dark:from-gray-950 dark:via-gray-900/95 backdrop-blur-sm">
+        <div className="sticky top-0 z-40 -mx-3 sm:-mx-6 px-3 sm:px-6 py-3 sm:py-4 mb-4 sm:mb-6 bg-gradient-to-b from-slate-50 via-white/95 to-transparent dark:from-gray-950 dark:via-gray-900/95 backdrop-blur-sm">
           <div className="flex items-center justify-between gap-3">
             {/* Greeting */}
             <div className="flex items-center gap-3 min-w-0 flex-1">
@@ -415,7 +415,7 @@ export default function Dashboard() {
             <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
               <Button
                 onClick={() => navigate("/estimate")}
-                className="shrink-0 whitespace-nowrap rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 text-white shadow-md shadow-emerald-600/25 dark:shadow-emerald-900/50 hover:shadow-lg hover:from-emerald-700 hover:to-emerald-600 transition-all duration-200 h-9 sm:h-11 px-3 sm:px-5 text-xs sm:text-sm font-semibold"
+                className="rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 text-white shadow-md shadow-emerald-600/25 dark:shadow-emerald-900/50 hover:shadow-lg hover:from-emerald-700 hover:to-emerald-600 transition-all duration-200 h-9 sm:h-11 px-3 sm:px-5 text-xs sm:text-sm font-semibold"
               >
                 <Plus className="mr-1 sm:mr-1.5 size-3.5 sm:size-4" />
                 <span className="hidden sm:inline">{t("common.new")}</span>
@@ -440,7 +440,7 @@ export default function Dashboard() {
 
         {/* ═══ STATS ═══ */}
         <TooltipProvider delayDuration={200}>
-          <div className="mb-4 sm:mb-6 grid gap-2.5 sm:gap-4 grid-cols-2 sm:grid-cols-4">
+          <div className="mb-4 sm:mb-6 grid gap-2 sm:gap-4 grid-cols-2 lg:grid-cols-4">
             {STAT_CARDS.map((stat, i) => (
               <motion.div
                 key={stat.label}
@@ -1205,7 +1205,7 @@ export default function Dashboard() {
                                   toast.success("Alerte supprimée");
                                 } catch { toast.error("Erreur"); }
                               }}
-                              className="-m-1.5 rounded-full p-1.5 text-slate-300 dark:text-slate-600 hover:text-red-500 transition-colors"
+                              className="text-slate-300 dark:text-slate-600 hover:text-red-500 transition-colors"
                               aria-label={t("common.delete")}
                             >
                               <Trash2 className="size-3.5" />
@@ -1378,9 +1378,9 @@ export default function Dashboard() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          className="fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-50 max-w-[calc(100vw-1.5rem)]"
+          className="fixed bottom-16 sm:bottom-6 left-1/2 -translate-x-1/2 z-50"
         >
-          <div className="flex items-center gap-2 sm:gap-2.5 rounded-2xl border border-blue-200 dark:border-blue-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl shadow-xl px-2.5 sm:px-4 py-2.5">
+          <div className="flex items-center gap-2.5 rounded-2xl border border-blue-200 dark:border-blue-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl shadow-xl px-3 sm:px-4 py-2.5">
             <span className="text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200">
               {compareSel.length} {t("dashboard.compare.selected")}
             </span>

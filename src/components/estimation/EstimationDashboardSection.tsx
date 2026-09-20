@@ -127,9 +127,7 @@ export function EstimationDashboardSection() {
             <span
               className={cn(
                 "inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[9px] font-bold leading-none",
-                segment === s.key
-                  ? cn(s.key === "vente" ? "bg-emerald-600" : "bg-teal-600", "text-white")
-                  : "bg-muted-foreground/20 text-muted-foreground",
+                segment === s.key ? "bg-indigo-500 text-white" : "bg-muted-foreground/20 text-muted-foreground",
               )}
             >
               {s.key === "vente" ? saleStats.count : rentStats.count}
@@ -139,7 +137,7 @@ export function EstimationDashboardSection() {
       </div>
 
       {/* Mini-stats — mêmes tuiles que la section investissement */}
-      <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+      <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
         <MiniStat
           icon={segment === "vente" ? Coins : WalletIcon}
           label={segment === "vente" ? "Valeur totale estimée" : "Revenus mensuels cumulés"}
@@ -306,14 +304,14 @@ function SectionHeader() {
           </p>
         </div>
       </div>
-      <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
-        <Button asChild variant="outline" size="sm" className="w-full justify-center gap-2 sm:w-auto">
+      <div className="flex flex-wrap items-center gap-2">
+        <Button asChild variant="outline" size="sm" className="gap-2">
           <Link to="/estimate/loyer/new">
             <KeyRound className="size-4" />
             Estimer un loyer
           </Link>
         </Button>
-        <Button asChild size="sm" className="w-full justify-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 sm:w-auto">
+        <Button asChild size="sm" className="gap-2 bg-gradient-to-r from-emerald-600 to-teal-600">
           <Link to="/estimate">
             <Plus className="size-4" />
             Nouvelle estimation
@@ -362,9 +360,9 @@ function MiniStat({
         <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
           <Icon className="size-3.5" />
         </span>
-        <span className="text-[9px] font-semibold uppercase leading-tight tracking-widest text-muted-foreground">{label}</span>
+        <span className="text-[9px] font-semibold uppercase tracking-widest text-muted-foreground">{label}</span>
       </div>
-      <p className="mt-1.5 truncate text-sm font-bold tabular-nums">{value}</p>
+      <p className="mt-1.5 text-sm font-bold tabular-nums">{value}</p>
     </div>
   );
 }

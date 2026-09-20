@@ -314,7 +314,7 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
       <div className="mx-auto max-w-7xl px-3 sm:px-6 py-3 sm:py-6 pb-6 sm:pb-10">
         {/* ═══ HEADER (sticky) ═══ */}
-        <div className="sticky top-0 z-40 -mx-3 sm:-mx-6 px-3 sm:px-6 py-3 sm:py-4 mb-4 sm:mb-6 bg-gradient-to-b from-slate-50 via-white/95 to-transparent dark:from-gray-950 dark:via-gray-900/95 backdrop-blur-sm">
+        <div className="sticky top-0 z-40 -mx-3 sm:-mx-6 px-3 sm:px-6 py-3 sm:py-4 mb-3 sm:mb-5 bg-gradient-to-b from-slate-50 via-white/95 to-transparent dark:from-gray-950 dark:via-gray-900/95 backdrop-blur-sm">
           <div className="flex items-center justify-between gap-3">
             {/* Greeting */}
             <div className="flex items-center gap-3 min-w-0 flex-1">
@@ -428,19 +428,21 @@ export default function Dashboard() {
         </div>
 
         {/* ═══ ANNONCES ═══ */}
-        <div className="mb-4 sm:mb-6">
+        <div className="mb-3 sm:mb-4">
           <AnnouncementSection />
         </div>
 
         {/* ═══ ESTIMATIONS (Vente/Achat · Loyers) ═══ */}
         <EstimationDashboardSection />
 
-        {/* ═══ INVESTISSEMENT (ROI) ═══ */}
-        <InvestmentDashboardSection />
+        {/* ═══ INVESTISSEMENT (ROI) — espace dédié entre les deux sections ═══ */}
+        <div className="mt-4 sm:mt-8">
+          <InvestmentDashboardSection />
+        </div>
 
         {/* ═══ STATS ═══ */}
         <TooltipProvider delayDuration={200}>
-          <div className="mb-4 sm:mb-6 grid gap-2 sm:gap-4 grid-cols-2 lg:grid-cols-4">
+          <div className="mb-3 sm:mb-4 grid gap-2 sm:gap-4 grid-cols-2 lg:grid-cols-4">
             {STAT_CARDS.map((stat, i) => (
               <motion.div
                 key={stat.label}
@@ -538,7 +540,7 @@ export default function Dashboard() {
 
         {/* ═══ CHART ═══ */}
         {estimations.length >= 2 && (
-          <Card className={CARD_CLS + " mb-4 sm:mb-6"}>
+          <Card className={CARD_CLS + " mb-3 sm:mb-4"}>
             <CardAccent />
             <CardHeader className="pb-2 sm:pb-3 pt-3 sm:pt-5 px-3 sm:px-6">
               <CardTitle className="text-xs sm:text-sm font-semibold text-slate-900 dark:text-slate-100 flex items-center gap-1.5 sm:gap-2">
@@ -569,7 +571,7 @@ export default function Dashboard() {
         )}
 
         {/* ═══ TABS ═══ */}
-        <Tabs defaultValue="estimations" className="space-y-3 sm:space-y-5">
+        <Tabs defaultValue="estimations" className="space-y-3 sm:space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
             <TabsList className={`${CARD_CLS} p-1 w-full sm:w-auto justify-start overflow-x-auto scrollbar-none`}>
               <TabsTrigger value="estimations"

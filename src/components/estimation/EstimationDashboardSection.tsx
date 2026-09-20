@@ -86,7 +86,7 @@ export function EstimationDashboardSection() {
   // Rien à montrer sur les deux segments → la section reste discrète.
   if (saleEntries.length === 0 && rentEntries.length === 0) {
     return (
-      <section className="mb-4 sm:mb-6">
+      <section className="mb-0">
         <SectionHeader />
         <div className="mt-4 rounded-2xl border border-dashed border-border/60 p-6 text-center">
           <span className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-muted/50">
@@ -104,7 +104,7 @@ export function EstimationDashboardSection() {
   const stats = segment === "vente" ? saleStats : rentStats;
 
   return (
-    <section className="mb-4 sm:mb-6">
+    <section className="mb-0">
       <SectionHeader />
 
       {/* Segmentation : Vente/Achat · Loyers */}

@@ -36,7 +36,7 @@ export function InvestmentDashboardSection() {
   const stats = summarizeInvestmentHistory(entries);
 
   return (
-    <section className="mb-4 sm:mb-6">
+    <section className="mb-0">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
           <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">

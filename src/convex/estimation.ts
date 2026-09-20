@@ -5,6 +5,7 @@ import { computeEnhancedEstimation } from "../lib/enhanced-estimation";
 import { getSettingsDoc } from "./settings";
 
 /** Ajoute un point au suivi de valeur du bien (historique borné à 24 points). */
+/* eslint-disable @typescript-eslint/no-explicit-any -- helpers génériques sur le schéma dynamique, convention existante du fichier */
 async function appendValuationHistory(
   ctx: { db: any },
   propertyId: any,
@@ -22,6 +23,7 @@ export async function getMarketConfig(ctx: { db: any }) {
   const doc = await getSettingsDoc(ctx);
   return (doc?.marketConfig as Record<string, unknown> | undefined) ?? undefined;
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 // Mutation: Run estimation on a property using the BIM Engine
 export const estimateProperty = mutation({
@@ -199,6 +201,21 @@ export const getUserEstimations = query({
     );
 
     return enriched;
+  },
+});
+
+// Supprimer une estimation (propriétaire uniquement).
+export const deleteEstimation = mutation({
+  args: { estimationId: v.id("estimations") },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new Error("Not authenticated");
+    const estimation = await ctx.db.get(args.estimationId);
+    if (!estimation || estimation.userId !== userId) {
+      throw new Error("Estimation introuvable");
+    }
+    await ctx.db.delete(args.estimationId);
+    return { success: true };
   },
 });
 

@@ -1,6 +1,11 @@
 import { authTables } from "@convex-dev/auth/server";
 import { defineSchema, defineTable } from "convex/server";
 import { Infer, v } from "convex/values";
+import {
+  aiInsightsValidator,
+  analysisInputValidator,
+  analysisResultsValidator,
+} from "./investmentTypes";
 
 // default user roles. can add / remove based on the project as needed
 export const ROLES = {
@@ -422,6 +427,24 @@ const schema = defineSchema(
       .index("by_user", ["userId"])
       .index("by_triggered", ["triggered"])
       .index("by_user_triggered", ["userId", "triggered"]),
+
+    // Investissement immobilier (ROI) — analyses de rentabilité par IA.
+    investmentAnalyses: defineTable({
+      userId: v.id("users"),
+      /** Référence optionnelle vers un projet/actif d'origine (préremplissage). */
+      projectId: v.optional(v.string()),
+      input: analysisInputValidator,
+      results: analysisResultsValidator,
+      aiInsights: v.optional(aiInsightsValidator),
+      shareToken: v.optional(v.string()),
+      shareExpiresAt: v.optional(v.number()),
+      isFavorite: v.optional(v.boolean()),
+      createdAt: v.number(),
+      updatedAt: v.number(),
+    })
+      .index("by_user", ["userId"])
+      .index("by_created", ["createdAt"])
+      .index("by_share_token", ["shareToken"]),
 
     // Site-wide configuration (market engine config)
     // Single document with key "main"

@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { RENT_PROPERTY_TYPES_LABELS, GOVERNORATS, PROPERTY_TYPES, PROPERTY_TYPES_LABELS } from "@/convex/types";
 import { ThemeToggle } from "@/components/ThemeProvider";
 import { AnnouncementSection } from "@/components/announcements/AnnouncementSection";
+import { InvestmentDashboardSection } from "@/components/investment/InvestmentDashboardSection";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -429,6 +430,9 @@ export default function Dashboard() {
         <div className="mb-4 sm:mb-6">
           <AnnouncementSection />
         </div>
+
+        {/* ═══ INVESTISSEMENT (ROI) ═══ */}
+        <InvestmentDashboardSection />
 
         {/* ═══ STATS ═══ */}
         <TooltipProvider delayDuration={200}>

@@ -159,6 +159,25 @@ function weaknessesFor(
 }
 
 export function assessListing(extraction: ExtractionResult, url: string): ListingAssessment {
+  if (extraction == null) {
+    extraction = {
+      source: "",
+      title: "",
+      address: "",
+      gouvernorat: "Tunis",
+      ville: "",
+      quartier: "",
+      price: null,
+      superficie: null,
+      bedrooms: null,
+      bathrooms: null,
+      propertyType: null,
+      description: "",
+      photoUrls: [],
+      latitude: null,
+      longitude: null,
+    };
+  }
   const source = extraction.source;
   const asking = extraction.price;
   const superficie = extraction.superficie;
@@ -188,6 +207,7 @@ export function assessListing(extraction: ExtractionResult, url: string): Listin
   let priceMax: number | null = null;
   let confidence = 0;
   let detectedPm2: number | null = null;
+  let marketReference: string = "";
 
   if (asking && asking > 0) {
     const askingPm2 = superficie ? asking / superficie : null;
@@ -247,7 +267,7 @@ export function assessListing(extraction: ExtractionResult, url: string): Listin
     }
 
     if (asking && asking > 0) {
-      const askingPm2Local = asking / superficie;
+      const askingPm2Local = superficie ? asking / superficie : null;
       const market = zonePm2 ?? MEDIANE_NATIONALE;
       if (askingPm2Local != null && askingPm2Local < market * 0.85) confidence += 5;
       if (askingPm2Local != null && askingPm2Local > market * 1.15) confidence -= 5;

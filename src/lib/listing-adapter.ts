@@ -41,6 +41,16 @@ export function detectDomain(url: string): string | null {
   }
 }
 
+/** Vrai si l'annonce provient d'un portail immobilier pris en charge. */
+export function isSupported(url: string): boolean {
+  const host = detectDomain(url);
+  if (!host) return false;
+  return SUPPORTED_DOMAINS.some((domain) => {
+    const bare = domain.replace(/^www\./, "");
+    return host === bare || host.endsWith('.' + bare);
+  });
+}
+
 const MUBABAB_DOMAIN = "mubawab.tn";
 const TAYARA_DOMAIN = "tayara.tn";
 const TECNOCASA_DOMAIN = "tecnocasa.tn";

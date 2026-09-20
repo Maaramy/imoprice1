@@ -96,6 +96,10 @@ const Agencies = lazyWithRetry(() => import("./pages/Agencies.tsx"));
 const AgencyPublic = lazyWithRetry(() => import("./pages/AgencyPublic.tsx"));
 const Providers = lazyWithRetry(() => import("./pages/Providers.tsx"));
 const Admin = lazyWithRetry(() => import("./pages/Admin.tsx"));
+const InvestmentAnalysis = lazyWithRetry(() => import("./pages/InvestmentAnalysis.tsx"));
+const InvestmentResults = lazyWithRetry(() => import("./pages/InvestmentResults.tsx"));
+const ShareInvestment = lazyWithRetry(() => import("./pages/ShareInvestment.tsx"));
+const DemoInvestment = lazyWithRetry(() => import("./pages/DemoInvestment.tsx"));
 const NotFound = lazyWithRetry(() => import("./pages/NotFound.tsx"));
 
 // Simple loading fallback for route transitions
@@ -326,6 +330,42 @@ createRoot(document.getElementById("root")!).render(
                           <Admin />
                         </PageTransition>
                       </RequireAuth>
+                    }
+                  />
+                  <Route
+                    path="/dashboard/investments"
+                    element={
+                      <RequireAuth>
+                        <PageTransition pageKey="investment-analysis">
+                          <InvestmentAnalysis />
+                        </PageTransition>
+                      </RequireAuth>
+                    }
+                  />
+                  <Route
+                    path="/dashboard/investments/result/:analysisId"
+                    element={
+                      <RequireAuth>
+                        <PageTransition pageKey="investment-results">
+                          <InvestmentResults />
+                        </PageTransition>
+                      </RequireAuth>
+                    }
+                  />
+                  <Route
+                    path="/investments/demo"
+                    element={
+                      <PageTransition pageKey="investment-demo">
+                        <DemoInvestment />
+                      </PageTransition>
+                    }
+                  />
+                  <Route
+                    path="/share/investment/:token"
+                    element={
+                      <PageTransition pageKey="investment-share">
+                        <ShareInvestment />
+                      </PageTransition>
                     }
                   />
 

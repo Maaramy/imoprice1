@@ -737,6 +737,78 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* ═══════════ INVESTISSEMENT (ROI) ═══════════ */}
+      <section id="investments" className="relative border-y border-slate-200/70 bg-gradient-to-br from-indigo-50/60 via-white/70 to-blue-50/60 py-20 backdrop-blur-sm lg:py-28 dark:border-slate-800 dark:from-indigo-950/20 dark:via-slate-900/50 dark:to-blue-950/20">
+        <div className="mx-auto max-w-7xl px-5 lg:px-8">
+          <motion.div {...fadeUp} className="text-center">
+            <SectionPill color="indigo">Investissement immobilier</SectionPill>
+            <h2 className="mx-auto max-w-3xl text-3xl font-black tracking-tight text-slate-900 dark:text-slate-50 sm:text-4xl">
+              Rentabilité locative : <span className="gradient-text">ROI, cashflow et score IA</span>
+            </h2>
+            <p className="mx-auto mt-3 max-w-2xl text-base text-slate-500 dark:text-slate-400">
+              Analysez la rentabilité d'un investissement immobilier en Tunisie : rendement brut et net,
+              cashflow mensuel, retour sur investissement à 5 et 10 ans, durée de récupération du capital,
+              scénarios et comparaison des classes d'actifs.
+            </p>
+          </motion.div>
+
+          <div className="mt-12 grid gap-6 lg:grid-cols-2 lg:items-center">
+            <motion.ul {...fadeUp} className="space-y-4">
+              {[
+                { icon: TrendingUp, title: "ROI & cashflow précis", desc: "Rentabilité brute/net, cashflow mensuel et annuel, délai et date de récupération du capital." },
+                { icon: Wallet, title: "Prévisions & scénarios", desc: "Projections à 1, 3, 5 et 10 ans et 3 scénarios (optimiste, réaliste, prudent)." },
+                { icon: Sparkles, title: "Score IA /100", desc: "Note pondérée (rentabilité, emplacement, demande, risque, liquidité) et comparaison de 5 classes d'actifs." },
+              ].map((f) => (
+                <li key={f.title} className="flex items-start gap-3 rounded-2xl border border-slate-200/80 bg-white/80 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/60">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">
+                    <f.icon className="size-5" />
+                  </span>
+                  <div>
+                    <p className="text-sm font-bold text-slate-900 dark:text-slate-100">{f.title}</p>
+                    <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">{f.desc}</p>
+                  </div>
+                </li>
+              ))}
+            </motion.ul>
+
+            <motion.div {...fadeUp} className="rounded-3xl border border-slate-200/80 bg-white/90 p-6 shadow-lg dark:border-slate-800 dark:bg-slate-900/70">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-400">Exemple · Villa Gammarth</p>
+                  <p className="mt-1 text-2xl font-black text-slate-900 dark:text-slate-50">420 000 TND</p>
+                </div>
+                <span className="flex h-14 w-14 flex-col items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-600 to-blue-600 text-white">
+                  <span className="text-lg font-extrabold leading-none">94</span>
+                  <span className="text-[8px] uppercase tracking-wide">/100</span>
+                </span>
+              </div>
+              <div className="mt-5 grid grid-cols-2 gap-3">
+                {[
+                  { label: "Rendement net", value: "5,4 %" },
+                  { label: "Cashflow mensuel", value: "+1 710 TND" },
+                  { label: "ROI 10 ans", value: "86 %" },
+                  { label: "Récupération", value: "≈ 10 ans" },
+                ].map((k) => (
+                  <div key={k.label} className="rounded-xl bg-slate-50 p-3 dark:bg-slate-800/50">
+                    <p className="text-[10px] uppercase tracking-wide text-slate-400">{k.label}</p>
+                    <p className="mt-0.5 text-sm font-bold text-slate-900 dark:text-slate-100">{k.value}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-5 flex flex-col gap-2 sm:flex-row">
+                <Button onClick={() => navigate("/dashboard/investments")} className="flex-1 gap-2 bg-gradient-to-r from-indigo-600 to-blue-600 text-white">
+                  Analyser un investissement
+                  <ArrowRight className="size-4" />
+                </Button>
+                <Button variant="outline" onClick={() => navigate("/investments/demo")} className="flex-1">
+                  Voir la démo
+                </Button>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* ═══════════ TESTIMONIALS ═══════════ */}
       <section id="testimonials" className="relative py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-5 lg:px-8">
